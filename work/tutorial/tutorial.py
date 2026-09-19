@@ -1,5 +1,22 @@
+import matplotlib
+import matplotlib.font_manager
 import matplotlib.pyplot as plt
 import pandas as pd
+
+# 日本語フォントの設定（macOS/Linux/Windows対応）
+_JP_FONTS = [
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
+    "MS Gothic",
+    "Noto Sans CJK JP",
+    "IPAexGothic",
+]
+installed = {f.name for f in matplotlib.font_manager.fontManager.ttflist}
+jp_font = next((f for f in _JP_FONTS if f in installed), None)
+if jp_font:
+    plt.rcParams["font.family"] = jp_font
+plt.rcParams["axes.unicode_minus"] = False
 
 fig = plt.figure(figsize=(8, 4))
 ax = fig.subplots()

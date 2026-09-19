@@ -13,6 +13,13 @@ members = [
     "tutorial",
 ]
 
+[manifest.dependency-groups]
+dev = [
+    { name = "pyright", specifier = ">=1.1.414" },
+    { name = "ruff", specifier = ">=0.16.8" },
+    { name = "ty", specifier = ">=0.0.82" },
+]
+
 [[package]]
 name = "certifi"
 version = "2026.7.22"
@@ -1222,6 +1229,7 @@ dependencies = [
     { name = "pyside6" },
     { name = "requests" },
     { name = "scikit-learn" },
+    { name = "scipy" },
     { name = "setuptools" },
     { name = "torch" },
 ]
@@ -1240,12 +1248,10 @@ requires-dist = [
     { name = "pyside6", specifier = ">=6.11.2" },
     { name = "requests", specifier = ">=2.34.2" },
     { name = "scikit-learn", specifier = ">=1.9.1" },
+    { name = "scipy", specifier = ">=1.15.0" },
     { name = "setuptools", specifier = ">=84.0.0" },
     { name = "torch", specifier = ">=2.14.0" },
 ]
-
-[package.metadata.requires-dev]
-dev = []
 
 [[package]]
 name = "threadpoolctl"
@@ -1307,24 +1313,10 @@ dependencies = [
     { name = "pandas" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "pyright" },
-    { name = "ruff" },
-    { name = "ty" },
-]
-
 [package.metadata]
 requires-dist = [
     { name = "matplotlib", specifier = ">=3.11.2" },
     { name = "pandas", specifier = ">=3.0.6" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pyright", specifier = ">=1.1.414" },
-    { name = "ruff", specifier = ">=0.16.8" },
-    { name = "ty", specifier = ">=0.0.82" },
 ]
 
 [[package]]
