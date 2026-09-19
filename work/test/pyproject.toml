@@ -22,8 +22,4 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = [
-    "pyright>=1.1.414",
-    "ruff>=0.16.8",
-    "ty>=0.0.82",
-]
+dev = []
