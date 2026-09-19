@@ -1,0 +1,140 @@
+\chapter{ワークB 脈拍測定プログラム開発}
+
+\section{はじめに}
+% 本ワークの目的
+
+\section{ワークB-1}
+% ワークB-1の目的と実施内容を記載せよ
+
+\subsection{脈波信号の検討}
+% 出力した各信号波形の図を参照し，特徴を説明した上で，どの信号波形が脈波なのか結論を述べること
+% 根拠について参考にした文献がある場合は，参考文献に追加した上で，説明を記述する際に引用せよ
+
+\subsection{実装内容}
+% ファイルごとにプログラムを記載し，変更・追加した処理について説明すること（ipynbファイルは必要ない）
+% 変更しなかったファイルについては，変更していないことを説明すること
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption=b1\_signal\_check.ino, label=b1_signal_check, escapechar=\@]
+void setup() {
+
+}
+
+void loop() {
+
+}
+    \end{lstlisting}
+\end{figure}
+
+\section{ワークB-2}
+% ワークB-2の目的と実施内容を記載せよ
+
+\subsection{閾値の検討}
+% TOP_THRESHOLDとDOWN_THRESHOLDの組み合わせに応じたグラフを基に比較を行い，最終的な閾値がなぜ最適であるかを考察すること
+
+\subsection{実装内容}
+% ファイルごとにプログラムを記載し，変更・追加した処理について説明すること（ipynbファイルは必要ない）
+% 変更しなかったファイルについては，変更していないことを説明すること
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption=b2\_peak\_detection.ino, label=b2_peak_detection, escapechar=\@]
+#include "myPulse.h"
+
+void setup() {
+}
+
+void loop() {
+}
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+        \begin{lstlisting}[caption=myPulse.h, label=b2_myPulse.h, escapechar=\@]
+#ifndef MyPulse_h
+#define MyPulse_h
+
+#include <Arduino.h>
+
+uint16_t top();
+
+#endif
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption=myPulse.cpp, label=b2_myPulse.cpp, escapechar=\@]
+#include "myPulse.h"
+
+# define PIN_IN A0        
+# define DELAY_TIME 20  
+
+# define TOP_THRESHOLD 0  
+# define DOWN_THRESHOLD 0 
+# define UP_THRESHOLD 1   
+
+uint16_t top(){
+  
+}
+        
+    \end{lstlisting}
+\end{figure}
+
+\section{ワークB-3}
+% ワークB-3の目的と実施内容を記載せよ
+
+\subsection{測定結果の考察}
+% 出力したグラフに加えて，測定結果から基本的な統計値（最大，最小，平均，中央値，標準偏差）を算出し表にまとめ，それぞれ参照しながら説明すること
+% 統計値は表計算ソフトを使って求めて良いが，表計算ソフトのスクリーンショットを表示するのではなく，latexのtableを利用して表示すること
+
+\subsection{実装内容}
+% ファイルごとにプログラムを記載し，変更・追加した処理について説明すること（ipynbファイルは必要ない）
+% 変更しなかったファイルについては，変更していないことを説明すること
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption=b3\_pulse\_measurement.ino, label=b3_pulse_measurement, escapechar=\@]
+#include "myPulse.h"
+
+void setup() {
+
+}
+
+void loop() {
+
+}
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption=myPulse.h, label=b3_myPulse.h, escapechar=\@]
+#ifndef MyPulse_h
+#define MyPulse_h
+
+#include <Arduino.h>
+
+uint16_t top();
+uint8_t rate();
+
+#endif
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{lstlisting}[caption=myPulse.cpp, label=b3_myPulse.cpp, escapechar=\@]
+#include "myPulse.h"
+
+# define PIN_IN A0        
+# define DELAY_TIME 20    
+
+# define TOP_THRESHOLD 0  // ワーク B2 の結果を基に変更すること
+# define DOWN_THRESHOLD 0 // ワーク B2 の結果を基に変更すること
+# define UP_THRESHOLD 1   
+
+uint16_t top(){
+
+}
+
+uint8_t rate(){
+
+}
+    \end{lstlisting}
+\end{figure}
