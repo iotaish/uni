@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "sync_arduino_includes",
+            "type": "shell",
+            "command": "python3",
+            "args": ["${workspaceFolder}/.vscode/sync_arduino_includes.py"],
+            "options": {"cwd": "${workspaceFolder}"},
+            "problemMatcher": []
+        }
+    ]
+}

@@ -1,0 +1,4 @@
+!.gitignore
+!arduino.json
+!c_cpp_properties.json
+!sync_arduino_includes.py
