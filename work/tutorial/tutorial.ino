@@ -1,4 +1,4 @@
-const int outputPin = 4;     // デジタル出⼒ピンの設定
+const int outputPin = 4;    // デジタル出⼒ピンの設定
 const int threshold = 715;  // アナログ⼊⼒の閾値
 
 void setup() {
