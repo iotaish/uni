@@ -49,7 +49,7 @@ void loop() {
 \end{figure}
 
 \begin{figure}[H]
-        \begin{lstlisting}[caption=myPulse.h, label=b2_myPulse.h, escapechar=\@]
+    \begin{lstlisting}[caption=myPulse.h, label=b2_myPulse.h, escapechar=\@]
 #ifndef MyPulse_h
 #define MyPulse_h
 
@@ -65,17 +65,17 @@ uint16_t top();
     \begin{lstlisting}[caption=myPulse.cpp, label=b2_myPulse.cpp, escapechar=\@]
 #include "myPulse.h"
 
-# define PIN_IN A0        
-# define DELAY_TIME 20  
+# define PIN_IN A0
+# define DELAY_TIME 20
 
-# define TOP_THRESHOLD 0  
-# define DOWN_THRESHOLD 0 
-# define UP_THRESHOLD 1   
+# define TOP_THRESHOLD 0
+# define DOWN_THRESHOLD 0
+# define UP_THRESHOLD 1
 
 uint16_t top(){
-  
+
 }
-        
+
     \end{lstlisting}
 \end{figure}
 
@@ -122,12 +122,12 @@ uint8_t rate();
     \begin{lstlisting}[caption=myPulse.cpp, label=b3_myPulse.cpp, escapechar=\@]
 #include "myPulse.h"
 
-# define PIN_IN A0        
-# define DELAY_TIME 20    
+# define PIN_IN A0
+# define DELAY_TIME 20
 
 # define TOP_THRESHOLD 0  // ワーク B2 の結果を基に変更すること
 # define DOWN_THRESHOLD 0 // ワーク B2 の結果を基に変更すること
-# define UP_THRESHOLD 1   
+# define UP_THRESHOLD 1
 
 uint16_t top(){
 

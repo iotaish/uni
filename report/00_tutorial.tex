@@ -16,11 +16,11 @@
 \subsection{脈拍測定の原理}
 
 \begin{wrapfigure}{r}{0.3\textwidth}
-    \vspace{-2em}
-    \centering
-    \includegraphics[width=0.2\textwidth,clip]{fig/prm.png}
-    \caption{光電容積脈波計測法の模式図}
-    \label{prm}
+  \vspace{-2em}
+  \centering
+  \includegraphics[width=0.2\textwidth,clip]{fig/prm.png}
+  \caption{光電容積脈波計測法の模式図}
+  \label{prm}
 \end{wrapfigure}
 
 脈波は心臓から駆出された血液が動脈系を通して末梢方向に波及する波動であり\cite{石川太郎1974照明制御システムへの半導体応用, 安藤譲二1990光電式脈波計測の応用}，その発生頻度を数値化した脈拍数は生命維持に必要な循環機能に関連した代表的なバイタルサインの一つである\cite{小林宏光2009脈拍数測定の正確さと測定時間との関係}．
@@ -69,10 +69,10 @@
 \subsection{フォトリフレクタの原理}
 
 \begin{wrapfigure}{r}{0.35\textwidth}
-    \vspace{-2em}
-    \centering
-    \includegraphics[width=0.15\textwidth,clip]{fig/LBR-127HLD.png}
-    \caption{LBR-127HLDの外観}
+  \vspace{-2em}
+  \centering
+  \includegraphics[width=0.15\textwidth,clip]{fig/LBR-127HLD.png}
+  \caption{LBR-127HLDの外観}
 \end{wrapfigure}
 
 フォトリフレクタは，光の反射を利用して物体の存在や距離を検出するセンサである.
@@ -87,10 +87,10 @@
 \subsubsection*{フォトダイオード}
 
 \begin{wrapfigure}{r}{0.4\textwidth}
-    \vspace{-4em}
-    \centering
-    \includegraphics[width=0.35\textwidth,clip]{fig/photodiode.png}
-    \caption{フォトダイオードの模式図}
+  \vspace{-4em}
+  \centering
+  \includegraphics[width=0.35\textwidth,clip]{fig/photodiode.png}
+  \caption{フォトダイオードの模式図}
 \end{wrapfigure}
 
 フォトダイオードは受光素子が受けた光を電気エネルギーに変換する素子である．
@@ -102,11 +102,11 @@
 \subsubsection*{フォトトランジスタ}
 
 \begin{wrapfigure}{r}{0.35\textwidth}
-    \vspace{-2em}
-    \centering
-    \includegraphics[width=0.3\textwidth,clip]{fig/phototransistor.png}
-    \caption{フォトトランジスタ}
-    \label{phototransistor}
+  \vspace{-2em}
+  \centering
+  \includegraphics[width=0.3\textwidth,clip]{fig/phototransistor.png}
+  \caption{フォトトランジスタ}
+  \label{phototransistor}
 \end{wrapfigure}
 
 フォトトランジスタは，図 \ref{phototransistor} に示すように，フォトダイオードとトランジスタが一体化したものである．
@@ -117,23 +117,23 @@
 逆に，フォトトランジスタに反射光が入射しないとき，フォトトランジスタの出力電位は高電位になる．
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=100mm]{fig/photoreflector_characteristic.png}
-    \caption{LBR-127HLDの試験回路と出力信号\cite{LBR-127HLD}}
-    \label{photoreflector_characteristic}
+  \centering
+  \includegraphics[width=100mm]{fig/photoreflector_characteristic.png}
+  \caption{LBR-127HLDの試験回路と出力信号\cite{LBR-127HLD}}
+  \label{photoreflector_characteristic}
 \end{figure}
 
 \subsection{装置}
 \begin{tabular}{l r}
-マイコンボード（型式：Arduino Uno R4 WiFi） & 1個 \\
-% CdSセル（型式：GL3516）& 1個 \\
-フォトリフレクタ（型式：LBR-127HLD）& 1個 \\
-赤色LED（型式：L5-EKR2530-12500）& 1個 \\
-抵抗器（330 $\Omega$） & 2個 \\
-抵抗器（3.3 $\rm{k}\Omega$） & 1個 \\
-ブレッドボード（型式：165401020E）& 1個 \\
-ジャンパーワイヤ（型式：165012000E） & 1式 \\
-脈拍計（型式：UP-200）& 1台 \\
+  マイコンボード（型式：Arduino Uno R4 WiFi） & 1個 \\
+  % CdSセル（型式：GL3516）& 1個 \\
+  フォトリフレクタ（型式：LBR-127HLD）         & 1個 \\
+  赤色LED（型式：L5-EKR2530-12500）      & 1個 \\
+  抵抗器（330 $\Omega$）               & 2個 \\
+  抵抗器（3.3 $\rm{k}\Omega$）         & 1個 \\
+  ブレッドボード（型式：165401020E）          & 1個 \\
+  ジャンパーワイヤ（型式：165012000E）         & 1式 \\
+  脈拍計（型式：UP-200）                  & 1台 \\
 \end{tabular}
 
 \subsection{実験手順}
@@ -145,10 +145,10 @@ Arduinoのアナログ入力端子（A0）をフォトトランジスタのコ�
 作成した脈波観察システムの性能を評価するため，市販の脈拍センサ\cite{UP-200}と同時に脈拍の測定を行い，比較を行った．
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[height=70mm]{fig/cirkit.png}
-    \caption{接続図}
-    \label{cirkit}
+  \centering
+  \includegraphics[height=70mm]{fig/cirkit.png}
+  \caption{接続図}
+  \label{cirkit}
 \end{figure}
 
 %-----------------------------------------------------------------------------------
@@ -169,42 +169,42 @@ Arduinoのアナログ入力端子（A0）をフォトトランジスタのコ�
 % \end{figure}
 
 \begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
     \centering
-    \begin{minipage}[b]{0.45\textwidth}
-      \centering
-      \includegraphics[height=45mm]{fig/result1.png}
-      \caption{作成した簡易脈波観察システム}
-      \label{result1}
-    \end{minipage}
-    % \hspace{0.05\textwidth}
-    \begin{minipage}[b]{0.45\textwidth}
-      \centering
-      \includegraphics[height=45mm]{fig/result2.png}
-      \caption{脈波測定の様子}
-      \label{result2}
-    \end{minipage}
-  \end{figure}
-  
+    \includegraphics[height=45mm]{fig/result1.png}
+    \caption{作成した簡易脈波観察システム}
+    \label{result1}
+  \end{minipage}
+  % \hspace{0.05\textwidth}
+  \begin{minipage}[b]{0.45\textwidth}
+    \centering
+    \includegraphics[height=45mm]{fig/result2.png}
+    \caption{脈波測定の様子}
+    \label{result2}
+  \end{minipage}
+\end{figure}
+
 
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=120mm]{fig/result_tutorial.png}
-    \caption{測定結果の描画例}
-    \label{result_tutorial}
+  \centering
+  \includegraphics[width=120mm]{fig/result_tutorial.png}
+  \caption{測定結果の描画例}
+  \label{result_tutorial}
 \end{figure}
 
 \begin{table}[ht]\caption{脈拍の測定結果}
-    \centering
-    \begin{tabular}{|l||c|c|c|c|c|}
-      \hline
-      \multirow{2}{*}{} & \multicolumn{5}{c|}{脈拍[bpm]}      \\ \cline{2-6}
-                        & １回目 & 2回目 & 3回目& 4回目 & 5回目  \\ \hline
-      自作した脈波観察システム   & 75    & 71   & 75   & 75   & 71   \\ \hline
-      市販の脈拍計（UP-200）    & 72    & 73   & 72   & 71   & 72   \\ \hline
-    \end{tabular}
-    \label{table1}
-  \end{table}
+  \centering
+  \begin{tabular}{|l||c|c|c|c|c|}
+    \hline
+    \multirow{2}{*}{} & \multicolumn{5}{c|}{脈拍[bpm]}                         \\ \cline{2-6}
+                      & １回目                          & 2回目 & 3回目 & 4回目 & 5回目 \\ \hline
+    自作した脈波観察システム      & 75                           & 71  & 75  & 75  & 71  \\ \hline
+    市販の脈拍計（UP-200）    & 72                           & 73  & 72  & 71  & 72  \\ \hline
+  \end{tabular}
+  \label{table1}
+\end{table}
 
 %-----------------------------------------------------------------------------------
 \clearpage
@@ -243,8 +243,8 @@ Arduinoのアナログ入力端子（A0）をフォトトランジスタのコ�
 \subsection*{脈波取得のためのArduinoのスケッチ}
 
 \begin{figure}[h]
-\centering
-\begin{lstlisting}[caption=tutorial.ino, label=src, escapechar=\@]
+  \centering
+  \begin{lstlisting}[caption=tutorial.ino, label=src, escapechar=\@]
 const int outputPin = 4;           // デジタル出力ピンの設定
 const int threshold = 690;          // アナログ入力の閾値
 
@@ -261,8 +261,8 @@ void loop() {
     digitalWrite(outputPin, LOW);
   } else {
     digitalWrite(outputPin, HIGH);
-  } 
-   
+  }
+
   delay(50);                       // 次のループまで@50@ミリ秒待機
 }
 \end{lstlisting}
