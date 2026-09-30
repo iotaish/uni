@@ -15,8 +15,37 @@
 %% 三者が追試をし，同様の結果を得ることできることである．必要に応じて，
 %% 図，表，式を用いて，曖昧な箇所や誤解を生じにくい説明が求められる．
 
-
-
+使用した素子を\ref{tab:circuit_components}に示す。
+\begin{table}[ht]
+  \caption{使用素子一覧}
+  \centering
+  \begin{tabular}{|l|c|r|l|}
+    \hline
+    部品名          & 数量 & \multicolumn{1}{c|}{仕様} & 素子変数                 \\
+    \hline\hline
+    炭素皮膜抵抗       & 1  & 330 $\Omega$            & $R_3$                \\
+    \hline
+    炭素皮膜抵抗       & 1  & 3.3 $\rm{k}\Omega$      & $R_4$                \\
+    \hline
+    炭素皮膜抵抗       & 4  & 33 $\rm{k}\Omega$       & $R_5, R_6, R_7, R_9$ \\
+    \hline
+    炭素皮膜抵抗       & 1  & 1 $\rm{M}\Omega$        & $R_2$                \\
+    \hline
+    炭素皮膜抵抗       & 3  & 100 $\rm{k}\Omega$      & $R_1, R_8, R_{10}$   \\
+    \hline
+    積層セラミックコンデンサ & 2  & 10 $\mu\rm{F}$          & $C_3, C_4$           \\
+    \hline
+    積層セラミックコンデンサ & 1  & 0.01 $\mu\rm{F}$        & $C_2$                \\
+    \hline
+    積層セラミックコンデンサ & 1  & 0.1 $\mu\rm{F}$         & $C_1$                \\
+    \hline
+    オペアンプ        & 1  & LM358N                  & ---                  \\
+    \hline
+    フォトリフレクタ     & 1  & LBR-127HLD              & ---                  \\
+    \hline
+  \end{tabular}
+  \label{tab:circuit_components}
+\end{table}
 
 \section{結果}
 %% 実験から得られた結果を，目的や方法を理解した上で，重要データを外す
