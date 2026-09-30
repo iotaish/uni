@@ -10,7 +10,7 @@
                 "-fno-rtti",
                 "-fno-exceptions"
             ],
-            "intelliSenseMode": "gcc-x64",
+            "intelliSenseMode": "gcc-arm",
             "includePath": [
                 "/Users/ishpctrin/Library/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/cores/arduino/tinyusb",
                 "/Users/ishpctrin/Library/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/cores/arduino/api/deprecated",
