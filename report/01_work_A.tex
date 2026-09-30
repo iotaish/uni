@@ -29,13 +29,22 @@
 
 \subsection{回路の設計仕様と動作原理}
 
-本実習で設計・実装したセンサ回路は，指先の血流変化を検出する「脈拍検出部」と，得られた信号からノイズを除去して増幅する「後段増幅部（バンドパスフィルタ付き二段反転増幅回路）」から構成される．回路全体の接続図を図\ref{fig:circuit_schematic}に示す．
+本実習で設計・実装した回路は，評価フェーズに応じて入力構成が異なる．
+ワークA-1では波形出力デバイス（ATOM Lite）からの模擬入力信号を増幅・フィルタリングする回路構成（図\ref{fig:circuit_schematic_A1}）を用い，ワークA-2ではフォトリフレクタによる脈拍検出部を前段に結合した全体回路構成（図\ref{fig:circuit_schematic_A2}）を用いた．
+両回路ともに，抵抗値および電気容量を設計仕様に基づいて決定した．
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\textwidth,clip]{fig/cirkit.png}
-  \caption{ワークA：脈拍検出およびバンドパスフィルタ付き二段反転増幅回路の回路図}
-  \label{fig:circuit_schematic}
+  \caption{ワークA-1：ATOM Lite接続時のバンドパスフィルタ付き二段反転増幅回路図}
+  \label{fig:circuit_schematic_A1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth,clip]{fig/cirkit.png}
+  \caption{ワークA-2：脈拍検出部（フォトリフレクタ）を結合した全体回路図}
+  \label{fig:circuit_schematic_A2}
 \end{figure}
 
 \subsubsection{脈拍検出部（フォトリフレクタ回路）の設計}
@@ -48,20 +57,20 @@
 フォトリフレクタの動作条件および回路定数は以下のように決定した：
 \begin{enumerate}
   \item \textbf{赤外LEDの電流制限抵抗 $R_3$ の設定}：
-  赤外LEDの順方向電圧の典型値は $V_F = 1.2 \sim 1.5\,\mathrm{V}$，順方向定格電流は $I_F = 20\,\mathrm{mA}$ である．電源電圧 $V_{CC} = 5\,\mathrm{V}$ において電流 $I_F = 20\,\mathrm{mA}$ を流すための抵抗値は，
-  \begin{equation}
-    R = \frac{V_{CC} - V_F}{I_F} \approx \frac{5.0 - 1.35}{0.02} \approx 182.5\,\Omega
-    \label{eq:R3_calc}
-  \end{equation}
-  と算出される．本実習では，素子の発熱抑制および安全マージンを考慮し，計算値の約2倍弱にあたる標準抵抗値 $R_3 = 330\,\Omega$ を採用した．このときLEDに流れる順方向電流は約 $11\,\mathrm{mA}$ となる．
-  
+        赤外LEDの順方向電圧の典型値は $V_F = 1.2 \sim 1.5\,\mathrm{V}$，順方向定格電流は $I_F = 20\,\mathrm{mA}$ である．電源電圧 $V_{CC} = 5\,\mathrm{V}$ において電流 $I_F = 20\,\mathrm{mA}$ を流すための抵抗値は，
+        \begin{equation}
+          R = \frac{V_{CC} - V_F}{I_F} \approx \frac{5.0 - 1.35}{0.02} \approx 182.5\,\Omega
+          \label{eq:R3_calc}
+        \end{equation}
+        と算出される．本実習では，素子の発熱抑制および安全マージンを考慮し，計算値の約2倍弱にあたる標準抵抗値 $R_3 = 330\,\Omega$ を採用した．このときLEDに流れる順方向電流は約 $11\,\mathrm{mA}$ となる．
+
   \item \textbf{フォトトランジスタの負荷抵抗 $R_4$ の設定}：
-  フォトトランジスタのコレクタ--エミッタ間飽和電圧は $V_{CE(\mathrm{sat})} \approx 0.4\,\mathrm{V}$ である．光照射時にコレクタ電流 $I_C \approx 2\,\mathrm{mA}$ が流れるとし，負荷抵抗 $R_4$ において $V_{CC} - V_{CE(\mathrm{sat})} \approx 4.6\,\mathrm{V}$ の電圧降下が生じるものと仮定すると，
-  \begin{equation}
-    R = \frac{4.6\,\mathrm{V}}{0.002\,\mathrm{A}} = 2.3\,\mathrm{k}\Omega
-    \label{eq:R4_calc}
-  \end{equation}
-  となる．本実習では，感度向上および確実な電圧変化幅を得るため，計算値の約1.5倍弱にあたる標準抵抗値 $R_4 = 3.3\,\mathrm{k}\Omega$ を採用した．
+        フォトトランジスタのコレクタ--エミッタ間飽和電圧は $V_{CE(\mathrm{sat})} \approx 0.4\,\mathrm{V}$ である．光照射時にコレクタ電流 $I_C \approx 2\,\mathrm{mA}$ が流れるとし，負荷抵抗 $R_4$ において $V_{CC} - V_{CE(\mathrm{sat})} \approx 4.6\,\mathrm{V}$ の電圧降下が生じるものと仮定すると，
+        \begin{equation}
+          R = \frac{4.6\,\mathrm{V}}{0.002\,\mathrm{A}} = 2.3\,\mathrm{k}\Omega
+          \label{eq:R4_calc}
+        \end{equation}
+        となる．本実習では，感度向上および確実な電圧変化幅を得るため，計算値の約1.5倍弱にあたる標準抵抗値 $R_4 = 3.3\,\mathrm{k}\Omega$ を採用した．
 \end{enumerate}
 
 \subsubsection{バンドパスフィルタ付き二段反転増幅回路の設計}
@@ -75,54 +84,54 @@
 
 \begin{enumerate}
   \item \textbf{初段反転増幅回路（$-30.3$倍）}：
-  入力側に結合コンデンサ $C_3$ と入力抵抗 $R_5$，オペアンプの帰還路に抵抗 $R_2$ と並列コンデンサ $C_2$ を接続した．
-  \begin{itemize}
-    \item \textbf{増幅率 $A_{v1}$}：帰還抵抗 $R_2 = 1\,\mathrm{M}\Omega$，入力抵抗 $R_5 = 33\,\mathrm{k}\Omega$ により，
-    \begin{equation}
-      A_{v1} = -\frac{R_2}{R_5} = -\frac{1.0 \times 10^6}{33 \times 10^3} \approx -30.30\,\text{倍}
-      \label{eq:gain1}
-    \end{equation}
-    \item \textbf{下限遮断周波数 $f_{L1}$（HPF特性）}：$C_3 = 10\,\mu\mathrm{F}$，$R_5 = 33\,\mathrm{k}\Omega$ により，
-    \begin{equation}
-      f_{L1} = \frac{1}{2\pi C_3 R_5} = \frac{1}{2\pi \times (10 \times 10^{-6}) \times (33 \times 10^3)} \approx 0.482\,\mathrm{Hz}
-      \label{eq:fl1}
-    \end{equation}
-    \item \textbf{上限遮断周波数 $f_{U1}$（LPF特性）}：$C_2 = 0.01\,\mu\mathrm{F}$，$R_2 = 1\,\mathrm{M}\Omega$ により，
-    \begin{equation}
-      f_{U1} = \frac{1}{2\pi C_2 R_2} = \frac{1}{2\pi \times (0.01 \times 10^{-6}) \times (1.0 \times 10^6)} \approx 15.92\,\mathrm{Hz}
-      \label{eq:fu1}
-    \end{equation}
-    \item \textbf{バイアス回路}：非反転入力端子には $R_{10} = 100\,\mathrm{k}\Omega$ と $R_9 = 33\,\mathrm{k}\Omega$ による分圧回路を接続し，基準電位 $V_{\mathrm{ref1}} = 5\,\mathrm{V} \times \frac{33}{100 + 33} \approx 1.24\,\mathrm{V}$ を与えた．
-  \end{itemize}
+        入力側に結合コンデンサ $C_3$ と入力抵抗 $R_5$，オペアンプの帰還路に抵抗 $R_2$ と並列コンデンサ $C_2$ を接続した．
+        \begin{itemize}
+          \item \textbf{増幅率 $A_{v1}$}：帰還抵抗 $R_2 = 1\,\mathrm{M}\Omega$，入力抵抗 $R_5 = 33\,\mathrm{k}\Omega$ により，
+                \begin{equation}
+                  A_{v1} = -\frac{R_2}{R_5} = -\frac{1.0 \times 10^6}{33 \times 10^3} \approx -30.30\,\text{倍}
+                  \label{eq:gain1}
+                \end{equation}
+          \item \textbf{下限遮断周波数 $f_{L1}$（HPF特性）}：$C_3 = 10\,\mu\mathrm{F}$，$R_5 = 33\,\mathrm{k}\Omega$ により，
+                \begin{equation}
+                  f_{L1} = \frac{1}{2\pi C_3 R_5} = \frac{1}{2\pi \times (10 \times 10^{-6}) \times (33 \times 10^3)} \approx 0.482\,\mathrm{Hz}
+                  \label{eq:fl1}
+                \end{equation}
+          \item \textbf{上限遮断周波数 $f_{U1}$（LPF特性）}：$C_2 = 0.01\,\mu\mathrm{F}$，$R_2 = 1\,\mathrm{M}\Omega$ により，
+                \begin{equation}
+                  f_{U1} = \frac{1}{2\pi C_2 R_2} = \frac{1}{2\pi \times (0.01 \times 10^{-6}) \times (1.0 \times 10^6)} \approx 15.92\,\mathrm{Hz}
+                  \label{eq:fu1}
+                \end{equation}
+          \item \textbf{バイアス回路}：非反転入力端子には $R_{10} = 100\,\mathrm{k}\Omega$ と $R_9 = 33\,\mathrm{k}\Omega$ による分圧回路を接続し，基準電位 $V_{\mathrm{ref1}} = 5\,\mathrm{V} \times \frac{33}{100 + 33} \approx 1.24\,\mathrm{V}$ を与えた．
+        \end{itemize}
 
   \item \textbf{後段反転増幅回路（$-3.03$倍）}：
-  初段出力からの結合コンデンサ $C_4$ と入力抵抗 $R_6$，帰還抵抗 $R_1$ と並列コンデンサ $C_1$ を接続した．
-  \begin{itemize}
-    \item \textbf{増幅率 $A_{v2}$}：帰還抵抗 $R_1 = 100\,\mathrm{k}\Omega$，入力抵抗 $R_6 = 33\,\mathrm{k}\Omega$ により，
-    \begin{equation}
-      A_{v2} = -\frac{R_1}{R_6} = -\frac{100 \times 10^3}{33 \times 10^3} \approx -3.030\,\text{倍}
-      \label{eq:gain2}
-    \end{equation}
-    \item \textbf{下限遮断周波数 $f_{L2}$（HPF特性）}：$C_4 = 10\,\mu\mathrm{F}$，$R_6 = 33\,\mathrm{k}\Omega$ により，
-    \begin{equation}
-      f_{L2} = \frac{1}{2\pi C_4 R_6} \approx 0.482\,\mathrm{Hz}
-      \label{eq:fl2}
-    \end{equation}
-    \item \textbf{上限遮断周波数 $f_{U2}$（LPF特性）}：$C_1 = 0.1\,\mu\mathrm{F}$，$R_1 = 100\,\mathrm{k}\Omega$ により，
-    \begin{equation}
-      f_{U2} = \frac{1}{2\pi C_1 R_1} = \frac{1}{2\pi \times (0.1 \times 10^{-6}) \times (100 \times 10^3)} \approx 15.92\,\mathrm{Hz}
-      \label{eq:fu2}
-    \end{equation}
-    \item \textbf{バイアス回路}：非反転入力端子には $R_8 = 100\,\mathrm{k}\Omega$ と $R_7 = 33\,\mathrm{k}\Omega$ による分圧回路を接続し，基準電位 $V_{\mathrm{ref2}} \approx 1.24\,\mathrm{V}$ を与えた．
-  \end{itemize}
+        初段出力からの結合コンデンサ $C_4$ と入力抵抗 $R_6$，帰還抵抗 $R_1$ と並列コンデンサ $C_1$ を接続した．
+        \begin{itemize}
+          \item \textbf{増幅率 $A_{v2}$}：帰還抵抗 $R_1 = 100\,\mathrm{k}\Omega$，入力抵抗 $R_6 = 33\,\mathrm{k}\Omega$ により，
+                \begin{equation}
+                  A_{v2} = -\frac{R_1}{R_6} = -\frac{100 \times 10^3}{33 \times 10^3} \approx -3.030\,\text{倍}
+                  \label{eq:gain2}
+                \end{equation}
+          \item \textbf{下限遮断周波数 $f_{L2}$（HPF特性）}：$C_4 = 10\,\mu\mathrm{F}$，$R_6 = 33\,\mathrm{k}\Omega$ により，
+                \begin{equation}
+                  f_{L2} = \frac{1}{2\pi C_4 R_6} \approx 0.482\,\mathrm{Hz}
+                  \label{eq:fl2}
+                \end{equation}
+          \item \textbf{上限遮断周波数 $f_{U2}$（LPF特性）}：$C_1 = 0.1\,\mu\mathrm{F}$，$R_1 = 100\,\mathrm{k}\Omega$ により，
+                \begin{equation}
+                  f_{U2} = \frac{1}{2\pi C_1 R_1} = \frac{1}{2\pi \times (0.1 \times 10^{-6}) \times (100 \times 10^3)} \approx 15.92\,\mathrm{Hz}
+                  \label{eq:fu2}
+                \end{equation}
+          \item \textbf{バイアス回路}：非反転入力端子には $R_8 = 100\,\mathrm{k}\Omega$ と $R_7 = 33\,\mathrm{k}\Omega$ による分圧回路を接続し，基準電位 $V_{\mathrm{ref2}} \approx 1.24\,\mathrm{V}$ を与えた．
+        \end{itemize}
 
   \item \textbf{回路全体の利得と通過帯域}：
-  二段の反転増幅器を直列接続することにより，回路全体の総合増幅率 $A_v$ は，
-  \begin{equation}
-    A_v = A_{v1} \times A_{v2} = (-30.30) \times (-3.030) \approx +91.8\,\text{倍}
-    \label{eq:total_gain}
-  \end{equation}
-  となる．極性が反転からさらに反転するため，回路全体の出力 $v_o$ は入力 $v_i$ と同位相となる．また，総合的な通過帯域は約0.48\,Hzから16\,Hzのバンドパス特性を示す．
+        二段の反転増幅器を直列接続することにより，回路全体の総合増幅率 $A_v$ は，
+        \begin{equation}
+          A_v = A_{v1} \times A_{v2} = (-30.30) \times (-3.030) \approx +91.8\,\text{倍}
+          \label{eq:total_gain}
+        \end{equation}
+        となる．極性が反転からさらに反転するため，回路全体の出力 $v_o$ は入力 $v_i$ と同位相となる．また，総合的な通過帯域は約0.48\,Hzから16\,Hzのバンドパス特性を示す．
 \end{enumerate}
 
 
@@ -170,19 +179,19 @@
   \setlength{\tabcolsep}{4pt}
   \begin{tabular}{|l|l|c|l|}
     \hline
-    機器名 & 型式 / メーカー & 数量 & 用途 \\
+    機器名      & 型式 / メーカー               & 数量 & 用途                \\
     \hline\hline
-    オシロスコープ & Tektronix TBS1000Cシリーズ & 1台 & 入出力波形の観測および計測 \\
+    オシロスコープ  & Tektronix TBS1000Cシリーズ  & 1台 & 入出力波形の観測および計測     \\
     \hline
-    波形出力デバイス & ATOM Lite（M5Stack） & 1台 & 評価用模擬信号（4種類）の発生 \\
+    波形出力デバイス & ATOM Lite（M5Stack）      & 1台 & 評価用模擬信号（4種類）の発生   \\
     \hline
-    直列抵抗 & 1 $\rm{M}\Omega$ 炭素皮膜抵抗 & 1本 & ATOM Lite信号減衰・保護用 \\
+    直列抵抗     & 1 $\rm{M}\Omega$ 炭素皮膜抵抗 & 1本 & ATOM Lite信号減衰・保護用 \\
     \hline
-    ブレッドボード & 165401020E & 1枚 & 回路実装用基板 \\
+    ブレッドボード  & 165401020E              & 1枚 & 回路実装用基板           \\
     \hline
-    電源ユニット & 5V安定化電源供給ユニット & 1式 & 回路駆動用電源（5V/GND） \\
+    電源ユニット   & 5V安定化電源供給ユニット           & 1式 & 回路駆動用電源（5V/GND）   \\
     \hline
-    ジャンパーワイヤ & 各種 & 1式 & 回路配線用 \\
+    ジャンパーワイヤ & 各種                      & 1式 & 回路配線用             \\
     \hline
   \end{tabular}
   \label{tab:instruments}
@@ -191,36 +200,44 @@
 
 \subsection{実験手順}
 
+ブレッドボード上に実装したセンサ回路および増幅回路の外観を図\ref{fig:circuit_implementation}に示す．
 実験は以下の二段階の手順に沿って実施した．
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth,clip]{fig_work_A/LBR-127HLD.png}
+  \caption{実装したセンサ回路および増幅回路の外観}
+  \label{fig:circuit_implementation}
+\end{figure}
 
 \subsubsection{ワークA-1：二段反転増幅回路の作成と周波数特性評価}
 \begin{enumerate}
-  \item ブレッドボード上にオペアンプ LM358N，抵抗器，コンデンサを配置し，図\ref{fig:circuit_schematic}に示すバンドパスフィルタ付き二段反転増幅回路を配線した．電源ラインには安定化電源より5\,VおよびGNDを供給した．
+  \item ブレッドボード上にオペアンプ LM358N，抵抗器，コンデンサを配置し，図\ref{fig:circuit_schematic_A1}に示すバンドパスフィルタ付き二段反転増幅回路を配線した．電源ラインには安定化電源より5\,VおよびGNDを供給した．
   \item 模擬信号発生器として ATOM Lite を用意し，信号出力ピン（G25）と増幅回路の入力端子 $v_i$ の間に $1\,\mathrm{M}\Omega$ の抵抗を直列に挿入して接続した．
   \item ATOM Lite から以下の4種類の信号を順次入力した：
-  \begin{itemize}
-    \item \textbf{波形1（緑）}：低周波正弦波（1\,Hz）のみ
-    \item \textbf{波形2（赤）}：低周波正弦波（1\,Hz）と高周波正弦波（100\,Hz）の合成波
-    \item \textbf{波形3（青）}：低周波正弦波（1\,Hz）と高周波正弦波（7\,Hz）の合成波
-    \item \textbf{波形4（紫）}：模擬脈波
-  \end{itemize}
+        \begin{itemize}
+          \item \textbf{波形1（緑）}：低周波正弦波（1\,Hz）のみ
+          \item \textbf{波形2（赤）}：低周波正弦波（1\,Hz）と高周波正弦波（100\,Hz）の合成波
+          \item \textbf{波形3（青）}：低周波正弦波（1\,Hz）と高周波正弦波（7\,Hz）の合成波
+          \item \textbf{波形4（紫）}：模擬脈波
+        \end{itemize}
   \item デジタルオシロスコープのプローブ CH1 を入力端子 $v_i$ に，CH2 を出力端子 $v_o$ にそれぞれ接続した．
   \item オシロスコープの設定を以下のように調整した：
-  \begin{itemize}
-    \item 水平系：\texttt{Acquire} $\rightarrow$ \texttt{Mode} を「\texttt{Hi-res}（高分解能）」に設定．
-    \item 垂直系：CH1 および CH2 のカップリング設定を「\texttt{AC}（交流結合）」に設定．
-  \end{itemize}
-  \item 各波形について，オシロスコープのカーソル機能および自動計測機能を用いて，入力信号 $v_i$ および出力信号 $v_o$ の周期，時間差，電圧振幅，測定レンジ（TIME/DIV, VOLT/DIV）を記録し，画面波形を画像ファイルとして保存した．
+        \begin{itemize}
+          \item 水平系：\texttt{Acquire} $\rightarrow$ \texttt{Mode} を「\texttt{Hi-res}（高分解能）」に設定．
+          \item 垂直系：CH1 および CH2 のカップリング設定を「\texttt{AC}（交流結合）」に設定．
+        \end{itemize}
+  \item 各波形について，オシロスコープの画面目盛りおよび設定レンジ（一次データ）を記録し，画面波形を画像ファイルとして保存した．
 \end{enumerate}
 
 \subsubsection{ワークA-2：脈拍検出回路の作成と脈波計測}
 \begin{enumerate}
-  \item ブレッドボード上にフォトリフレクタ LBR-127HLD を配置し，赤外LED側に電流制限抵抗 $R_3$（$330\,\Omega$），フォトトランジスタ側に負荷抵抗 $R_4$（$3.3\,\mathrm{k}\Omega$）を接続して脈拍検出回路を構成した．
+  \item ブレッドボード上にフォトリフレクタ LBR-127HLD を配置し，赤外LED側に電流制限抵抗 $R_3$（$330\,\Omega$），フォトトランジスタ側に負荷抵抗 $R_4$（$3.3\,\mathrm{k}\Omega$）を接続して脈拍検出回路を構成した（図\ref{fig:circuit_schematic_A2}）．
   \item フォトトランジスタのコレクタ端子を，作成した二段反転増幅回路の入力端子 $v_i$ に接続した．
   \item フォトリフレクタの受発光面に被験者の人差し指の腹を軽く当て，過度な圧迫とならないよう静置した．
   \item オシロスコープにて出力端子 $v_o$（CH2）の波形を観測し，脈動に伴う明瞭な脈波ピークが得られるよう指の配置・接触圧を微調整した．
   \item 安定した脈波波形を観測した状態でオシロスコープの画面を静止（Stop）させ，波形画像を保存した．
-  \item 保存した波形から，最も周期が長い波形区間，および次に長い波形区間を選定し，時間軸目盛り（div数），電圧軸目盛り（div数），各測定レンジ，周期，振幅，時間差を記録した．
+  \item 保存した波形から，最も周期が長い波形区間，および次に長い波形区間を選定し，時間軸目盛り，電圧軸目盛り，測定レンジ等の一次データを記録した．
 \end{enumerate}
 
 
@@ -251,39 +268,56 @@
 
 \subsection{ワークA-1：波形出力デバイス入力時の測定結果}
 
-ブレッドボード上に実装したバンドパスフィルタ付き二段反転増幅回路および脈拍検出回路の外観を図\ref{fig:circuit_implementation}に示す．
-また，ATOM Lite から入力した4種類のテスト波形に対する入出力波形の測定結果を表\ref{tab:result_work_A1}に示す．
+ATOM Lite から4種類のテスト波形を入力した際のオシロスコープ画面の生データおよび計器パラメータ（一次データ）を表\ref{tab:result_raw_work_A1}に示す．
+また，これらの一次データから算出した周期，振幅，増幅率および周波数（二次データ）を表\ref{tab:result_calc_work_A1}に示す．
 各波形におけるオシロスコープの観測画面を図\ref{fig:waveforms_work_A1}に示す．
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.7\textwidth,clip]{fig_work_A/LBR-127HLD.png}
-  \caption{実装したセンサ回路および増幅回路の外観}
-  \label{fig:circuit_implementation}
-\end{figure}
-
 \begin{table}[htbp]
-  \caption{波形出力デバイス入力時の計測結果（ワークA-1）}
+  \caption{波形出力デバイス入力時の一次データ（生データ・計器パラメータ）}
   \centering
   \resizebox{\textwidth}{!}{%
-  \begin{tabular}{|c||c|c|c|c||c|c|c||c|c|}
-    \hline
-    \multirow{3}{*}{入力波形} & \multicolumn{4}{c||}{低周波数信号} & \multicolumn{3}{c||}{高周波数信号} & \multicolumn{2}{c|}{算出値} \\
-    \cline{2-10}
-     & 周期 & 時間差 & $v_i$ 振幅 & $v_o$ 振幅 & 周期 & $v_i$ 振幅 & $v_o$ 振幅 & 増幅率 & 周波数 \\
-     & [ms] & [ms] & [mV] & [mV] & [ms] & [mV] & [mV] & $v_o/v_i$ [倍] & [Hz] \\
-    \hline\hline
-    波形1（1\,Hz正弦波） & 1000 &  &  &  & --- & --- & --- &  & 1.0 \\
-    \hline
-    波形2（1\,Hz $+$ 100\,Hz） & 1000 &  &  &  & 10.0 &  &  &  & 1.0 / 100 \\
-    \hline
-    波形3（1\,Hz $+$ 7\,Hz） & 1000 &  &  &  & 142.9 &  &  &  & 1.0 / 7.0 \\
-    \hline
-    波形4（模擬脈波） &  &  &  &  & --- & --- & --- &  &  \\
-    \hline
-  \end{tabular}%
+    \begin{tabular}{|c||c|c|c||c|c|c|c||c|c|c|}
+      \hline
+      \multirow{3}{*}{入力波形}  & \multicolumn{3}{c||}{測定器レンジ設定} & \multicolumn{4}{c||}{低周波信号の目盛り読み取り} & \multicolumn{3}{c|}{高周波信号の目盛り読み取り}                                                                                             \\
+      \cline{2-11}
+                             & TIME/DIV                       & CH1 VOLT/DIV                        & CH2 VOLT/DIV                       & 周期    & 時間差   & CH1 ($v_i$) 振幅 & CH2 ($v_o$) 振幅 & 周期    & CH1 ($v_i$) 振幅 & CH2 ($v_o$) 振幅 \\
+                             & [ms/div]                       & [mV/div]                            & [mV/div]                           & [div] & [div] & [div]          & [div]          & [div] & [div]          & [div]          \\
+      \hline\hline
+      波形1（1\,Hz正弦波）          &                                &                                     &                                    &       &       &                &                & ---   & ---            & ---            \\
+      \hline
+      波形2（1\,Hz $+$ 100\,Hz） &                                &                                     &                                    &       &       &                &                &       &                &                \\
+      \hline
+      波形3（1\,Hz $+$ 7\,Hz）   &                                &                                     &                                    &       &       &                &                &       &                &                \\
+      \hline
+      波形4（模擬脈波）              &                                &                                     &                                    &       &       &                &                & ---   & ---            & ---            \\
+      \hline
+    \end{tabular}%
   }
-  \label{tab:result_work_A1}
+  \label{tab:result_raw_work_A1}
+\end{table}
+
+\begin{table}[htbp]
+  \caption{波形出力デバイス入力時の二次データ（算出値）}
+  \centering
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c||c|c|c|c||c|c|c||c|c|}
+      \hline
+      \multirow{3}{*}{入力波形}  & \multicolumn{4}{c||}{低周波数信号（算出値）} & \multicolumn{3}{c||}{高周波数信号（算出値）} & \multicolumn{2}{c|}{特性算出値}                                                                      \\
+      \cline{2-10}
+                             & 周期                                & 時間差                               & $v_i$ 振幅                   & $v_o$ 振幅 & 周期    & $v_i$ 振幅 & $v_o$ 振幅 & 増幅率           & 周波数       \\
+                             & [ms]                              & [ms]                              & [mV]                       & [mV]     & [ms]  & [mV]     & [mV]     & $v_o/v_i$ [倍] & [Hz]      \\
+      \hline\hline
+      波形1（1\,Hz正弦波）          & 1000                              &                                   &                            &          & ---   & ---      & ---      &               & 1.0       \\
+      \hline
+      波形2（1\,Hz $+$ 100\,Hz） & 1000                              &                                   &                            &          & 10.0  &          &          &               & 1.0 / 100 \\
+      \hline
+      波形3（1\,Hz $+$ 7\,Hz）   & 1000                              &                                   &                            &          & 142.9 &          &          &               & 1.0 / 7.0 \\
+      \hline
+      波形4（模擬脈波）              &                                   &                                   &                            &          & ---   & ---      & ---      &               &           \\
+      \hline
+    \end{tabular}%
+  }
+  \label{tab:result_calc_work_A1}
 \end{table}
 
 \begin{figure}[htbp]
@@ -323,7 +357,8 @@
 \subsection{ワークA-2：脈拍検出回路による生体脈波の測定結果}
 
 フォトリフレクタ（LBR-127HLD）に被験者の指先を近接させて計測した脈波波形を図\ref{fig:pulse_waveform}に示す．
-オシロスコープ画面から読み取った一次データ（目盛りdiv数およびレンジ設定値）と，それらに基づいて算出した二次データ（周期，振幅，脈拍数など）を表\ref{tab:result_work_A2}にまとめる．
+オシロスコープ画面から直接読み取った目盛りおよびレンジ（一次データ）を表\ref{tab:result_raw_work_A2}に示す．
+また，一次データから算出した周期，振幅，時間差，増幅率，および脈拍数（二次データ）を表\ref{tab:result_calc_work_A2}に示す．
 
 \begin{figure}[htbp]
   \centering
@@ -333,30 +368,53 @@
 \end{figure}
 
 \begin{table}[htbp]
-  \caption{測定した指先脈波の計測結果（ワークA-2）}
+  \caption{指先脈波計測の一次データ（生データ・計器パラメータ）}
   \centering
-  \resizebox{\textwidth}{!}{%
-  \begin{tabular}{|l||c|c||c|c|}
+  \small
+  \begin{tabular}{|l||c|c|}
     \hline
-    \multirow{2}{*}{項目} & \multicolumn{2}{c||}{周期の最も長い信号} & \multicolumn{2}{c|}{周期が次に長い信号} \\
-    \cline{2-5}
-     & 一次データ（目盛り・レンジ） & 算出値 & 一次データ（目盛り・レンジ） & 算出値 \\
+    測定項目                  & 周期の最も長い信号                         & 周期が次に長い信号                         \\
     \hline\hline
-    時間軸目盛り / レンジ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{ms/div}$ & \quad\quad\quad $\mathrm{ms}$ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{ms/div}$ & \quad\quad\quad $\mathrm{ms}$ \\
+    水平時間軸レンジ（TIME/DIV）    & \quad\quad\quad $\mathrm{ms/div}$ & \quad\quad\quad $\mathrm{ms/div}$ \\
     \hline
-    入力電圧振幅 $v_i$ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV}$ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV}$ \\
+    CH1 垂直電圧レンジ（VOLT/DIV） & \quad\quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV/div}$ \\
     \hline
-    出力電圧振幅 $v_o$ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV}$ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV}$ \\
+    CH2 垂直電圧レンジ（VOLT/DIV） & \quad\quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV/div}$ \\
     \hline
-    時間差 $\Delta t$ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{ms/div}$ & \quad\quad\quad $\mathrm{ms}$ & \quad\quad $\mathrm{div}$ $\times$ \quad\quad $\mathrm{ms/div}$ & \quad\quad\quad $\mathrm{ms}$ \\
+    周期の目盛り読み取り幅           & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
     \hline
-    増幅率 $v_o/v_i$ & --- & \quad\quad\quad 倍 & --- & \quad\quad\quad 倍 \\
+    CH1 ($v_i$) 電圧振幅の目盛り幅 & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
     \hline
-    脈拍数（1分間あたり） & --- & \quad\quad\quad $\mathrm{bpm}$ & --- & \quad\quad\quad $\mathrm{bpm}$ \\
+    CH2 ($v_o$) 電圧振幅の目盛り幅 & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
     \hline
-  \end{tabular}%
-  }
-  \label{tab:result_work_A2}
+    入出力ピーク間時間差の目盛り幅       & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
+    \hline
+  \end{tabular}
+  \label{tab:result_raw_work_A2}
+\end{table}
+
+\begin{table}[htbp]
+  \caption{指先脈波計測の二次データ（算出値）}
+  \centering
+  \small
+  \begin{tabular}{|l||c|c|}
+    \hline
+    算出項目                   & 周期の最も長い信号 & 周期が次に長い信号 \\
+    \hline\hline
+    脈波周期 $T$ [ms]          &           &           \\
+    \hline
+    入力電圧振幅 $v_i$ [mV]      &           &           \\
+    \hline
+    出力電圧振幅 $v_o$ [mV]      &           &           \\
+    \hline
+    入出力時間差 $\Delta t$ [ms] &           &           \\
+    \hline
+    回路増幅率 $v_o/v_i$ [倍]    &           &           \\
+    \hline
+    脈拍数（1分間あたり） [bpm]      &           &           \\
+    \hline
+  \end{tabular}
+  \label{tab:result_calc_work_A2}
 \end{table}
 
 
@@ -377,7 +435,7 @@
 
 \subsection{生体脈波の周期および脈拍数に関する考察}
 %% 【考察2のガイド】
-%% ・表1.4で得られた「周期の最も長い信号」と「周期が次に長い信号」の周期[ms]から算出した脈拍数[bpm]について考察する．
+%% ・表1.6で得られた「周期の最も長い信号」と「周期が次に長い信号」の周期[ms]から算出した脈拍数[bpm]について考察する．
 %% ・一般的な成人の安静時脈拍数（60〜100 bpm）と比較し，妥当性を論じる．
 %% ・呼吸性洞性不整脈（RSA: 呼吸に伴う心拍変動）や，指の押圧変化による周期の揺らぎについて考察する．
 
