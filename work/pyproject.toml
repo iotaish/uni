@@ -2,6 +2,7 @@
 members = [
     "tutorial",
     "test",
+    "workB",
 ]
 
 [tool.uv]
