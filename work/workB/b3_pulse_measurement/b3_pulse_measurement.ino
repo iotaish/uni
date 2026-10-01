@@ -1,12 +1,19 @@
 #include "myPulse.h"  //myPulse.hをインクルードする
 
+unsigned long start;
+
 void setup() {
   Serial.begin(115200);  // シリアル通信の開始
   Serial.println("time,pulse");
+  start = millis();
 }
 
 void loop() {
-  rate();  // myPulse.hのrate関数を呼び出しを繰り返す
-  float t = millis() / 1000.0;
-  // rate関数でreturnされた心拍数はloop関数内で出力すること
+  if (millis() - start <= 60 * 1000) {
+    uint8_t v = rate();
+    float t = millis() / 1000.0;
+    Serial.print(t, 3);
+    Serial.print(",");
+    Serial.println(v);
+  }
 }
