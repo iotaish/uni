@@ -3,6 +3,6 @@
 
 #include <Arduino.h>  //Arduinoの標準ライブラリをインクルード
 
-uint16_t top();       //関数を宣言
+uint16_t top();  // 関数を宣言
 
 #endif
