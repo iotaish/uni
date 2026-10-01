@@ -57,8 +57,8 @@ def _(mo):
 @app.cell
 def _():
     ################### 変更する箇所 ###################
-    student_id = "XXXXXXXX"  # 自分の学籍番号を省略せずに設定
-    color = "color"  # LEDの色を仕様に合わせて設定
+    student_id = "26G1012"  # 自分の学籍番号を省略せずに設定
+    color = "red"  # LEDの色を仕様に合わせて設定
     ################### 変更ここまで #########################
 
     file_name = f"b1_{student_id}_{color}"  # 上記の設定により自動でファイル名が設定される
@@ -82,7 +82,7 @@ def _(csv, datetime, file_name, serial, student_id, threading):
     ################### 変更する箇所：シリアルポート ###################
     ## ttyの後ろに.を入力すると候補が表示されるのでusbmodemの方を選択（数値は各々のMacやArduinoによって異なる）
     ##例：ser = serial.Serial(port='/dev/tty.usbmodem4827E2E0D9D02', baudrate=9600, timeout=1)
-    ser = serial.Serial(port="/dev/tty", baudrate=9600, timeout=1)
+    ser = serial.Serial(port="/dev/tty.usbmodemACA7043A47282", baudrate=9600, timeout=1)
     _data = []
     exit_flag = False
     ###################  これ以降は修正の必要はない  ###################
