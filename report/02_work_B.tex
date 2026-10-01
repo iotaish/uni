@@ -30,7 +30,35 @@ void loop() {
 % ワークB-2の目的と実施内容を記載せよ
 
 \subsection{閾値の検討}
-% TOP_THRESHOLDとDOWN_THRESHOLDの組み合わせに応じたグラフを基に比較を行い，最終的な閾値がなぜ最適であるかを考察すること
+% TOP_THRESHOLDとDOWN_THRESHOLDの組み合わせに応じたグラフと表を基に検討を行い，最終的な閾値がなぜ最適であるかを考察すること
+% 最初に，DOWN=0と4，TOP=350と500の4条件で計測を行い，その結果を基に各閾値が検出結果に与える影響を確認
+% 次に以下の表に沿って計測と検討を行い，最終的な閾値を決定すること
+
+\begin{table}[htbp]
+    \centering
+    \caption{TOP\_THRESHOLDとDOWN\_THRESHOLDによる検出結果}
+    \label{tab:threshold_results}
+
+    \setlength{\tabcolsep}{12pt}
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{c|ccccc}
+        \hline
+        TOP / DOWN & 0 & 1 & 2 & 3 & 4 \\
+        \hline
+        350        &   &   &   &   &   \\
+        400        &   &   &   &   &   \\
+        450        &   &   &   &   &   \\
+        500        &   &   &   &   &   \\
+        \hline
+    \end{tabular}
+
+    \vspace{1ex}
+
+    \footnotesize
+    $\bigcirc$：正常検出，$\times$多：複数検出，$\times$漏：検出漏れ，
+    $\times$多・漏：複数検出および検出漏れ，--：未計測
+\end{table}
 
 \subsection{実装内容}
 % ファイルごとにプログラムを記載し，変更・追加した処理について説明すること（ipynbファイルは必要ない）
