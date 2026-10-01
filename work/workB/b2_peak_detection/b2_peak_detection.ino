@@ -7,4 +7,5 @@ void setup() {
 
 void loop() {
   top();  // myPulse.hのtop関数を呼び出しを繰り返す
+  float t = millis() / 1000.0;
 }
