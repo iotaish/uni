@@ -54,7 +54,18 @@ uint16_t top() {
 
 // 脈拍を測定し返す関数
 uint8_t rate() {
-  // ピークから脈拍を測定する処理を追加すること
+  uint16_t p1 = top();
+  if (p1 == 0) return 0;
+  uint32_t t1 = millis();
 
-  return 0;  // 計算した脈拍を返す
+  uint16_t p2 = top();
+  if (p2 == 0) return 0;
+  uint32_t t2 = millis();
+
+  if (t2 <= t1) return 0;
+
+  uint32_t period = t2 - t1;
+  float bpm = 60000.0 / period;
+
+  return (uint8_t)(bpm + 0.5);
 }

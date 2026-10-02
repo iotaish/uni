@@ -1,19 +1,18 @@
-#include "myPulse.h"  //myPulse.hをインクルードする
-
-unsigned long start;
+#include "myPulse.h"
 
 void setup() {
-  Serial.begin(115200);  // シリアル通信の開始
+  Serial.begin(115200);
   Serial.println("time,pulse");
-  start = millis() / 1000.0;
 }
 
 void loop() {
   float t = millis() / 1000.0;
-  if (t - start <= 60) {
+  if (t < 60.0) {
     uint8_t v = rate();
-    Serial.print(t, 3);
-    Serial.print(",");
-    Serial.println(v);
+    if (v > 0) {
+      Serial.print(t, 2);
+      Serial.print(",");
+      Serial.println(v);
+    }
   }
 }
