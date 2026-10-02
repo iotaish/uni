@@ -1,20 +1,17 @@
-unsigned long start;
-
 void setup() {
-  Serial.begin(9600);  // シリアル通信の開始
+  Serial.begin(9600);
   Serial.println("time,value");
-  start = millis() / 1000.0;
 }
 
 void loop() {
   float t = millis() / 1000.0;
-  if (t - start <= 5) {
-    uint16_t v = analogRead(A0);  // アナログ入力を読み取る
+  if (t <= 5.0) {
+    uint16_t v = analogRead(A0);
 
-    Serial.print(t, 3);
+    Serial.print(t, 2);
     Serial.print(",");
-    Serial.println(v);  // 読み取った値をシリアル出力
+    Serial.println(v);
 
-    delay(20);  // 次のループまで 20 ミリ秒待機
+    delay(20);
   }
 }
