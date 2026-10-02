@@ -68,11 +68,7 @@ uint16_t top() {
     Serial.print(",");
     Serial.print(values[i]);
     Serial.print(",");
-    if (result != 0 && i == peak_index) {
-      Serial.println(1);
-    } else {
-      Serial.println(0);
-    }
+    Serial.println(result != 0 && i == peak_index ? 1 : 0);
   }
 
   return result;
