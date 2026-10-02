@@ -8,51 +8,72 @@
 #define UP_THRESHOLD 1    // 上昇傾向にあるかの判定に利用する閾値
 
 uint16_t top() {
-  uint32_t time = 0;          // 信号の受信時間の保存用
-  uint16_t maximum = 0;       // 最大値の保存用
-  uint16_t value = 0;         // 読み込んだ信号の保存用
-  uint8_t up_count = 0;       // 上昇傾向を判定するためのカウント
-  uint8_t down_count = 0;     // 下降傾向を判定するためのカウント
-  uint8_t timeout = 255;      // タイムアウトまでのカウント
-  bool peak_started = false;  // 上昇傾向にあると判定されたか
+  uint32_t times[256];
+  uint16_t values[256];
+  uint8_t count = 0;
+  int16_t peak_index = -1;
+
+  uint16_t maximum = 0;
+  uint8_t up_count = 0;
+  uint8_t down_count = 0;
+  uint8_t timeout = 255;
+  bool peak_started = false;
+  uint16_t result = 0;
 
   while (timeout--) {
-    value = analogRead(PIN_IN);  // アナログ入力で値を読み取る
-    time = millis();             // 起動からの時間(ミリ秒)を計測
+    uint16_t value = analogRead(PIN_IN);
+    uint32_t time = millis();
 
-    if (value >=
-        TOP_THRESHOLD) {  // 読み込んだ値が山の閾値以上である場合のみピーク検出の処理を行う
-      if (value > maximum) {  // 読み込んだ値が最大値より大きい場合，maximum,
-                              // up_count, down_countを更新する
-        maximum = value;  // 最大値（maximum）を更新する
-        up_count++;       // 最大値が更新されたため，up_countを増やす
-        down_count = 0;   // 最大値が更新されたため，down_countを初期化する
+    values[count] = value;
+    times[count] = time;
+
+    if (value >= TOP_THRESHOLD) {
+      if (value > maximum) {
+        maximum = value;
+        up_count++;
+        down_count = 0;
+        peak_index = count;
       } else {
-        down_count++;  // 最大値を更新しなかったため，down_countを増やす
+        down_count++;
       }
     }
 
-    // up_countがUP_THRESHOLDより大きい場合，上昇傾向にあると判定する
     if (up_count > UP_THRESHOLD) peak_started = true;
 
-    // TOP_THRESHOLD未満になり，上昇傾向と判定されていない場合は，次の山を探し直す
     if (value < TOP_THRESHOLD && !peak_started) {
       maximum = 0;
       up_count = 0;
       down_count = 0;
+      peak_index = -1;
     }
 
-    Serial.println(time / 1000.0,
-                   2);      // 時間を秒に変換して小数点二桁までシリアル出力
-    Serial.println(value);  // 読み込んだ値をシリアル出力
+    count++;
 
-    // 上昇傾向と下降傾向の両方を確認できた場合，ピーク値を返す
-    if (peak_started && down_count > DOWN_THRESHOLD) return maximum;
+    if (peak_started && down_count > DOWN_THRESHOLD) {
+      result = maximum;
+      break;
+    }
 
-    // 下降傾向を確認する前にTOP_THRESHOLD未満になった場合は，検出失敗とする
-    if (value < TOP_THRESHOLD && peak_started) return 0;
+    if (value < TOP_THRESHOLD && peak_started) {
+      result = 0;
+      peak_index = -1;
+      break;
+    }
 
     delay(DELAY_TIME);
   }
-  return 0;  // timeout回数までにピークが見つからなかったら0を返す
+
+  for (uint8_t i = 0; i < count; i++) {
+    Serial.print(times[i] / 1000.0, 2);
+    Serial.print(",");
+    Serial.print(values[i]);
+    Serial.print(",");
+    if (result != 0 && i == peak_index) {
+      Serial.println(1);
+    } else {
+      Serial.println(0);
+    }
+  }
+
+  return result;
 }
