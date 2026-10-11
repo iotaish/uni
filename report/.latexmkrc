@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+$out_dir = 'out';
 $max_repeat = 15;
 $biber  = 'biber --bblencoding=utf8 -u -U --output_safechars %O %S';
 $makeindex = 'mendex %O -o %D %S';
