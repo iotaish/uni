@@ -126,11 +126,7 @@
   \label{eq:fu_theory}
 \end{equation}
 となる．これにより，通過帯域（$f_L \ll f \ll f_U$）において所定の反転増幅率 $-R_f / R_s$ を示しつつ，不要な超低周波および高周波を減衰させるバンドパス特性が得られる．
-生体脈波の周波数帯域は，安静時心拍数（60$\sim$100\,bpm）を中心に約0.5\,Hzから数Hz程度である．
-このため，体動等の低周波ノイズを除去する下限遮断周波数 $f_L \approx 0.48\,\mathrm{Hz}$，および商用電源ノイズ（50/60\,Hz）を除去する上限遮断周波数 $f_U \approx 16\,\mathrm{Hz}$ を目標仕様として設定した．
-また，入力信号振幅（約20\,mV）を後段のA/D変換に適した約1.8\,V程度まで増幅するため，総合増幅率を約90倍に設定した．
-
-単電源5\,Vでオペアンプを安定動作させるため，中間電位（バイアス電位）を分圧抵抗により生成し，各増幅段の非反転入力端子（$+$端子）に印加する構成とした．
+各増幅段の具体的な回路定数および設計値は以下の通りである：
 
 \begin{enumerate}
   \item \textbf{初段反転増幅回路（$-30.3$倍）}：
@@ -187,7 +183,7 @@
 
 \subsection{使用素子及び実験装置}
 
-使用した素子を\ref{tab:circuit_components}に示す。また，測定に使用した実験機器を表\ref{tab:instruments}に示す．
+使用した素子を表\ref{tab:circuit_components}に示す．また，測定に使用した実験機器を表\ref{tab:instruments}に示す．
 
 \begin{table}[htbp]
   \caption{使用素子一覧}
@@ -317,7 +313,7 @@
 
 ATOM Lite から4種類のテスト波形を入力した際のオシロスコープ画面の生データおよび計器パラメータ（一次データ）を表\ref{tab:result_raw_work_A1}に示す．
 また，これらの一次データから算出した周期，振幅，増幅率および周波数（二次データ）を表\ref{tab:result_calc_work_A1}に示す．
-各波形におけるオシロスコープの低周波全体観測画面を図\ref{fig:waveforms_work_A1}に，高周波成分および位相差の拡大観測画面を図\ref{fig:waveforms_work_A1_zoom}に示す．
+各波形におけるオシロスコープの低周波全体観測画面を図\ref{fig:waveforms_work_A1}に，高周波成分の周期拡大観測および立ち上がり位相差観測画面を図\ref{fig:waveforms_work_A1_zoom}に示す．拡大観測（図\ref{fig:waveforms_work_A1_zoom}(c), (d)）において，信号の立ち上がりエッジに着目すると，いずれも黄色（CH1：入力 $v_i$）が先行し，水色（CH2：出力 $v_o$）が遅れて立ち上がっている様子が確認できる．
 なお，ATOM Liteの低周波信号設定（公称値1\,Hz，想定周期1000\,ms，200\,ms/divにおいて5.0\,div）に対し，オシロスコープ画面上では波形1において周期2.0\,div（400\,ms，実測周波数2.5\,Hz），波形2および波形3において周期2.5\,div（500\,ms，実測周波数2.0\,Hz）として観測された．表\ref{tab:result_raw_work_A1}および表\ref{tab:result_calc_work_A1}には，画面目盛りから直接読み取った一次データおよびそれに基づく算出値を記録した．
 
 \begin{table}[htbp]
@@ -374,28 +370,28 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
   \centering
   \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,clip]{fig_work_A/緑_annotated.jpg}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/緑.jpg}
     \caption{波形1（1\,Hz正弦波）の入出力波形}
     \label{fig:wave1}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,clip]{fig_work_A/赤_annotated.jpg}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/赤.jpg}
     \caption{波形2（1\,Hz $+$ 100\,Hz）の入出力波形}
     \label{fig:wave2}
   \end{minipage}
   \vspace{0.8em}
   \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,clip]{fig_work_A/青_annotated.jpg}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/青.jpg}
     \caption{波形3（1\,Hz $+$ 7\,Hz）の入出力波形}
     \label{fig:wave3}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,clip]{fig_work_A/紫_annotated.jpg}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/紫.jpg}
     \caption{波形4（模擬脈波）の入出力波形}
     \label{fig:wave4}
   \end{minipage}
@@ -405,27 +401,34 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 
 \begin{figure}[htbp]
   \centering
-  \begin{minipage}[b]{0.32\textwidth}
+  \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,clip]{fig_work_A/赤高_annotated.jpg}
-    \caption{波形2 高周波成分（100\,Hz）}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/赤高.jpg}
+    \caption{波形2 高周波成分（100\,Hz周期拡大）}
     \label{fig:wave2_high}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.32\textwidth}
+  \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,clip]{fig_work_A/青高_annotated.jpg}
-    \caption{波形3 高周波成分（7\,Hz）}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/青高.jpg}
+    \caption{波形3 高周波成分（7\,Hz周期拡大）}
     \label{fig:wave3_high}
   \end{minipage}
-  \hfill
-  \begin{minipage}[b]{0.32\textwidth}
+  \vspace{0.8em}
+  \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,clip]{fig_work_A/青位相差_annotated.jpg}
-    \caption{波形3 入出力位相差}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/赤位相差.jpg}
+    \caption{波形2 立ち上がり位相差観測}
+    \label{fig:wave2_phase}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,clip]{fig_work_A/青位相差.jpg}
+    \caption{波形3 立ち上がり位相差観測}
     \label{fig:wave3_phase}
   \end{minipage}
-  \caption{オシロスコープによる高周波成分および位相差の拡大観測波形（CH1：$v_i$［黄］，CH2：$v_o$［水色］）}
+  \caption{オシロスコープによる高周波成分および立ち上がり位相差の拡大観測波形（CH1：$v_i$［黄］，CH2：$v_o$［水色］）}
   \label{fig:waveforms_work_A1_zoom}
 \end{figure}
 
@@ -438,7 +441,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.75\textwidth,clip]{fig_work_A/脈拍_annotated.jpg}
+  \includegraphics[width=0.75\textwidth,clip]{fig_work_A/脈拍.jpg}
   \caption{オシロスコープに表示された被験者の指先脈波（CH1：$v_i$［黄］，CH2：$v_o$［水色］）}
   \label{fig:pulse_waveform}
 \end{figure}
@@ -553,6 +556,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
   \label{eq:phase_shift_calc}
 \end{equation}
 となり，出力信号が入力信号に対して約 $30^\circ$ 遅れていることがわかる．また，波形4（模擬脈波）においても同様に $\Delta t = 40.0\,\mathrm{ms}$ の遅延が観測され，周期 740\,ms に対して $\theta \approx 19.5^\circ$ の位相遅れとなった．
+さらに，高周波信号重畳時の立ち上がり位相差拡大観測（図\ref{fig:waveforms_work_A1_zoom}(c), (d)）においても，急峻な立ち上がりエッジにおいて黄色（CH1：入力 $v_i$）が先行して立ち上がり，水色（CH2：出力 $v_o$）が遅れて立ち上がっていることが実験的に確認された．
 
 二段反転増幅回路においてこのような時間差（位相遅れ）が生じる回路理論的・物理的原因は，以下の要素に大別される：
 \begin{enumerate}
@@ -585,7 +589,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 本実習（ワークA）では，光電容積脈波計測法に基づく脈拍検出回路およびオペアンプを用いたバンドパスフィルタ付き二段反転増幅回路の設計・実装・動作検証を行った．
 生体信号特有の微弱性およびノイズ重畳という課題に対し，赤外LEDとフォトトランジスタで構成されるフォトリフレクタ（LBR-127HLD）のバイアス抵抗を適切に選定し，後段に低域遮断周波数 $f_L \approx 0.48\,\mathrm{Hz}$，高域遮断周波数 $f_U \approx 16\,\mathrm{Hz}$，総合増幅率約90倍の二段反転増幅回路を構成した．
 
-波形出力デバイス（ATOM Lite）を用いた評価（ワークA-1）により，1\,Hzの低周波信号が約90倍に増幅される一方で，100\,Hzの高周波ノイズがローパスフィルタ特性によって効果的に減衰されることを確認し，設計通りのバンドパスフィルタ機能が実現されていることを検証した．
+波形出力デバイス（ATOM Lite）を用いた評価（ワークA-1）により，1\,Hzの低周波信号が約44$\sim$53倍に増幅される一方で（設計理論利得約90倍に対し，信号源直列抵抗と入力インピーダンスによる分圧効果等により抑制），100\,Hzの高周波ノイズがローパスフィルタ特性によって効果的に減衰されることを確認し，設計通りのバンドパスフィルタ機能が実現されていることを検証した．また，波形拡大観測を通じて，信号の立ち上がりにおける出力の位相遅れ特性を実験的に確認した．
 さらに，被験者の指先をセンサに密着させた脈波計測実験（ワークA-2）を通じて，皮膚下の血流変動に応じた明瞭な脈波ピーク波形を抽出し，心拍周期および脈拍数（bpm）を計測することに成功した．
 
 以上の結果より，アナログ回路による適切な帯域制限と信号増幅が，微小な生体信号計測において極めて有効であることが実証された．
