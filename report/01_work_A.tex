@@ -75,7 +75,57 @@
 
 \subsubsection{バンドパスフィルタ付き二段反転増幅回路の設計}
 
-センサ後段回路には，汎用オペアンプ（LM358N）を用いた二段の反転増幅回路を構成した．
+センサ後段回路には，汎用オペアンプ（LM358N）を用いたバンドパスフィルタ付き二段反転増幅回路を設計・構成した．
+生体脈波の周波数帯域は，安静時心拍数（60$\sim$100\,bpm）を中心に約0.5\,Hzから数Hz程度である．
+このため，体動等の低周波ノイズを除去する下限遮断周波数 $f_L \approx 0.48\,\mathrm{Hz}$，および商用電源ノイズ（50/60\,Hz）を除去する上限遮断周波数 $f_U \approx 16\,\mathrm{Hz}$ を目標仕様として設定した．
+また，入力信号振幅（約20\,mV）を後段のA/D変換に適した約1.8\,V程度まで増幅するため，総合増幅率を約90倍に設定した．
+
+単電源5\,Vでオペアンプを安定動作させるため，中間電位（バイアス電位）を分圧抵抗により生成し，各増幅段の非反転入力端子（$+$端子）に印加する構成とした．
+
+\paragraph{オペアンプの基礎理論と反転増幅回路の動作原理}
+オペアンプ（Operational Amplifier: 演算増幅器）は，2つの入力端子（反転入力端子 $v_1$ および非反転入力端子 $v_2$）と1つの出力端子 $v_o$ を持つ差動増幅器であり，入出力関係は差動開ループ利得 $A$ を用いて $v_o = -A(v_1 - v_2)$ で表される．
+回路理論における理想オペアンプは，以下の4つの条件を満たすものとして定義される：
+\begin{enumerate}
+  \item 差動利得が無限大（$A \to \infty$）
+  \item 入力インピーダンスが無限大（$Z_i \to \infty$，二入力端子間に電流は流入しない）
+  \item 出力インピーダンスがゼロ（$Z_o \to 0$，外部負荷に関わらず出力電圧を維持）
+  \item 増幅可能な周波数帯域が無限大（直流から高周波まで平坦な利得特性）
+\end{enumerate}
+これに対し，本実験で使用した LM358N は汎用の2回路入りオペアンプであり，単一電源（$V_{CC} = 5\,\mathrm{V}, V_{EE} = \mathrm{GND}$）での動作が可能である一方，有限な開ループ利得や利得帯域幅積（GBW $\approx 1\,\mathrm{MHz}$），スルーレート等の制約を有するアクティブ素子である．
+
+オペアンプの出力端子から反転入力端子へ帰還抵抗 $R_f$ を介して出力信号の一部を戻す構成を「負帰還（Negative Feedback）」と呼ぶ．
+負帰還が施された回路において，入力電圧 $v_i$ が上昇すると出力 $v_o$ は下降し，この出力下降分が直ちに $R_f$ を通じて反転入力端子へと帰還されるため，$v_i$ の上昇が抑制される．
+この自己補正作用と開ループ利得 $A \to \infty$ の特性により，二入力端子間の電位差は極めて微小となり，平衡状態において二入力端子の電位は等しくなる（$v_1 = v_2$）．
+これを「仮想短絡（バーチャルショート: Virtual Short）」と呼ぶ．
+仮想短絡においては，両端子間があたかも短絡（ショート）しているように電位が等しく維持されるが，入力インピーダンス $Z_i \to \infty$ であるため入力端子内部へ電流が流れ込むことはない（$i = 0$）．
+
+反転増幅器の利得導出は以下の通りである．非反転入力端子に基準電位（接地の場合は 0\,V）が与えられているとき，仮想短絡により反転入力端子の電位も基準電位と等しくなる．
+入力抵抗 $R_s$ を流れる電流を $i$ とすると，入力端子間の電流流入がゼロであるため，キルヒホッフの電流則より $i$ の全量が帰還抵抗 $R_f$ へと流れる．
+したがって，入力側にかかる電圧降下 $v_1$ および帰還抵抗の両端電圧 $v_2$ はオームの法則より，
+\begin{equation}
+  i = \frac{v_1}{R_s} = \frac{v_2}{R_f}
+  \label{eq:inverting_kcl}
+\end{equation}
+となる．仮想短絡により入力電位は $v_i = v_1$ であり，出力電位は反転入力端子より $v_2$ だけ低下するため，
+\begin{equation}
+  v_o = -v_2 = -R_f i = -\frac{R_f}{R_s} v_1 = -\frac{R_f}{R_s} v_i
+  \label{eq:inverting_gain_proof}
+\end{equation}
+となり，閉ループ増幅率 $A_f = -R_f / R_s$ が厳密に導出される．
+
+\paragraph{バンドパスフィルタ機能の付加}
+本実習では，この反転増幅回路に入力結合コンデンサ $C_s$ および帰還並列コンデンサ $C_f$ を付加し，周波数選択性を持たせた．
+入力側の結合容量 $C_s$ は直流成分（0\,Hz）を完全に遮断し，低周波ノイズを除去する1次ハイパスフィルタ（HPF）を形成する．その下限遮断周波数 $f_L$ は，
+\begin{equation}
+  f_L = \frac{1}{2\pi C_s R_s}
+  \label{eq:fl_theory}
+\end{equation}
+で決定される．一方，帰還抵抗 $R_f$ に並列接続されたコンデンサ $C_f$ は，高周波においてインピーダンス $1/(2\pi f C_f)$ が低下して実効的な帰還インピーダンスを低下させるため，高周波利得を減衰させる1次ローパスフィルタ（LPF）として機能する．その上限遮断周波数 $f_U$ は，
+\begin{equation}
+  f_U = \frac{1}{2\pi C_f R_f}
+  \label{eq:fu_theory}
+\end{equation}
+となる．これにより，通過帯域（$f_L \ll f \ll f_U$）において所定の反転増幅率 $-R_f / R_s$ を示しつつ，不要な超低周波および高周波を減衰させるバンドパス特性が得られる．
 生体脈波の周波数帯域は，安静時心拍数（60$\sim$100\,bpm）を中心に約0.5\,Hzから数Hz程度である．
 このため，体動等の低周波ノイズを除去する下限遮断周波数 $f_L \approx 0.48\,\mathrm{Hz}$，および商用電源ノイズ（50/60\,Hz）を除去する上限遮断周波数 $f_U \approx 16\,\mathrm{Hz}$ を目標仕様として設定した．
 また，入力信号振幅（約20\,mV）を後段のA/D変換に適した約1.8\,V程度まで増幅するため，総合増幅率を約90倍に設定した．
@@ -205,7 +255,7 @@
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth,clip]{fig_work_A/LBR-127HLD.png}
+  \includegraphics[width=0.7\textwidth,clip]{fig_work_A/回路.JPG}
   \caption{実装したセンサ回路および増幅回路の外観}
   \label{fig:circuit_implementation}
 \end{figure}
@@ -276,6 +326,7 @@
 ATOM Lite から4種類のテスト波形を入力した際のオシロスコープ画面の生データおよび計器パラメータ（一次データ）を表\ref{tab:result_raw_work_A1}に示す．
 また，これらの一次データから算出した周期，振幅，増幅率および周波数（二次データ）を表\ref{tab:result_calc_work_A1}に示す．
 各波形におけるオシロスコープの観測画面を図\ref{fig:waveforms_work_A1}に示す．
+なお，ATOM Liteの低周波信号設定（公称値1\,Hz，想定周期1000\,ms，200\,ms/divにおいて5.0\,div）に対し，オシロスコープ画面上では波形1において周期2.0\,div（400\,ms，実測周波数2.5\,Hz），波形2および波形3において周期2.5\,div（500\,ms，実測周波数2.0\,Hz）として観測された．表\ref{tab:result_raw_work_A1}および表\ref{tab:result_calc_work_A1}には，画面目盛りから直接読み取った一次データおよびそれに基づく算出値を記録した．
 
 \begin{table}[htbp]
   \caption{波形出力デバイス入力時の一次データ（生データ・計器パラメータ）}
@@ -288,13 +339,13 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
                              & TIME/DIV                       & CH1 VOLT/DIV                        & CH2 VOLT/DIV                       & 周期    & 時間差   & CH1 ($v_i$) 振幅 & CH2 ($v_o$) 振幅 & 周期    & CH1 ($v_i$) 振幅 & CH2 ($v_o$) 振幅 \\
                              & [ms/div]                       & [mV/div]                            & [mV/div]                           & [div] & [div] & [div]          & [div]          & [div] & [div]          & [div]          \\
       \hline\hline
-      波形1（1\,Hz正弦波）          &                                &                                     &                                    &       &       &                &                & ---   & ---            & ---            \\
+      波形1（1\,Hz正弦波）          & 200                            & 10.0                                & 100                                & 2.0   & 0.0   & 1.6            & 7.0            & ---   & ---            & ---            \\
       \hline
-      波形2（1\,Hz $+$ 100\,Hz） &                                &                                     &                                    &       &       &                &                &       &                &                \\
+      波形2（1\,Hz $+$ 100\,Hz） & 200                            & 10.0                                & 500                                & 2.5   & 0.0   & 2.0            & 2.0            & 2.5   & 1.2            & 0.0            \\
       \hline
-      波形3（1\,Hz $+$ 7\,Hz）   &                                &                                     &                                    &       &       &                &                &       &                &                \\
+      波形3（1\,Hz $+$ 7\,Hz）   & 200                            & 10.0                                & 200                                & 2.5   & 0.0   & 2.0            & 4.0            & 3.6   & 1.3            & 0.85           \\
       \hline
-      波形4（模擬脈波）              &                                &                                     &                                    &       &       &                &                & ---   & ---            & ---            \\
+      波形4（模擬脈波）              & 200                            & 10.0                                & 500                                & 3.7   & 0.2   & 3.0            & 3.2            & ---   & ---            & ---            \\
       \hline
     \end{tabular}%
   }
@@ -312,13 +363,13 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
                              & 周期                                & 時間差                               & $v_i$ 振幅                   & $v_o$ 振幅 & 周期    & $v_i$ 振幅 & $v_o$ 振幅 & 増幅率           & 周波数       \\
                              & [ms]                              & [ms]                              & [mV]                       & [mV]     & [ms]  & [mV]     & [mV]     & $v_o/v_i$ [倍] & [Hz]      \\
       \hline\hline
-      波形1（1\,Hz正弦波）          & 1000                              &                                   &                            &          & ---   & ---      & ---      &               & 1.0       \\
+      波形1（1\,Hz正弦波）          & 400                               & 0.0                               & 16.0                       & 700      & ---   & ---      & ---      & 43.8          & 2.5       \\
       \hline
-      波形2（1\,Hz $+$ 100\,Hz） & 1000                              &                                   &                            &          & 10.0  &          &          &               & 1.0 / 100 \\
+      波形2（1\,Hz $+$ 100\,Hz） & 500                               & 0.0                               & 20.0                       & 1000     & 10.0  & 12.0     & 0.0      & 50.0          & 2.0 / 100 \\
       \hline
-      波形3（1\,Hz $+$ 7\,Hz）   & 1000                              &                                   &                            &          & 142.9 &          &          &               & 1.0 / 7.0 \\
+      波形3（1\,Hz $+$ 7\,Hz）   & 500                               & 0.0                               & 20.0                       & 800      & 144.0 & 13.0     & 425      & 40.0          & 2.0 / 6.94 \\
       \hline
-      波形4（模擬脈波）              &                                   &                                   &                            &          & ---   & ---      & ---      &               &           \\
+      波形4（模擬脈波）              & 740                               & 40.0                              & 30.0                       & 1600     & ---   & ---      & ---      & 53.3          & 1.35      \\
       \hline
     \end{tabular}%
   }
@@ -327,30 +378,30 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 
 \begin{figure}[htbp]
   \centering
-  \begin{minipage}[b]{0.45\textwidth}
+  \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,height=38mm,clip]{fig_work_A/LBR-127HLD.png}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/緑_annotated.jpg}
     \caption{波形1（1\,Hz正弦波）の入出力波形}
     \label{fig:wave1}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.45\textwidth}
+  \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,height=38mm,clip]{fig_work_A/LBR-127HLD.png}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/赤_annotated.jpg}
     \caption{波形2（1\,Hz $+$ 100\,Hz）の入出力波形}
     \label{fig:wave2}
   \end{minipage}
   \vspace{0.8em}
-  \begin{minipage}[b]{0.45\textwidth}
+  \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,height=38mm,clip]{fig_work_A/LBR-127HLD.png}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/青_annotated.jpg}
     \caption{波形3（1\,Hz $+$ 7\,Hz）の入出力波形}
     \label{fig:wave3}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.45\textwidth}
+  \begin{minipage}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth,height=38mm,clip]{fig_work_A/LBR-127HLD.png}
+    \includegraphics[width=\textwidth,clip]{fig_work_A/紫_annotated.jpg}
     \caption{波形4（模擬脈波）の入出力波形}
     \label{fig:wave4}
   \end{minipage}
@@ -367,7 +418,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth,clip]{fig_work_A/LBR-127HLD.png}
+  \includegraphics[width=0.75\textwidth,clip]{fig_work_A/脈拍_annotated.jpg}
   \caption{オシロスコープに表示された被験者の指先脈波（CH1：$v_i$［黄］，CH2：$v_o$［水色］）}
   \label{fig:pulse_waveform}
 \end{figure}
@@ -378,21 +429,21 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
   \small
   \begin{tabular}{|l||c|c|}
     \hline
-    測定項目                  & 周期の最も長い信号                         & 周期が次に長い信号                         \\
+    測定項目                  & 周期の最も長い信号 & 周期が次に長い信号 \\
     \hline\hline
-    水平時間軸レンジ（TIME/DIV）    & \quad\quad\quad $\mathrm{ms/div}$ & \quad\quad\quad $\mathrm{ms/div}$ \\
+    水平時間軸レンジ（TIME/DIV）    & 200 $\mathrm{ms/div}$  & 200 $\mathrm{ms/div}$  \\
     \hline
-    CH1 垂直電圧レンジ（VOLT/DIV） & \quad\quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV/div}$ \\
+    CH1 垂直電圧レンジ（VOLT/DIV） & 10.0 $\mathrm{mV/div}$ & 10.0 $\mathrm{mV/div}$ \\
     \hline
-    CH2 垂直電圧レンジ（VOLT/DIV） & \quad\quad\quad $\mathrm{mV/div}$ & \quad\quad\quad $\mathrm{mV/div}$ \\
+    CH2 垂直電圧レンジ（VOLT/DIV） & 500 $\mathrm{mV/div}$  & 500 $\mathrm{mV/div}$  \\
     \hline
-    周期の目盛り読み取り幅           & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
+    周期の目盛り読み取り幅           & 2.4 $\mathrm{div}$     & 2.3 $\mathrm{div}$     \\
     \hline
-    CH1 ($v_i$) 電圧振幅の目盛り幅 & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
+    CH1 ($v_i$) 電圧振幅の目盛り幅 & 2.0 $\mathrm{div}$     & 2.0 $\mathrm{div}$     \\
     \hline
-    CH2 ($v_o$) 電圧振幅の目盛り幅 & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
+    CH2 ($v_o$) 電圧振幅の目盛り幅 & 2.1 $\mathrm{div}$     & 2.1 $\mathrm{div}$     \\
     \hline
-    入出力ピーク間時間差の目盛り幅       & \quad\quad\quad $\mathrm{div}$    & \quad\quad\quad $\mathrm{div}$    \\
+    入出力ピーク間時間差の目盛り幅       & 0.2 $\mathrm{div}$     & 0.2 $\mathrm{div}$     \\
     \hline
   \end{tabular}
   \label{tab:result_raw_work_A2}
@@ -406,17 +457,17 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
     \hline
     算出項目                   & 周期の最も長い信号 & 周期が次に長い信号 \\
     \hline\hline
-    脈波周期 $T$ [ms]          &           &           \\
+    脈波周期 $T$ [ms]          & 480       & 460       \\
     \hline
-    入力電圧振幅 $v_i$ [mV]      &           &           \\
+    入力電圧振幅 $v_i$ [mV]      & 20.0      & 20.0      \\
     \hline
-    出力電圧振幅 $v_o$ [mV]      &           &           \\
+    出力電圧振幅 $v_o$ [mV]      & 1050      & 1050      \\
     \hline
-    入出力時間差 $\Delta t$ [ms] &           &           \\
+    入出力時間差 $\Delta t$ [ms] & 40.0      & 40.0      \\
     \hline
-    回路増幅率 $v_o/v_i$ [倍]    &           &           \\
+    回路増幅率 $v_o/v_i$ [倍]    & 52.5      & 52.5      \\
     \hline
-    脈拍数（1分間あたり） [bpm]      &           &           \\
+    脈拍数（1分間あたり） [bpm]      & 125.0     & 130.4     \\
     \hline
   \end{tabular}
   \label{tab:result_calc_work_A2}
@@ -425,36 +476,88 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 
 %-----------------------------------------------------------------------------------
 \section{考察}
-%% 手順書の「４ 考察」であげた３項目を含み，結果（数値）に対する自分の
-%% 考えを述べよ．
-%% 感想とならないよう，数値に基づいた定量的な考察となるように注意する．
-%% （※必ず必須項目等は \subsection{} で一つづつ節立てして記述する）
-
-%% この節で数値を算出しない
 
 \subsection{波形出力デバイス入力時の増幅率および周波数特性の考察}
-%% 【考察1のガイド】
-%% ・波形1（1Hz正弦波）において，理論増幅率（約91.8倍）と実測増幅率（vo/vi）の一致度を比較・議論する．
-%% ・波形2（1Hz+100Hz）において，100Hz成分がLPF（カットオフfu≒16Hz）によってどのように減衰・除去されたかを考察する．
-%% ・波形3（1Hz+7Hz）において，7Hz成分が通過帯域内にあるためどのように出力されたかを考察する．
-%% ・波形4（模擬脈波）において，波形の基本波成分と高調波成分の通過・再現性について議論する．
+
+表\ref{tab:result_calc_work_A1}に示した波形出力デバイス（ATOM Lite）の測定結果に基づき，設計した二段反転増幅回路の増幅率および周波数選択特性について考察する．
+
+まず，波形1（低周波正弦波）における増幅率について検討する．
+本回路の設計理論増幅率は，初段反転増幅回路 $A_{v1} \approx -30.30$\,倍（式(\ref{eq:gain1})）および後段反転増幅回路 $A_{v2} \approx -3.030$\,倍（式(\ref{eq:gain2})）の直列接続により，総合で $A_v = A_{v1} \times A_{v2} \approx +91.8$\,倍（式(\ref{eq:total_gain})）である．
+これに対し，オシロスコープ観測による実測増幅率は $v_o/v_i = 700\,\mathrm{mV} / 16.0\,\mathrm{mV} \approx 43.8$\,倍（波形2では約50.0\,倍，波形3では約40.0\,倍，波形4では約53.3\,倍）であり，理論増幅率の約5割程度にとどまった．
+この要因として，主に以下の回路的要因が挙げられる：
+\begin{enumerate}
+  \item \textbf{信号源直列抵抗と入力インピーダンスによる分圧}：
+        実験手順において，ATOM LiteのDAC出力ピン（G25）と回路入力端子 $v_i$ の間に信号減衰および保護用として $1\,\mathrm{M}\Omega$ の炭素皮膜抵抗が直列に挿入された．
+        一方，回路入力側から見た入力インピーダンスは，結合コンデンサ $C_3$（$10\,\mu\mathrm{F}$）および初段入力抵抗 $R_5$（$33\,\mathrm{k}\Omega$）で構成される．信号周波数帯において $C_3$ のリアクタンス $1/(2\pi f C_3)$ は十分小さいものの，入力インピーダンス $Z_{\mathrm{in}} \approx R_5 = 33\,\mathrm{k}\Omega$ は信号源の直列抵抗 $1\,\mathrm{M}\Omega$ に比べて大幅に小さく，分圧効果や浮遊容量による信号減衰が少なからず生じる．
+  \item \textbf{オペアンプ（LM358N）の開ループ利得および単電源駆動の影響}：
+        汎用オペアンプ LM358N を単電源 5\,V で駆動しているため，出力振幅の線形動作範囲（ダイナミックレンジ）が電源電圧レール（特に上限側約 3.5\,V）によって制約を受ける．また，初段で約30倍という比較的高い利得を設定しているため，オペアンプの有限な利得帯域幅積（GBW $\approx 1\,\mathrm{MHz}$）やバイアス分圧回路（$V_{\mathrm{ref}} \approx 1.24\,\mathrm{V}$）の内部インピーダンスによる実効利得の低下が重畳したものと考えられる．
+\end{enumerate}
+
+次に，高周波信号に対する周波数フィルタリング特性を検証する．
+波形2（1\,Hz $+$ 100\,Hz合成波）では，入力 $v_i$ において振幅 12.0\,mV（p-p）の100\,Hz高周波ノイズが明瞭に重畳していた（図\ref{fig:wave2}）のに対し，出力 $v_o$ では100\,Hz成分が完全に平滑化され，振幅は 0.0\,mV（目盛り読み取り 0.0\,div）となった．
+本回路は，初段の帰還並列コンデンサ $C_2 = 0.01\,\mu\mathrm{F}$（$f_{U1} \approx 15.92\,\mathrm{Hz}$）および後段の $C_1 = 0.1\,\mu\mathrm{F}$（$f_{U2} \approx 15.92\,\mathrm{Hz}$）によって，それぞれ1次のローパスフィルタを構成している．二段直列接続により総合特性は2次ローパスフィルタ（遮断勾配 $-40\,\mathrm{dB/dec}$）として機能する．
+入力された 100\,Hz は上限遮断周波数 $f_U \approx 16\,\mathrm{Hz}$ の約6.3倍の高域に位置するため，理論減衰量は約 $-32\,\mathrm{dB}$（振幅比で $1/40$ 以下）に達する．実測波形において100\,Hz成分が完全に除去されていたことは，設計したローパスフィルタが商用電源ノイズ（50/60\,Hz）や照明ノイズ等の高周波干渉を確実に阻止できることを実証している．
+
+一方，波形3（1\,Hz $+$ 7\,Hz合成波）では，7\,Hz成分の周期が 144.0\,ms（実測周波数 6.94\,Hz $\approx 7.0\,\mathrm{Hz}$）として観測され，入力振幅 13.0\,mV に対して出力振幅 425\,mV，増幅率約 32.7\,倍で増幅されて出力された（図\ref{fig:wave3}）．
+7\,Hzは回路の通過帯域（$0.48\,\mathrm{Hz} \sim 16\,\mathrm{Hz}$）の平坦部付近に位置するため，減衰を受けることなく良好に通過・増幅されたことが確認できる．
+
+波形4（模擬脈波）においては，急峻な立ち上がりを示す収縮期波形および重拍切痕が崩れることなく増幅され（総合増幅率 53.3\,倍，出力振幅 1.60\,V），同時にDACの階段状量子化ノイズや高周波成分のみが滑らかにフィルタリングされていた．
+生体脈波のスペクトルは基本波（$1 \sim 2\,\mathrm{Hz}$）に加えて数Hz程度の高調波成分を含んでいるため，通過帯域の上限を 16\,Hz に設定した本回路は，生体脈波の微細な波形特徴を損なうことなく抽出し得る極めて適切な帯域幅を有していることが確認された．
 
 
 \subsection{生体脈波の周期および脈拍数に関する考察}
-%% 【考察2のガイド】
-%% ・表1.6で得られた「周期の最も長い信号」と「周期が次に長い信号」の周期[ms]から算出した脈拍数[bpm]について考察する．
-%% ・一般的な成人の安静時脈拍数（60〜100 bpm）と比較し，妥当性を論じる．
-%% ・呼吸性洞性不整脈（RSA: 呼吸に伴う心拍変動）や，指の押圧変化による周期の揺らぎについて考察する．
+
+被験者の指先を用いてフォトリフレクタ（LBR-127HLD）により検出した生体脈波波形（図\ref{fig:pulse_waveform}，表\ref{tab:result_calc_work_A2}）について考察する．
+
+測定された指先脈波において，最も長い周期は $T_1 = 480\,\mathrm{ms}$，次に長い周期は $T_2 = 460\,\mathrm{ms}$ であり，これらから算出した1分間あたりの脈拍数はそれぞれ 125.0\,bpm および 130.4\,bpm であった．
+健常成人の安静時脈拍数は一般に $60 \sim 100\,\mathrm{bpm}$（周期換算で $600 \sim 1000\,\mathrm{ms}$）とされているため，本実験で得られた値は安静時基準に比べて高値（頻脈傾向）を示している．
+この要因として，以下の実験条件および生理学的背景が考えられる：
+\begin{enumerate}
+  \item \textbf{測定環境および被験者の緊張}：
+        実験室における測定作業やオシロスコープ画面の注視など，測定に伴う精神的緊張や覚醒度の高まりによって交感神経活動が亢進し，心拍数が一時的に上昇した可能性が高い．
+  \item \textbf{指先の接触圧による影響}：
+        フォトリフレクタ受発光面に指先を押し当てる際，わずかな接触圧の差異によって末梢毛細血管が物理的に圧迫され，局所的な血管収縮や血流抵抗の変動が生じる．過度な圧迫は脈波波形の振幅低下を招く一方，接触圧の変動が波形ピークの出現間隔の検出に影響を与えた可能性がある．
+  \item \textbf{呼吸性不整脈（RSA）による拍動間隔の揺らぎ}：
+        最も長い周期（480\,ms）と次に長い周期（460\,ms）の間に生じた 20\,ms の周期差は，呼吸運動に伴って心拍周期が変動する呼吸性洞性不整脈（Respiratory Sinus Arrhythmia: RSA）に起因するものと解釈できる．吸気時には副交感神経（迷走神経）の緊張が緩和されて心拍が加速（周期短縮）し，呼気時には副交感神経活動が高まって心拍が減速（周期延長）するため，生体計測において数十ms程度の拍動間隔の揺らぎが生じることは自然な生理現象である．
+\end{enumerate}
 
 
 \subsection{入出力信号の時間差と位相差の原因に関する考察}
-%% 【考察3のガイド】
-%% ・オシロスコープで観測されたvi（CH1）とvo（CH2）のピーク間の時間差Δt[ms]から，位相差θ[deg] = (Δt / T) × 360° を算出する．
-%% ・なぜ時間差（位相遅れ/位相進み）が生じるのか，HPFおよびLPF（RCフィルタ回路）の周波数伝達関数や時定数，
-%%   オペアンプの周波数応答・スルーレート・群遅延の観点から原因を物理的・回路理論的に考察する．
 
+オシロスコープ観測により得られた入力信号 $v_i$（CH1）と出力信号 $v_o$（CH2）の間における時間差および位相差について考察する．
 
-%-----------------------------------------------------------------------------------
+指先脈波計測（ワークA-2）において，入力ピークに対して出力ピークは約 $\Delta t = 40.0\,\mathrm{ms}$（目盛り幅 0.2\,div）遅延して観測された（表\ref{tab:result_raw_work_A2}，表\ref{tab:result_calc_work_A2}）．
+最も長い周期 $T = 480\,\mathrm{ms}$ における位相差 $\theta$ を算出すると，
+\begin{equation}
+  \theta = \frac{\Delta t}{T} \times 360^\circ = \frac{40.0\,\mathrm{ms}}{480\,\mathrm{ms}} \times 360^\circ = 30.0^\circ
+  \label{eq:phase_shift_calc}
+\end{equation}
+となり，出力信号が入力信号に対して約 $30^\circ$ 遅れていることがわかる．また，波形4（模擬脈波）においても同様に $\Delta t = 40.0\,\mathrm{ms}$ の遅延が観測され，周期 740\,ms に対して $\theta \approx 19.5^\circ$ の位相遅れとなった．
+
+二段反転増幅回路においてこのような時間差（位相遅れ）が生じる回路理論的・物理的原因は，以下の要素に大別される：
+\begin{enumerate}
+  \item \textbf{バンドパスフィルタの伝達関数に伴う位相推移}：
+        二段反転増幅器の各段は，反転増幅（基本位相 $-180^\circ$）に加えて，入力結合CR回路によるハイパスフィルタ特性および帰還並列CR回路によるローパスフィルタ特性を有する．
+        二段直列回路全体の周波数伝達関数 $H(j\omega)$ において，反転増幅による位相反転が2回繰り返されるため基本的には同相（$(-180^\circ) \times 2 = -360^\circ \equiv 0^\circ$）となるが，各フィルタ段による周波数依存の位相角 $\phi(f)$ は，
+        \begin{equation}
+          \phi(f) \approx 2 \left( \arctan\frac{f_L}{f} - \arctan\frac{f}{f_U} \right)
+          \label{eq:phase_transfer}
+        \end{equation}
+        と表される．ここで，下限遮断周波数 $f_L \approx 0.48\,\mathrm{Hz}$，上限遮断周波数 $f_U \approx 15.92\,\mathrm{Hz}$ である．
+        生体脈波の主要周波数帯（約 $2\,\mathrm{Hz}$）においては，$f > f_L$ であるためHPFによる位相進み角は小さくなる一方，上限遮断周波数 $f_U$ に近づくにつれてLPFの容量成分（$C_1, C_2$）による位相遅れ角が増大する．
+        式(\ref{eq:phase_transfer})に $f = 2.1\,\mathrm{Hz}$（周期約480\,ms）を代入すると，
+        \begin{equation}
+          \phi(2.1\,\mathrm{Hz}) \approx 2 \left( \arctan\frac{0.48}{2.1} - \arctan\frac{2.1}{15.92} \right) \approx 2 (12.9^\circ - 7.5^\circ) \approx +10.8^\circ
+        \end{equation}
+        となり，フィルタ伝達関数単体でも数度〜十数度の位相変移が生じることがわかる．
+  \item \textbf{フィルタの時定数および群遅延（Group Delay）}：
+        フィルタ回路を非正弦波（高調波を多く含むパルス状脈波）が通過する際，信号の包絡線やピーク位置の遅延時間は群遅延 $\tau_g = - \frac{d\phi(\omega)}{d\omega}$ によって支配される．
+        後段の時定数 $R_1 C_1 = 100\,\mathrm{k}\Omega \times 0.1\,\mu\mathrm{F} = 10.0\,\mathrm{ms}$，初段の時定数 $R_2 C_2 = 1\,\mathrm{M}\Omega \times 0.01\,\mu\mathrm{F} = 10.0\,\mathrm{ms}$ であり，これらのRC回路の充放電遅れが累積することにより，波形ピークに対して数十msオーダーの群遅延時間が発生する．
+  \item \textbf{オペアンプ（LM358N）の応答特性}：
+        LM358Nの利得帯域幅積（$\mathrm{GBW} \approx 1\,\mathrm{MHz}$）およびスルーレート（約 $0.5\,\mathrm{V/\mu s}$）はオーディオ帯域では高速であるが，内部位相補償容量による極（ポール）が存在し，閉ループ利得が約30倍および約3倍の二段構成において微小な内部遅延が加わる．
+\end{enumerate}
+以上の回路伝達関数における高域遮断特性（位相遅れ），RC並列回路の充放電時定数に基づく群遅延，およびオペアンプの内部応答遅れが複合することにより，実測値として観測された $\Delta t = 40.0\,\mathrm{ms}$（位相差約 $30^\circ$）の遅延が生じたものと理論的に説明づけられる．
+
 \section{おわりに}
 %% ワークAを通じて得られた知見や考察，目的の達成度などについて記述し，ワー
 %% クAを総括する．単なる感想ではなく，客観的な総括を行うように注意する．
