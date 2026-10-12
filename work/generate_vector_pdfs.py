@@ -3,7 +3,8 @@
 
 Renders raw oscilloscope background photos with vector dimension lines,
 cursor dashes, and annotation badges overlaid natively in PDF.
-Extracts tile layout and metadata dynamically from contact_sheet.html (SSOT).
+Extracts all tile layouts, metadata, and summary texts dynamically
+from contact_sheet.html as the single source of truth (SSOT).
 """
 
 from __future__ import annotations
@@ -55,24 +56,57 @@ class TileConfig:
     title: str
 
 
+@dataclass(frozen=True)
+class ContactSheetData:
+    tiles: list[TileConfig]
+    summary_title: str
+    summary_text: str
+
+
 class ContactSheetHtmlParser:
-    """Extracts tile definitions directly from contact_sheet.html as the single source of truth."""
+    """Extracts tile definitions and summary text directly from contact_sheet.html as SSOT."""
 
     @staticmethod
-    def load_tiles(html_path: Path) -> list[TileConfig]:
+    def load(html_path: Path) -> ContactSheetData:
         if not html_path.exists():
             raise FileNotFoundError(f"Contact sheet HTML not found: {html_path}")
 
         content = html_path.read_text(encoding="utf-8")
-        pattern = re.compile(
-            r'<div class="card-header">(.*?)</div>\s*<div class="card-body">\s*<object data="\.\./svg/(.*?)\.svg"',
+
+        # 1. Waveform cards (01 to 14)
+        wave_pattern = re.compile(
+            r'<div class="card">\s*<div class="card-header">(.*?)</div>\s*<div class="card-body">\s*<object data="\.\./svg/(.*?)\.svg"',
             re.DOTALL,
         )
-        matches = pattern.findall(content)
+        matches = wave_pattern.findall(content)
         if not matches:
             raise ValueError(f"No valid waveform cards found in {html_path}")
 
-        return [TileConfig(name=name.strip(), title=title.strip()) for title, name in matches]
+        tiles = [TileConfig(name=name.strip(), title=title.strip()) for title, name in matches]
+
+        # 2. Summary card (15)
+        summary_pattern = re.compile(
+            r'<div class="card card-summary">\s*<div class="card-header">(.*?)</div>\s*<div class="card-body card-summary-body"[^>]*>(.*?)</div>',
+            re.DOTALL,
+        )
+        summary_match = summary_pattern.search(content)
+        if summary_match:
+            summary_title = summary_match.group(1).strip()
+            summary_body = summary_match.group(2).strip()
+            # Unescape basic HTML entities
+            summary_body = (
+                summary_body.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+            )
+            summary_text = f"{summary_title}\n\n{summary_body}"
+        else:
+            summary_title = "15 | 測定諸元一覧 ＆ アノテーション凡例"
+            summary_text = summary_title
+
+        return ContactSheetData(
+            tiles=tiles,
+            summary_title=summary_title,
+            summary_text=summary_text,
+        )
 
 
 class SvgAnnotationParser:
@@ -156,7 +190,7 @@ class VectorPdfRenderer:
         self.contact_dir = base_dir / "contact_sheets"
         self.parser = SvgAnnotationParser()
         self.font_prop = self._load_japanese_font()
-        self.tiles = ContactSheetHtmlParser.load_tiles(self.contact_dir / "contact_sheet.html")
+        self.sheet_data = ContactSheetHtmlParser.load(self.contact_dir / "contact_sheet.html")
 
     def _load_japanese_font(self) -> fm.FontProperties:
         candidate_paths = [
@@ -266,7 +300,7 @@ class VectorPdfRenderer:
 
     def generate_individual_pdfs(self) -> list[Path]:
         output_paths: list[Path] = []
-        for tile in self.tiles:
+        for tile in self.sheet_data.tiles:
             scene = self.parser.parse(self.svg_dir / f"{tile.name}.svg")
             _, _, vw, vh = scene.view_box
 
@@ -290,36 +324,20 @@ class VectorPdfRenderer:
         fig, axes = plt.subplots(rows, cols, figsize=(fig_w, fig_h), dpi=150)
         fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01, wspace=0.015, hspace=0.02)
 
-        for idx, tile in enumerate(self.tiles):
+        for idx, tile in enumerate(self.sheet_data.tiles):
             r, c = divmod(idx, cols)
             self.render_waveform_axis(
                 axes[r, c], tile.name, show_header=True, header_title=tile.title
             )
 
+        # 15th tile: Render summary card parsed dynamically from HTML
         ax_summary = axes[4, 2]
         ax_summary.set_facecolor("#0D1117")
         ax_summary.axis("off")
-        summary_text = (
-            "15 | 測定諸元一覧 ＆ アノテーション凡例\n\n"
-            "【アノテーション表示規則】\n"
-            "・数値表記: 目盛り読み取り値そのもの（div単位・単位省略）\n"
-            "・青線 (Cyan): 時間間隔・周期・遅延時間（水平寸法線）\n"
-            "・橙線 (Orange): 電圧振幅（垂直寸法線）\n"
-            "・白破線 (Dashed): 波形ピーク・谷底・過渡エッジを貫くカーソル線\n\n"
-            "【ワークA-1 目盛り読み取り諸元（表1.2）】\n"
-            "・波形1 (1Hz正弦波): 周期 2.0, 振幅 7.0 (200ms/div, 100mV/div)\n"
-            "・波形2 (1Hz+100Hz): 周期 2.5, 振幅 2.0 (200ms/div, 500mV/div)\n"
-            "・波形3 (1Hz+7Hz): 周期 2.5, 振幅 4.0 (200ms/div, 200mV/div)\n"
-            "・波形4 (模擬脈波): 周期 3.7, 時間差 0.2, 振幅 3.2 (200ms/div, 500mV/div)\n\n"
-            "【ワークA-2 指先脈波読み取り諸元（表1.4）】\n"
-            "・最長周期 T1: 2.4, 振幅 2.1, 時間差 0.2 (200ms/div, 500mV/div)\n"
-            "・次長周期 T2: 2.3, 振幅 2.1, 時間差 0.2 (200ms/div, 500mV/div)\n\n"
-            "※下段スケール(CH1, CH2, TIME/DIV)および右下日時スタンプ完全保持"
-        )
         ax_summary.text(
             0.05,
             0.95,
-            summary_text,
+            self.sheet_data.summary_text,
             color="#C9D1D9",
             fontsize=11,
             fontproperties=self.font_prop,
@@ -340,7 +358,7 @@ def main() -> None:
     fig_dir = project_root / "report" / "fig_work_A"
     renderer = VectorPdfRenderer(fig_dir)
 
-    print(f"Loaded {len(renderer.tiles)} tiles dynamically from contact_sheet.html.")
+    print(f"Loaded {len(renderer.sheet_data.tiles)} tiles dynamically from contact_sheet.html.")
     print("Generating individual waveform vector PDFs...")
     indiv_pdfs = renderer.generate_individual_pdfs()
     print(f"Generated {len(indiv_pdfs)} individual PDFs.")
