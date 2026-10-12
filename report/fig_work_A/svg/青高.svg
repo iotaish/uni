@@ -9,12 +9,6 @@
   </defs>
   <image href="../raw/青高.JPG" width="4000" height="3000"/>
   <g id="annotations">
-    <line x1="1480.0" y1="360.0" x2="1480.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2450.0" y1="360.0" x2="2450.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="1480.0" y1="750.0" x2="2450.0" y2="750.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
-    <g transform="translate(1897.0, 680.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
-    </g>
+    <!-- 100ms/div 中間拡大観測（高周波諸元 3.6div/0.85div は 40.0ms/div の青高々.svg に集約） -->
   </g>
 </svg>
