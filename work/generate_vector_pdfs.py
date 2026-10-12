@@ -7,8 +7,6 @@ Extracts all tile layouts, metadata, and summary texts dynamically
 from contact_sheet.html as the single source of truth (SSOT).
 """
 
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
