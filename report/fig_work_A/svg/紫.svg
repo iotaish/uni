@@ -12,23 +12,23 @@
   </defs>
   <image href="../raw/紫.JPG" width="4000" height="3000"/>
   <g id="annotations">
-    <line x1="1334.2" y1="456.3" x2="1334.2" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2504.5" y1="456.3" x2="2504.5" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1334.2" y1="728.1" x2="2504.5" y2="728.1" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <line x1="1334.2" y1="456.3" x2="1334.2" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75"/>
+    <line x1="2504.5" y1="456.3" x2="2504.5" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75"/>
+    <line x1="1334.2" y1="728.1" x2="2504.5" y2="728.1" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
     <g transform="translate(1851.3, 658.1)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.7</text>
     </g>
-    <line x1="1334.2" y1="456.3" x2="1334.2" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1397.4" y1="456.3" x2="1397.4" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1334.2" y1="1226.4" x2="1397.4" y2="1226.4" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <line x1="1334.2" y1="456.3" x2="1334.2" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75"/>
+    <line x1="1397.4" y1="456.3" x2="1397.4" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75"/>
+    <line x1="1334.2" y1="1226.4" x2="1397.4" y2="1226.4" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
     <g transform="translate(1297.8, 1156.4)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
     </g>
-    <line x1="480.1" y1="1679.4" x2="3326.9" y2="1679.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="480.1" y1="954.6" x2="3326.9" y2="954.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2789.1" y1="1679.4" x2="2789.1" y2="954.6" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <line x1="480.1" y1="1679.4" x2="3326.9" y2="1679.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75"/>
+    <line x1="480.1" y1="954.6" x2="3326.9" y2="954.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75"/>
+    <line x1="2789.1" y1="1679.4" x2="2789.1" y2="954.6" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)"/>
     <g transform="translate(2844.1, 1287.0)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.2</text>
