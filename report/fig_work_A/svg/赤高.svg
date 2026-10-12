@@ -10,7 +10,7 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  <image href="raw/赤高.JPG" width="4000" height="3000"/>
+  <image href="../raw/赤高.JPG" width="4000" height="3000"/>
   <g id="annotations">
     <line x1="1497.0" y1="484.0" x2="1497.0" y2="2188.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
     <line x1="2279.0" y1="484.0" x2="2279.0" y2="2188.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>

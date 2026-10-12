@@ -2,494 +2,171 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ワークA 全波形 アノテーション・コンタクトシート (単位省略: div値のみ)</title>
+  <title>ワークA 全波形 アノテーション・コンタクトシート (SVG外部参照版)</title>
   <style>
-    body { margin: 0; padding: 24px; background: #0d1117; color: #c9d1d9; font-family: -apple-system, sans-serif; }
-    h1 { font-size: 22px; color: #58a6ff; margin-bottom: 6px; }
-    p.desc { font-size: 13px; color: #8b949e; margin-bottom: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 18px; }
-    .card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
-    .card-header { padding: 9px 12px; background: #21262d; font-weight: bold; font-size: 13px; color: #f0f6fc; border-left: 4px solid #58a6ff; }
-    .card-body { background: #000; }
-    .card-body svg { width: 100%; height: auto; display: block; }
-    .card-footer { padding: 6px 12px; font-size: 11px; color: #8b949e; background: #161b22; }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    h1 {
+      font-size: 22px;
+      color: #58a6ff;
+      margin-bottom: 6px;
+    }
+    p.desc {
+      font-size: 13px;
+      color: #8b949e;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      padding: 10px 14px;
+      background: #21262d;
+      font-weight: bold;
+      font-size: 13px;
+      color: #f0f6fc;
+      border-left: 4px solid #58a6ff;
+    }
+    .card-body {
+      background: #000;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3820 / 2560;
+    }
+    .card-body object, .card-body img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+    }
+    .card-footer {
+      padding: 8px 14px;
+      font-size: 11px;
+      color: #8b949e;
+      background: #161b22;
+    }
   </style>
 </head>
 <body>
-  <h1>ワークA：全14波形 アノテーション・コンタクトシート (目盛り読み取り値: div単位省略)</h1>
+  <h1>ワークA：全14波形 SVGベクターアノテーション・コンタクトシート</h1>
   <p class="desc">
-    オシロスコープのグリッド中心・目盛り幅を実測キャリブレーションし、波形ピークを貫くカーソル破線と寸法矢印を配置しています。<br>
-    数値表記は目盛り読み取り値そのもの（div単位・単位省略）で統一されています。
+    各波形は <code>report/fig_work_A/svg/</code> 配下のSVGファイルを外部パスで読み込んでいます。<br>
+    ブラウザ上で拡大してもベクター寸法線・数値は一切ボケず、原画写真と1対1で整合しています。
   </p>
   <div class="grid">
     <div class="card">
       <div class="card-header">01 | 緑.JPG [波形1: 低周波観測 / 200ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/緑.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="2204.1" y1="395.8" x2="2204.1" y2="2133.2" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2846.2" y1="395.8" x2="2846.2" y2="2133.2" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2204.1" y1="761.6" x2="2846.2" y2="761.6" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(2457.2, 691.6)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
-    </g>
-    <line x1="598.5" y1="2064.6" x2="3488.4" y2="2064.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="598.5" y1="464.4" x2="3488.4" y2="464.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="3071.0" y1="2064.6" x2="3071.0" y2="464.4" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(3126.0, 1234.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">7.0</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/緑.svg (原画: raw/緑.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/緑.svg" type="image/svg+xml" title="01 | 緑.JPG [波形1: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/緑.svg (原画: raw/緑.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">02 | 赤.JPG (無印) [波形2: 低周波観測 / 200ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/赤.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1931.0" y1="479.1" x2="1931.0" y2="2151.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2696.5" y1="479.1" x2="2696.5" y2="2151.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1931.0" y1="831.3" x2="2696.5" y2="831.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(2245.8, 761.3)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
-    </g>
-    <line x1="553.1" y1="1535.6" x2="3308.9" y2="1535.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="553.1" y1="1095.4" x2="3308.9" y2="1095.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2910.8" y1="1535.6" x2="2910.8" y2="1095.4" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(2965.8, 1285.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/赤.svg (原画: raw/赤.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/赤.svg" type="image/svg+xml" title="02 | 赤.JPG (無印) [波形2: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/赤.svg (原画: raw/赤.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">03 | 赤高.JPG (高) [波形2: 高周波観測 / 40.0ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/赤高.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1497.0" y1="484.0" x2="1497.0" y2="2188.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2279.0" y1="484.0" x2="2279.0" y2="2188.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1497.0" y1="887.6" x2="2279.0" y2="887.6" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1820.0, 817.6)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
-    </g>
-    <line x1="480.4" y1="1470.5" x2="3295.6" y2="1470.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="480.4" y1="1201.5" x2="3295.6" y2="1201.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2576.2" y1="1470.5" x2="2576.2" y2="1201.5" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(2631.2, 1306.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.2</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/赤高.svg (原画: raw/赤高.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/赤高.svg" type="image/svg+xml" title="03 | 赤高.JPG (高) [波形2: 高周波観測 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/赤高.svg (原画: raw/赤高.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">04 | 赤高々.JPG (高々) [波形2: 高周波拡大 / 4.00ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/赤高々.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1517.4" y1="481.4" x2="1517.4" y2="2241.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2305.6" y1="481.4" x2="2305.6" y2="2241.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1517.4" y1="898.3" x2="2305.6" y2="898.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1843.5, 828.3)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/赤高々.svg (原画: raw/赤高々.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/赤高々.svg" type="image/svg+xml" title="04 | 赤高々.JPG (高々) [波形2: 高周波拡大 / 4.00ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/赤高々.svg (原画: raw/赤高々.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">05 | 赤位相差.JPG (位相差) [波形2: 過渡期観測 / 40.0ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/赤位相差.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1599.0" y1="510.3" x2="1599.0" y2="2190.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1645.0" y1="510.3" x2="1645.0" y2="2190.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1599.0" y1="1129.4" x2="1645.0" y2="1129.4" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1536.0, 1059.4)">
-      <rect width="172" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="86.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.15</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/赤位相差.svg (原画: raw/赤位相差.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/赤位相差.svg" type="image/svg+xml" title="05 | 赤位相差.JPG (位相差) [波形2: 過渡期観測 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/赤位相差.svg (原画: raw/赤位相差.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">06 | 青.JPG (無印) [波形3: 低周波観測 / 200ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/青.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1654.2" y1="494.5" x2="1654.2" y2="2220.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2432.4" y1="494.5" x2="2432.4" y2="2220.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1654.2" y1="767.0" x2="2432.4" y2="767.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1975.3, 697.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
-    </g>
-    <line x1="564.6" y1="1811.7" x2="3366.4" y2="1811.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="564.6" y1="903.3" x2="3366.4" y2="903.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2837.1" y1="1811.7" x2="2837.1" y2="903.3" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(2892.1, 1327.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">4.0</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/青.svg (原画: raw/青.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/青.svg" type="image/svg+xml" title="06 | 青.JPG (無印) [波形3: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青.svg (原画: raw/青.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">07 | 青高.JPG (高) [波形3: 高周波観測 / 100ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/青高.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1385.1" y1="417.2" x2="1385.1" y2="2210.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2569.9" y1="417.2" x2="2569.9" y2="2210.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1385.1" y1="747.6" x2="2569.9" y2="747.6" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1909.5, 677.6)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
-    </g>
-    <line x1="496.5" y1="1514.6" x2="3458.4" y2="1514.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="496.5" y1="1113.4" x2="3458.4" y2="1113.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2899.0" y1="1514.6" x2="2899.0" y2="1113.4" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(2954.0, 1284.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.7</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/青高.svg (原画: raw/青高.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/青高.svg" type="image/svg+xml" title="07 | 青高.JPG (高) [波形3: 高周波観測 / 100ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青高.svg (原画: raw/青高.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">08 | 青高々.JPG (高々) [波形3: 高周波拡大 / 40.0ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/青高々.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1422.3" y1="451.9" x2="1422.3" y2="2275.1" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2583.7" y1="451.9" x2="2583.7" y2="2275.1" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1422.3" y1="835.7" x2="2583.7" y2="835.7" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1935.0, 765.7)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
-    </g>
-    <line x1="551.3" y1="1465.5" x2="3454.7" y2="1465.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="551.3" y1="1261.5" x2="3454.7" y2="1261.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2906.3" y1="1465.5" x2="2906.3" y2="1261.5" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(2961.3, 1333.5)">
-      <rect width="172" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="86.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.85</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/青高々.svg (原画: raw/青高々.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/青高々.svg" type="image/svg+xml" title="08 | 青高々.JPG (高々) [波形3: 高周波拡大 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青高々.svg (原画: raw/青高々.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">09 | 青高々2.JPG (高々) [波形3: 高周波拡大・別テイク / 40.0ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/青高々2.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1427.4" y1="399.1" x2="1427.4" y2="2229.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2578.6" y1="399.1" x2="2578.6" y2="2229.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1427.4" y1="784.5" x2="2578.6" y2="784.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1935.0, 714.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/青高々2.svg (原画: raw/青高々2.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/青高々2.svg" type="image/svg+xml" title="09 | 青高々2.JPG (高々) [波形3: 高周波拡大・別テイク / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青高々2.svg (原画: raw/青高々2.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">10 | 青位相差.JPG (位相差) [波形3: 過渡期観測 / 200ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/青位相差.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1404.8" y1="428.1" x2="1404.8" y2="2293.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1454.0" y1="428.1" x2="1454.0" y2="2293.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1404.8" y1="1066.4" x2="1454.0" y2="1066.4" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1343.4, 996.4)">
-      <rect width="172" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="86.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.15</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/青位相差.svg (原画: raw/青位相差.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/青位相差.svg" type="image/svg+xml" title="10 | 青位相差.JPG (位相差) [波形3: 過渡期観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青位相差.svg (原画: raw/青位相差.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">11 | 紫.JPG (無印) [波形4: 低周波観測 / 200ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/紫.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1334.2" y1="456.3" x2="1334.2" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2504.5" y1="456.3" x2="2504.5" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1334.2" y1="682.8" x2="2504.5" y2="682.8" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1851.3, 612.8)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.7</text>
-    </g>
-    <line x1="1334.2" y1="456.3" x2="1334.2" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1397.4" y1="456.3" x2="1397.4" y2="2177.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1334.2" y1="1452.9" x2="1397.4" y2="1452.9" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1297.8, 1382.9)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
-    </g>
-    <line x1="480.1" y1="1679.4" x2="3326.9" y2="1679.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="480.1" y1="954.6" x2="3326.9" y2="954.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2789.1" y1="1679.4" x2="2789.1" y2="954.6" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(2844.1, 1287.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.2</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/紫.svg (原画: raw/紫.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/紫.svg" type="image/svg+xml" title="11 | 紫.JPG (無印) [波形4: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/紫.svg (原画: raw/紫.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">12 | 紫高.JPG (高) [波形4: 高周波観測 / 40.0ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/紫高.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1920.0" y1="395.9" x2="1920.0" y2="2143.1" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2079.1" y1="395.9" x2="2079.1" y2="2143.1" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1920.0" y1="993.6" x2="2079.1" y2="993.6" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1931.5, 923.6)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.5</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/紫高.svg (原画: raw/紫高.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/紫高.svg" type="image/svg+xml" title="12 | 紫高.JPG (高) [波形4: 高周波観測 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/紫高.svg (原画: raw/紫高.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">13 | 紫高々.JPG (高々) [波形4: 高周波拡大 / 20.0ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/紫高々.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1824.2" y1="432.4" x2="1824.2" y2="2192.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2147.8" y1="432.4" x2="2147.8" y2="2192.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1824.2" y1="1080.9" x2="2147.8" y2="1080.9" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1918.0, 1010.9)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.0</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/紫高々.svg (原画: raw/紫高々.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/紫高々.svg" type="image/svg+xml" title="13 | 紫高々.JPG (高々) [波形4: 高周波拡大 / 20.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/紫高々.svg (原画: raw/紫高々.JPG)</div>
     </div>
     <div class="card">
       <div class="card-header">14 | 脈拍.JPG [ワークA-2: 指先脈波 / 200ms/div]</div>
-      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
-  <defs>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
-    </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#FF9100"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
-    </filter>
-  </defs>
-  <image href="raw/脈拍.JPG" width="4000" height="3000"/>
-  <g id="annotations">
-    <line x1="1182.2" y1="532.2" x2="1182.2" y2="2205.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1935.6" y1="532.2" x2="1935.6" y2="2205.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1182.2" y1="796.5" x2="1935.6" y2="796.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1490.9, 726.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.4</text>
-    </g>
-    <line x1="1935.6" y1="532.2" x2="1935.6" y2="2205.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2657.6" y1="532.2" x2="2657.6" y2="2205.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1935.6" y1="796.5" x2="2657.6" y2="796.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(2228.6, 726.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.3</text>
-    </g>
-    <line x1="1872.8" y1="532.2" x2="1872.8" y2="2205.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1935.6" y1="532.2" x2="1935.6" y2="2205.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="1872.8" y1="1545.2" x2="1935.6" y2="1545.2" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-    <g transform="translate(1836.2, 1475.2)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
-    </g>
-    <line x1="476.0" y1="1600.2" x2="3301.1" y2="1600.2" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="476.0" y1="1137.8" x2="3301.1" y2="1137.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.75" filter="url(#shadow)"/>
-    <line x1="2893.0" y1="1600.2" x2="2893.0" y2="1137.8" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-    <g transform="translate(2948.0, 1339.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.1</text>
-    </g>
-  </g>
-</svg>
-</div>
-      <div class="card-footer">ファイル: fig_work_A/脈拍.svg (原画: raw/脈拍.JPG)</div>
+      <div class="card-body">
+        <object data="../svg/脈拍.svg" type="image/svg+xml" title="14 | 脈拍.JPG [ワークA-2: 指先脈波 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/脈拍.svg (原画: raw/脈拍.JPG)</div>
     </div>
   </div>
 </body>
