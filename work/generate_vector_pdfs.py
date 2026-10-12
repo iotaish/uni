@@ -3,10 +3,12 @@
 
 Renders raw oscilloscope background photos with vector dimension lines,
 cursor dashes, and annotation badges overlaid natively in PDF.
+Extracts tile layout and metadata dynamically from contact_sheet.html (SSOT).
 """
 
 from __future__ import annotations
 
+import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
@@ -53,22 +55,24 @@ class TileConfig:
     title: str
 
 
-TILES: list[TileConfig] = [
-    TileConfig("緑", "01 | 緑.JPG [波形1: 低周波観測 / 200ms/div]"),
-    TileConfig("赤", "02 | 赤.JPG (無印) [波形2: 低周波観測 / 200ms/div]"),
-    TileConfig("赤高", "03 | 赤高.JPG (高) [波形2: 高周波観測 / 40.0ms/div]"),
-    TileConfig("赤高々", "04 | 赤高々.JPG (高々) [波形2: 高周波拡大 / 4.00ms/div]"),
-    TileConfig("赤位相差", "05 | 赤位相差.JPG (位相差) [波形2: 過渡期観測 / 40.0ms/div]"),
-    TileConfig("青", "06 | 青.JPG (無印) [波形3: 低周波観測 / 200ms/div]"),
-    TileConfig("青高", "07 | 青高.JPG (高) [波形3: 高周波観測 / 100ms/div]"),
-    TileConfig("青高々", "08 | 青高々.JPG (高々) [波形3: 高周波拡大 / 40.0ms/div]"),
-    TileConfig("青高々2", "09 | 青高々2.JPG (高々) [波形3: 高周波拡大・別テイク / 40.0ms/div]"),
-    TileConfig("青位相差", "10 | 青位相差.JPG (位相差) [波形3: 過渡期観測 / 200ms/div]"),
-    TileConfig("紫", "11 | 紫.JPG (無印) [波形4: 低周波観測 / 200ms/div]"),
-    TileConfig("紫高", "12 | 紫高.JPG (高) [波形4: 高周波観測 / 40.0ms/div]"),
-    TileConfig("紫高々", "13 | 紫高々.JPG (高々) [波形4: 高周波拡大 / 20.0ms/div]"),
-    TileConfig("脈拍", "14 | 脈拍.JPG [ワークA-2: 指先脈波 / 200ms/div]"),
-]
+class ContactSheetHtmlParser:
+    """Extracts tile definitions directly from contact_sheet.html as the single source of truth."""
+
+    @staticmethod
+    def load_tiles(html_path: Path) -> list[TileConfig]:
+        if not html_path.exists():
+            raise FileNotFoundError(f"Contact sheet HTML not found: {html_path}")
+
+        content = html_path.read_text(encoding="utf-8")
+        pattern = re.compile(
+            r'<div class="card-header">(.*?)</div>\s*<div class="card-body">\s*<object data="\.\./svg/(.*?)\.svg"',
+            re.DOTALL,
+        )
+        matches = pattern.findall(content)
+        if not matches:
+            raise ValueError(f"No valid waveform cards found in {html_path}")
+
+        return [TileConfig(name=name.strip(), title=title.strip()) for title, name in matches]
 
 
 class SvgAnnotationParser:
@@ -152,6 +156,7 @@ class VectorPdfRenderer:
         self.contact_dir = base_dir / "contact_sheets"
         self.parser = SvgAnnotationParser()
         self.font_prop = self._load_japanese_font()
+        self.tiles = ContactSheetHtmlParser.load_tiles(self.contact_dir / "contact_sheet.html")
 
     def _load_japanese_font(self) -> fm.FontProperties:
         candidate_paths = [
@@ -261,7 +266,7 @@ class VectorPdfRenderer:
 
     def generate_individual_pdfs(self) -> list[Path]:
         output_paths: list[Path] = []
-        for tile in TILES:
+        for tile in self.tiles:
             scene = self.parser.parse(self.svg_dir / f"{tile.name}.svg")
             _, _, vw, vh = scene.view_box
 
@@ -285,7 +290,7 @@ class VectorPdfRenderer:
         fig, axes = plt.subplots(rows, cols, figsize=(fig_w, fig_h), dpi=150)
         fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01, wspace=0.015, hspace=0.02)
 
-        for idx, tile in enumerate(TILES):
+        for idx, tile in enumerate(self.tiles):
             r, c = divmod(idx, cols)
             self.render_waveform_axis(
                 axes[r, c], tile.name, show_header=True, header_title=tile.title
@@ -335,6 +340,7 @@ def main() -> None:
     fig_dir = project_root / "report" / "fig_work_A"
     renderer = VectorPdfRenderer(fig_dir)
 
+    print(f"Loaded {len(renderer.tiles)} tiles dynamically from contact_sheet.html.")
     print("Generating individual waveform vector PDFs...")
     indiv_pdfs = renderer.generate_individual_pdfs()
     print(f"Generated {len(indiv_pdfs)} individual PDFs.")
