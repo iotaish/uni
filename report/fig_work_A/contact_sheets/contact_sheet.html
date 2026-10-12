@@ -2,75 +2,29 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ワークA 全波形 SVGオーバーレイ・コンタクトシート</title>
+  <title>ワークA 全波形 アノテーション・コンタクトシート (単位省略: div値のみ)</title>
   <style>
-    body {
-      margin: 0;
-      padding: 24px;
-      background: #0d1117;
-      color: #c9d1d9;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 8px;
-      color: #58a6ff;
-    }
-    p.desc {
-      font-size: 14px;
-      color: #8b949e;
-      margin-bottom: 24px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .card-header {
-      padding: 10px 14px;
-      background: #21262d;
-      border-bottom: 1px solid #30363d;
-      font-weight: bold;
-      font-size: 14px;
-      color: #f0f6fc;
-      border-left: 4px solid #58a6ff;
-    }
-    .card-body {
-      padding: 0;
-      position: relative;
-      background: #000;
-    }
-    .card-body svg {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .card-footer {
-      padding: 8px 14px;
-      font-size: 12px;
-      color: #8b949e;
-      background: #161b22;
-    }
+    body { margin: 0; padding: 24px; background: #0d1117; color: #c9d1d9; font-family: -apple-system, sans-serif; }
+    h1 { font-size: 22px; color: #58a6ff; margin-bottom: 6px; }
+    p.desc { font-size: 13px; color: #8b949e; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 18px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
+    .card-header { padding: 9px 12px; background: #21262d; font-weight: bold; font-size: 13px; color: #f0f6fc; border-left: 4px solid #58a6ff; }
+    .card-body { background: #000; }
+    .card-body svg { width: 100%; height: auto; display: block; }
+    .card-footer { padding: 6px 12px; font-size: 11px; color: #8b949e; background: #161b22; }
   </style>
 </head>
 <body>
-  <h1>ワークA：全14波形 SVGベクターアノテーション重ね合わせコンタクトシート</h1>
+  <h1>ワークA：全14波形 アノテーション・コンタクトシート (目盛り読み取り値: div単位省略)</h1>
   <p class="desc">
-    原画JPEG（高解像度・無劣化）の上に、SVGベクター寸法線（線と間隔値のみ）を直接オーバーレイ表示しています。<br>
-    ブラウザ上で拡大してもベクター矢印・文字は一切ボケず、下段のオシロスコープ設定パラメータおよび右下タイムスタンプも100%保持されています。
+    オシロスコープのグリッド中心・目盛り幅を実測キャリブレーションし、波形の特徴点に正確に一致させたアノテーションです。<br>
+    数値表記は目盛り読み取り値そのもの（div単位・単位省略）で統一されています。
   </p>
-  <div class="grid"><div class="card">
-  <div class="card-header">01 | 緑.JPG [波形1: 低周波観測 / 200ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+  <div class="grid">
+    <div class="card">
+      <div class="card-header">01 | 緑.JPG [波形1: 低周波観測 / 200ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -82,33 +36,30 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/緑.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1976.3" y1="672.0" x2="1976.3" y2="487.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2628.3" y1="672.0" x2="2628.3" y2="487.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1976.3" y1="507.5" x2="2628.3" y2="507.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(2207.3, 441.5)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">400ms</text>
-</g>
-<line x1="1960.0" y1="2152.5" x2="2657.2" y2="2152.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="507.5" x2="2657.2" y2="507.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2677.2" y1="2152.5" x2="2677.2" y2="507.5" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2701.2, 1300.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">700mV</text>
-</g>  </g>
+    <line x1="2204.1" y1="624.4" x2="2204.1" y2="467.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2846.2" y1="624.4" x2="2846.2" y2="467.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2204.1" y1="487.3" x2="2846.2" y2="487.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(2457.2, 417.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
+    </g>
+    <line x1="2043.5" y1="2064.6" x2="2890.5" y2="2064.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2043.5" y1="464.4" x2="2890.5" y2="464.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2910.5" y1="2064.6" x2="2910.5" y2="464.4" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2965.5, 1234.5)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">7.0</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/緑.svg (原画: raw/緑.JPG)</div>
-</div><div class="card">
-  <div class="card-header">02 | 赤.JPG (無印) [波形2: 低周波観測 / 200ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/緑.svg (原画: raw/緑.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">02 | 赤.JPG (無印) [波形2: 低周波観測 / 200ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -120,33 +71,30 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/赤.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1976.3" y1="1118.5" x2="1976.3" y2="793.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2791.3" y1="1118.5" x2="2791.3" y2="793.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1976.3" y1="813.0" x2="2791.3" y2="813.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(2288.8, 747.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">500ms</text>
-</g>
-<line x1="1960.0" y1="1565.0" x2="2054.1" y2="1565.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="1095.0" x2="2054.1" y2="1095.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2074.1" y1="1565.0" x2="2074.1" y2="1095.0" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2098.1, 1300.0)">
-  <rect width="222.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="111.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">1000mV</text>
-</g>  </g>
+    <line x1="1931.0" y1="1095.4" x2="1931.0" y2="789.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2696.5" y1="1095.4" x2="2696.5" y2="789.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1931.0" y1="809.3" x2="2696.5" y2="809.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(2245.8, 739.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
+    </g>
+    <line x1="1931.0" y1="1535.6" x2="2018.2" y2="1535.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1931.0" y1="1095.4" x2="2018.2" y2="1095.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2038.2" y1="1535.6" x2="2038.2" y2="1095.4" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2093.2, 1285.5)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/赤.svg (原画: raw/赤.JPG)</div>
-</div><div class="card">
-  <div class="card-header">03 | 赤高.JPG (高) [波形2: 高周波観測 / 40.0ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/赤.svg (原画: raw/赤.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">03 | 赤高.JPG (高) [波形2: 高周波観測 / 40.0ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -158,33 +106,30 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/赤高.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1552.5" y1="1142.0" x2="1552.5" y2="793.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2367.5" y1="1142.0" x2="2367.5" y2="793.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1552.5" y1="813.0" x2="2367.5" y2="813.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1865.0, 747.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">100ms</text>
-</g>
-<line x1="1960.0" y1="1471.0" x2="2429.0" y2="1471.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="1189.0" x2="2429.0" y2="1189.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2449.0" y1="1471.0" x2="2449.0" y2="1189.0" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2473.0, 1300.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">240mV</text>
-</g>  </g>
+    <line x1="1497.0" y1="1156.6" x2="1497.0" y2="822.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2279.0" y1="1156.6" x2="2279.0" y2="822.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1497.0" y1="842.8" x2="2279.0" y2="842.8" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1820.0, 772.8)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
+    </g>
+    <line x1="1888.0" y1="1470.5" x2="2337.2" y2="1470.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1888.0" y1="1201.5" x2="2337.2" y2="1201.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2357.2" y1="1470.5" x2="2357.2" y2="1201.5" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2412.2, 1306.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.2</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/赤高.svg (原画: raw/赤高.JPG)</div>
-</div><div class="card">
-  <div class="card-header">04 | 赤高々.JPG (高々) [波形2: 高周波拡大 / 4.00ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/赤高.svg (原画: raw/赤高.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">04 | 赤高々.JPG (高々) [波形2: 高周波拡大 / 4.00ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -196,26 +141,23 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/赤高々.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1552.5" y1="1165.5" x2="1552.5" y2="793.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2367.5" y1="1165.5" x2="2367.5" y2="793.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1552.5" y1="813.0" x2="2367.5" y2="813.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1849.0, 747.0)">
-  <rect width="222.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="111.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">10.0ms</text>
-</g>  </g>
+    <line x1="1517.4" y1="1176.2" x2="1517.4" y2="832.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2305.6" y1="1176.2" x2="2305.6" y2="832.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1517.4" y1="852.0" x2="2305.6" y2="852.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1843.5, 782.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/赤高々.svg (原画: raw/赤高々.JPG)</div>
-</div><div class="card">
-  <div class="card-header">05 | 赤位相差.JPG (位相差) [波形2: 過渡期観測 / 40.0ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/赤高々.svg (原画: raw/赤高々.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">05 | 赤位相差.JPG (位相差) [波形2: 過渡期観測 / 40.0ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -227,26 +169,23 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/赤位相差.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1568.8" y1="1377.0" x2="1568.8" y2="1028.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1617.7" y1="1377.0" x2="1617.7" y2="1028.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1568.8" y1="1048.0" x2="1617.7" y2="1048.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1530.25, 982.0)">
-  <rect width="126.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="63.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">6ms</text>
-</g>  </g>
+    <line x1="1599.0" y1="1394.7" x2="1599.0" y2="1065.2" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1645.0" y1="1394.7" x2="1645.0" y2="1065.2" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1599.0" y1="1085.2" x2="1645.0" y2="1085.2" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1536.0, 1015.2)">
+      <rect width="172" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="86.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.15</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/赤位相差.svg (原画: raw/赤位相差.JPG)</div>
-</div><div class="card">
-  <div class="card-header">06 | 青.JPG (無印) [波形3: 低周波観測 / 200ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/赤位相差.svg (原画: raw/赤位相差.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">06 | 青.JPG (無印) [波形3: 低周波観測 / 200ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -258,33 +197,30 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/青.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1634.0" y1="930.5" x2="1634.0" y2="699.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2449.0" y1="930.5" x2="2449.0" y2="699.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1634.0" y1="719.0" x2="2449.0" y2="719.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1946.5, 653.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">500ms</text>
-</g>
-<line x1="1960.0" y1="1800.0" x2="2494.2" y2="1800.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="860.0" x2="2494.2" y2="860.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2514.2" y1="1800.0" x2="2514.2" y2="860.0" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2538.2, 1300.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">800mV</text>
-</g>  </g>
+    <line x1="1654.2" y1="971.4" x2="1654.2" y2="747.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2432.4" y1="971.4" x2="2432.4" y2="747.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1654.2" y1="767.0" x2="2432.4" y2="767.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1975.3, 697.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.5</text>
+    </g>
+    <line x1="1965.5" y1="1811.7" x2="2474.7" y2="1811.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1965.5" y1="903.3" x2="2474.7" y2="903.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2494.7" y1="1811.7" x2="2494.7" y2="903.3" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2549.7, 1327.5)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">4.0</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/青.svg (原画: raw/青.JPG)</div>
-</div><div class="card">
-  <div class="card-header">07 | 青高.JPG (高) [波形3: 高周波観測 / 100ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/青.svg (原画: raw/青.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">07 | 青高.JPG (高) [波形3: 高周波観測 / 100ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -296,33 +232,30 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/青高.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1373.1999999999998" y1="1048.0" x2="1373.1999999999998" y2="699.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2546.8" y1="1048.0" x2="2546.8" y2="699.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1373.1999999999998" y1="719.0" x2="2546.8" y2="719.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1865.0, 653.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">360ms</text>
-</g>
-<line x1="1960.0" y1="1529.75" x2="2624.6" y2="1529.75" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="1130.25" x2="2624.6" y2="1130.25" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2644.6" y1="1529.75" x2="2644.6" y2="1130.25" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2668.6, 1300.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">340mV</text>
-</g>  </g>
+    <line x1="1385.1" y1="1030.8" x2="1385.1" y2="680.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2569.9" y1="1030.8" x2="2569.9" y2="680.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1385.1" y1="700.4" x2="2569.9" y2="700.4" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1909.5, 630.4)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
+    </g>
+    <line x1="1977.5" y1="1514.6" x2="2648.6" y2="1514.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1977.5" y1="1113.4" x2="2648.6" y2="1113.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2668.6" y1="1514.6" x2="2668.6" y2="1113.4" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2723.6, 1284.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.7</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/青高.svg (原画: raw/青高.JPG)</div>
-</div><div class="card">
-  <div class="card-header">08 | 青高々.JPG (高々) [波形3: 高周波拡大 / 40.0ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/青高.svg (原画: raw/青高.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">08 | 青高々.JPG (高々) [波形3: 高周波拡大 / 40.0ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -334,33 +267,30 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/青高々.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1373.1999999999998" y1="1118.5" x2="1373.1999999999998" y2="746.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2546.8" y1="1118.5" x2="2546.8" y2="746.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1373.1999999999998" y1="766.0" x2="2546.8" y2="766.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1865.0, 700.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">144ms</text>
-</g>
-<line x1="1960.0" y1="1429.875" x2="2624.6" y2="1429.875" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="1230.125" x2="2624.6" y2="1230.125" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2644.6" y1="1429.875" x2="2644.6" y2="1230.125" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2668.6, 1300.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">425mV</text>
-</g>  </g>
+    <line x1="1422.3" y1="1147.6" x2="1422.3" y2="767.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2583.7" y1="1147.6" x2="2583.7" y2="767.7" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1422.3" y1="787.7" x2="2583.7" y2="787.7" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1935.0, 717.7)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
+    </g>
+    <line x1="2003.0" y1="1465.5" x2="2660.5" y2="1465.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2003.0" y1="1261.5" x2="2660.5" y2="1261.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2680.5" y1="1465.5" x2="2680.5" y2="1261.5" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2735.5, 1333.5)">
+      <rect width="172" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="86.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.85</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/青高々.svg (原画: raw/青高々.JPG)</div>
-</div><div class="card">
-  <div class="card-header">09 | 青高々2.JPG (高々) [波形3: 高周波拡大・別テイク / 40.0ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/青高々.svg (原画: raw/青高々.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">09 | 青高々2.JPG (高々) [波形3: 高周波拡大・別テイク / 40.0ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -372,26 +302,23 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/青高々2.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1373.1999999999998" y1="1118.5" x2="1373.1999999999998" y2="746.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2546.8" y1="1118.5" x2="2546.8" y2="746.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1373.1999999999998" y1="766.0" x2="2546.8" y2="766.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1865.0, 700.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">144ms</text>
-</g>  </g>
+    <line x1="1427.4" y1="1097.7" x2="1427.4" y2="716.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2578.6" y1="1097.7" x2="2578.6" y2="716.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1427.4" y1="736.3" x2="2578.6" y2="736.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1935.0, 666.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/青高々2.svg (原画: raw/青高々2.JPG)</div>
-</div><div class="card">
-  <div class="card-header">10 | 青位相差.JPG (位相差) [波形3: 過渡期観測 / 200ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/青高々2.svg (原画: raw/青高々2.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">10 | 青位相差.JPG (位相差) [波形3: 過渡期観測 / 200ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -403,26 +330,23 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/青位相差.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1471.0" y1="1330.0" x2="1471.0" y2="957.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1519.9" y1="1330.0" x2="1519.9" y2="957.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1471.0" y1="977.5" x2="1519.9" y2="977.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1416.45, 911.5)">
-  <rect width="158.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="79.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">30ms</text>
-</g>  </g>
+    <line x1="1404.8" y1="1361.0" x2="1404.8" y2="972.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1454.0" y1="1361.0" x2="1454.0" y2="972.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1404.8" y1="992.8" x2="1454.0" y2="992.8" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1343.4, 922.8)">
+      <rect width="172" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="86.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.15</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/青位相差.svg (原画: raw/青位相差.JPG)</div>
-</div><div class="card">
-  <div class="card-header">11 | 紫.JPG (無印) [波形4: 低周波観測 / 200ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/青位相差.svg (原画: raw/青位相差.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">11 | 紫.JPG (無印) [波形4: 低周波観測 / 200ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -434,40 +358,37 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/紫.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1373.1999999999998" y1="907.0" x2="1373.1999999999998" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2579.4" y1="907.0" x2="2579.4" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1373.1999999999998" y1="554.5" x2="2579.4" y2="554.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1881.3, 488.5)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">740ms</text>
-</g>
-<line x1="1373.1999999999998" y1="1377.0" x2="1373.1999999999998" y2="1122.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1438.4" y1="1377.0" x2="1438.4" y2="1122.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1373.1999999999998" y1="1142.0" x2="1438.4" y2="1142.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1326.8, 1076.0)">
-  <rect width="158.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="79.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">40ms</text>
-</g>
-<line x1="1960.0" y1="1706.0" x2="1556.2" y2="1706.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="954.0" x2="1556.2" y2="954.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1536.2" y1="1706.0" x2="1536.2" y2="954.0" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(1560.2, 1300.0)">
-  <rect width="222.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="111.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">1600mV</text>
-</g>  </g>
+    <line x1="1334.2" y1="909.3" x2="1334.2" y2="526.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2504.5" y1="909.3" x2="2504.5" y2="526.9" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1334.2" y1="546.9" x2="2504.5" y2="546.9" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1851.3, 476.9)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.7</text>
+    </g>
+    <line x1="1334.2" y1="1362.3" x2="1334.2" y2="1115.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1397.4" y1="1362.3" x2="1397.4" y2="1115.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1334.2" y1="1135.8" x2="1397.4" y2="1135.8" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1297.8, 1065.8)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
+    </g>
+    <line x1="1903.5" y1="1679.4" x2="1512.3" y2="1679.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1903.5" y1="954.6" x2="1512.3" y2="954.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1492.3" y1="1679.4" x2="1492.3" y2="954.6" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(1547.3, 1287.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.2</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/紫.svg (原画: raw/紫.JPG)</div>
-</div><div class="card">
-  <div class="card-header">12 | 紫高.JPG (高) [波形4: 高周波観測 / 40.0ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/紫.svg (原画: raw/紫.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">12 | 紫高.JPG (高) [波形4: 高周波観測 / 40.0ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -479,26 +400,23 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/紫高.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1960.0" y1="1377.0" x2="1960.0" y2="957.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2123.0" y1="1377.0" x2="2123.0" y2="957.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="977.5" x2="2123.0" y2="977.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1962.5, 911.5)">
-  <rect width="158.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="79.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">20ms</text>
-</g>  </g>
+    <line x1="1920.0" y1="1315.5" x2="1920.0" y2="904.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2079.1" y1="1315.5" x2="2079.1" y2="904.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1920.0" y1="924.6" x2="2079.1" y2="924.6" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1931.5, 854.6)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.5</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/紫高.svg (原画: raw/紫高.JPG)</div>
-</div><div class="card">
-  <div class="card-header">13 | 紫高々.JPG (高々) [波形4: 高周波拡大 / 20.0ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/紫高.svg (原画: raw/紫高.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">13 | 紫高々.JPG (高々) [波形4: 高周波拡大 / 20.0ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -510,26 +428,23 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/紫高々.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1797.0" y1="1330.0" x2="1797.0" y2="1028.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2123.0" y1="1330.0" x2="2123.0" y2="1028.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1797.0" y1="1048.0" x2="2123.0" y2="1048.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1881.0, 982.0)">
-  <rect width="158.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="79.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">20ms</text>
-</g>  </g>
+    <line x1="1824.2" y1="1312.5" x2="1824.2" y2="1014.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2147.8" y1="1312.5" x2="2147.8" y2="1014.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1824.2" y1="1034.6" x2="2147.8" y2="1034.6" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1918.0, 964.6)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.0</text>
+    </g>
+  </g>
 </svg>
-  </div>
-  <div class="card-footer">ファイル: fig_work_A/紫高々.svg (原画: raw/紫高々.JPG)</div>
-</div><div class="card">
-  <div class="card-header">14 | 脈拍.JPG [ワークA-2: 指先脈波 / 200ms/div]</div>
-  <div class="card-body">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+</div>
+      <div class="card-footer">ファイル: fig_work_A/紫高々.svg (原画: raw/紫高々.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">14 | 脈拍.JPG [ワークA-2: 指先脈波 / 200ms/div]</div>
+      <div class="card-body"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
   <defs>
     <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E5FF"/>
@@ -541,43 +456,41 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/脈拍.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1226.5" y1="954.0" x2="1226.5" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="954.0" x2="2008.9" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1226.5" y1="554.5" x2="2008.9" y2="554.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1522.7, 488.5)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">480ms</text>
-</g>
-<line x1="2008.9" y1="954.0" x2="2008.9" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2758.7" y1="954.0" x2="2758.7" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="554.5" x2="2758.7" y2="554.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(2288.8, 488.5)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">460ms</text>
-</g>
-<line x1="1943.7" y1="1471.0" x2="1943.7" y2="1773.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="1471.0" x2="2008.9" y2="1773.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1943.7" y1="1753.0" x2="2008.9" y2="1753.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1897.3000000000002, 1687.0)">
-  <rect width="158.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="79.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">40ms</text>
-</g>
-<line x1="2008.9" y1="1576.75" x2="2135.6" y2="1576.75" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="1083.25" x2="2135.6" y2="1083.25" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2155.6" y1="1576.75" x2="2155.6" y2="1083.25" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2179.6, 1300.0)">
-  <rect width="222.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="111.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">1050mV</text>
-</g>  </g>
+    <line x1="1182.2" y1="1016.7" x2="1182.2" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="1016.7" x2="1935.6" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1182.2" y1="642.3" x2="1935.6" y2="642.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1490.9, 572.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.4</text>
+    </g>
+    <line x1="1935.6" y1="1016.7" x2="1935.6" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2657.6" y1="1016.7" x2="2657.6" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="642.3" x2="2657.6" y2="642.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(2228.6, 572.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.3</text>
+    </g>
+    <line x1="1872.8" y1="1501.1" x2="1872.8" y2="1785.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="1501.1" x2="1935.6" y2="1785.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1872.8" y1="1765.4" x2="1935.6" y2="1765.4" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1836.2, 1695.4)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
+    </g>
+    <line x1="1935.6" y1="1600.2" x2="2056.8" y2="1600.2" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="1137.8" x2="2056.8" y2="1137.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2076.8" y1="1600.2" x2="2076.8" y2="1137.8" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2131.8, 1339.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.1</text>
+    </g>
+  </g>
 </svg>
+</div>
+      <div class="card-footer">ファイル: fig_work_A/脈拍.svg (原画: raw/脈拍.JPG)</div>
+    </div>
   </div>
-  <div class="card-footer">ファイル: fig_work_A/脈拍.svg (原画: raw/脈拍.JPG)</div>
-</div>  </div>
 </body>
 </html>

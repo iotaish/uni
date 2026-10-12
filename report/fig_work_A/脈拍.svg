@@ -10,38 +10,35 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/脈拍.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1226.5" y1="954.0" x2="1226.5" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="954.0" x2="2008.9" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1226.5" y1="554.5" x2="2008.9" y2="554.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1522.7, 488.5)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">480ms</text>
-</g>
-<line x1="2008.9" y1="954.0" x2="2008.9" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2758.7" y1="954.0" x2="2758.7" y2="534.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="554.5" x2="2758.7" y2="554.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(2288.8, 488.5)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">460ms</text>
-</g>
-<line x1="1943.7" y1="1471.0" x2="1943.7" y2="1773.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="1471.0" x2="2008.9" y2="1773.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1943.7" y1="1753.0" x2="2008.9" y2="1753.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1897.3000000000002, 1687.0)">
-  <rect width="158.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="79.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">40ms</text>
-</g>
-<line x1="2008.9" y1="1576.75" x2="2135.6" y2="1576.75" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2008.9" y1="1083.25" x2="2135.6" y2="1083.25" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2155.6" y1="1576.75" x2="2155.6" y2="1083.25" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2179.6, 1300.0)">
-  <rect width="222.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="111.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">1050mV</text>
-</g>  </g>
+    <line x1="1182.2" y1="1016.7" x2="1182.2" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="1016.7" x2="1935.6" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1182.2" y1="642.3" x2="1935.6" y2="642.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1490.9, 572.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.4</text>
+    </g>
+    <line x1="1935.6" y1="1016.7" x2="1935.6" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2657.6" y1="1016.7" x2="2657.6" y2="622.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="642.3" x2="2657.6" y2="642.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(2228.6, 572.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.3</text>
+    </g>
+    <line x1="1872.8" y1="1501.1" x2="1872.8" y2="1785.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="1501.1" x2="1935.6" y2="1785.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1872.8" y1="1765.4" x2="1935.6" y2="1765.4" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1836.2, 1695.4)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
+    </g>
+    <line x1="1935.6" y1="1600.2" x2="2056.8" y2="1600.2" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1935.6" y1="1137.8" x2="2056.8" y2="1137.8" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2076.8" y1="1600.2" x2="2076.8" y2="1137.8" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2131.8, 1339.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.1</text>
+    </g>
+  </g>
 </svg>

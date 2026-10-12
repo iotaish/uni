@@ -10,17 +10,14 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/青高々2.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1373.1999999999998" y1="1118.5" x2="1373.1999999999998" y2="746.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2546.8" y1="1118.5" x2="2546.8" y2="746.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1373.1999999999998" y1="766.0" x2="2546.8" y2="766.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(1865.0, 700.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">144ms</text>
-</g>  </g>
+    <line x1="1427.4" y1="1097.7" x2="1427.4" y2="716.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2578.6" y1="1097.7" x2="2578.6" y2="716.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="1427.4" y1="736.3" x2="2578.6" y2="736.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(1935.0, 666.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
+    </g>
+  </g>
 </svg>

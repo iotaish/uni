@@ -10,24 +10,21 @@
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
     </filter>
   </defs>
-  
-  <!-- Original Raw JPEG Image Layer (Zero Compression Loss) -->
   <image href="raw/緑.JPG" width="4000" height="3000"/>
-  
-  <!-- Vector Dimension Overlay Layer -->
   <g id="annotations">
-<line x1="1976.3" y1="672.0" x2="1976.3" y2="487.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2628.3" y1="672.0" x2="2628.3" y2="487.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1976.3" y1="507.5" x2="2628.3" y2="507.5" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
-<g transform="translate(2207.3, 441.5)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">400ms</text>
-</g>
-<line x1="1960.0" y1="2152.5" x2="2657.2" y2="2152.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="1960.0" y1="507.5" x2="2657.2" y2="507.5" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
-<line x1="2677.2" y1="2152.5" x2="2677.2" y2="507.5" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
-<g transform="translate(2701.2, 1300.0)">
-  <rect width="190.0" height="60.0" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-  <text x="95.0" y="43.0" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle">700mV</text>
-</g>  </g>
+    <line x1="2204.1" y1="624.4" x2="2204.1" y2="467.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2846.2" y1="624.4" x2="2846.2" y2="467.3" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2204.1" y1="487.3" x2="2846.2" y2="487.3" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)" filter="url(#shadow)"/>
+    <g transform="translate(2457.2, 417.3)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
+    </g>
+    <line x1="2043.5" y1="2064.6" x2="2890.5" y2="2064.6" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2043.5" y1="464.4" x2="2890.5" y2="464.4" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" opacity="0.85" filter="url(#shadow)"/>
+    <line x1="2910.5" y1="2064.6" x2="2910.5" y2="464.4" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)" filter="url(#shadow)"/>
+    <g transform="translate(2965.5, 1234.5)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">7.0</text>
+    </g>
+  </g>
 </svg>
