@@ -9,30 +9,20 @@
   </defs>
   <image href="../raw/赤高.JPG" width="4000" height="3000"/>
   <g id="annotations">
-  <!-- 周期測定グループ (2.0 div) -->
-  <g id="meas-period" class="measurement">
-    <g transform="translate(2234.0, 1200.0) rotate(90)">
-      <line x1="-400.0" y1="0.0" x2="400.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <g transform="translate(2764.0, 1200.0) rotate(90)">
-      <line x1="-400.0" y1="0.0" x2="400.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <line x1="2234.0" y1="880.0" x2="2764.0" y2="880.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(2444.0, 810.0)">
+  <g id="meas-period" class="measurement" transform="translate(2234.0, 880.0)">
+    <line x1="0.0" y1="-250.0" x2="0.0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="530.0" y1="-250.0" x2="530.0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="0.0" y1="0.0" x2="530.0" y2="0.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
+    <g transform="translate(210.0, -70.0)">
       <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
     </g>
   </g>
-  <!-- 振幅測定グループ (1.7 div) -->
-  <g id="meas-amplitude-ch1" class="measurement">
-    <g transform="translate(1500.0, 1265.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <g transform="translate(1500.0, 1631.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <line x1="1500.0" y1="1631.0" x2="1500.0" y2="1265.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(1535.0, 1418.0)">
+  <g id="meas-amplitude-ch1" class="measurement" transform="translate(1500.0, 1265.0)">
+    <line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="-100.0" y1="366.0" x2="100.0" y2="366.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="0.0" y1="366.0" x2="0.0" y2="0.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(30.0, 153.0)">
       <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.7</text>
     </g>

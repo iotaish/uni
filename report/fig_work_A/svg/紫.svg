@@ -9,58 +9,38 @@
   </defs>
   <image href="../raw/紫.JPG" width="4000" height="3000"/>
   <g id="annotations">
-  <!-- 黄色低周波周期測定グループ (4.4 div) -->
-  <g id="meas-period-ch1" class="measurement">
-    <g transform="translate(1712.0, 1100.0) rotate(90)">
-      <line x1="-400.0" y1="0.0" x2="400.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <g transform="translate(2863.0, 1100.0) rotate(90)">
-      <line x1="-400.0" y1="0.0" x2="400.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <line x1="1712.0" y1="620.0" x2="2863.0" y2="620.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(2232.5, 550.0)">
+  <g id="meas-period-ch1" class="measurement" transform="translate(1712.0, 620.0)">
+    <line x1="0.0" y1="-250.0" x2="0.0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="1151.0" y1="-250.0" x2="1151.0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="0.0" y1="0.0" x2="1151.0" y2="0.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
+    <g transform="translate(520.5, -70.0)">
       <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">4.4</text>
     </g>
   </g>
-  <!-- 位相差測定グループ (0.15 div) -->
-  <g id="meas-phase-diff" class="measurement">
-    <g transform="translate(1715.0, 1350.0) rotate(90)">
-      <line x1="-375.0" y1="0.0" x2="375.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <g transform="translate(1755.0, 1350.0) rotate(90)">
-      <line x1="-375.0" y1="0.0" x2="375.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <line x1="1715.0" y1="1300.0" x2="1755.0" y2="1300.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(1665.0, 1230.0)">
+  <g id="meas-phase-diff" class="measurement" transform="translate(1715.0, 1300.0)">
+    <line x1="0.0" y1="-250.0" x2="0.0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="40.0" y1="-250.0" x2="40.0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="0.0" y1="0.0" x2="40.0" y2="0.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
+    <g transform="translate(-50.0, -70.0)">
       <rect width="140" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
       <text x="70.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.15</text>
     </g>
   </g>
-  <!-- 橙(黄色)振幅測定グループ (3.0 div) -->
-  <g id="meas-amplitude-ch1" class="measurement">
-    <g transform="translate(2680.0, 1080.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <g transform="translate(2680.0, 1729.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <line x1="2680.0" y1="1729.0" x2="2680.0" y2="1080.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(2715.0, 1374.5)">
+  <g id="meas-amplitude-ch1" class="measurement" transform="translate(2680.0, 1080.0)">
+    <line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="-100.0" y1="649.0" x2="100.0" y2="649.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="0.0" y1="649.0" x2="0.0" y2="0.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(30.0, 294.5)">
       <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.0</text>
     </g>
   </g>
-  <!-- シアン振幅測定グループ (3.2 div) -->
-  <g id="meas-amplitude-ch2" class="measurement">
-    <g transform="translate(2980.0, 878.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <g transform="translate(2980.0, 1570.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <line x1="2980.0" y1="1570.0" x2="2980.0" y2="878.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(3015.0, 1194.0)">
+  <g id="meas-amplitude-ch2" class="measurement" transform="translate(2980.0, 878.0)">
+    <line x1="-100.0" y1="0.0" x2="100.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="-100.0" y1="692.0" x2="100.0" y2="692.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="0.0" y1="692.0" x2="0.0" y2="0.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(30.0, 316.0)">
       <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.2</text>
     </g>
