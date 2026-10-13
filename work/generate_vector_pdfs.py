@@ -1,438 +1,59 @@
 #!/usr/bin/env python3
-"""Convert annotated waveform SVGs to high-fidelity vector PDFs.
+"""Convert annotated waveform SVGs directly to high-fidelity vector PDFs via rsvg-convert.
 
-Renders raw oscilloscope background photos with vector dimension lines,
-cursor dashes, and annotation badges overlaid natively in PDF.
-Extracts all tile layouts, metadata, and summary texts dynamically
-from contact_sheet.html as the single source of truth (SSOT).
+Renders raw oscilloscope background photos and vector annotations natively
+using rsvg-convert, bypassing OpenCV/Matplotlib parsing.
 """
 
-import re
-import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+import base64
+import subprocess
 from pathlib import Path
 
-import cv2
-import matplotlib.font_manager as fm
-import matplotlib.patches as patches
-import matplotlib.pyplot as plt
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+FIG_DIR = PROJECT_ROOT / "report" / "fig_work_A"
+SVG_DIR = FIG_DIR / "svg"
+RAW_DIR = FIG_DIR / "raw"
+RSVG_BIN = Path("/opt/homebrew/bin/rsvg-convert")
 
 
-@dataclass(frozen=True)
-class VectorLine:
-    x1: float
-    y1: float
-    x2: float
-    y2: float
-    stroke: str
-    stroke_width: float
-    dash: str | None
-    is_arrow: bool
+def render_svg_to_pdf(svg_path: Path, out_pdf_path: Path) -> bool:
+    if not svg_path.exists():
+        print(f"Skipping {svg_path.name}: file not found")
+        return False
 
+    svg_text = svg_path.read_text(encoding="utf-8")
 
-@dataclass(frozen=True)
-class AnnotationBadge:
-    x: float
-    y: float
-    w: float
-    h: float
-    edge_color: str
-    text: str
+    # Inlining background raw image as Base64 Data URI to bypass local file access restrictions
+    stem = svg_path.stem
+    raw_path = RAW_DIR / f"{stem}.JPG"
+    if raw_path.exists():
+        b64_data = base64.b64encode(raw_path.read_bytes()).decode("ascii")
+        svg_text = svg_text.replace(f"../raw/{stem}.JPG", f"data:image/jpeg;base64,{b64_data}")
 
+    # Invoke rsvg-convert via stdin
+    cmd = [str(RSVG_BIN), "-f", "pdf", "-o", str(out_pdf_path), "-"]
+    res = subprocess.run(cmd, input=svg_text.encode("utf-8"), capture_output=True)
 
-@dataclass(frozen=True)
-class SvgScene:
-    view_box: tuple[float, float, float, float]
-    raw_filename: str
-    lines: list[VectorLine]
-    badges: list[AnnotationBadge]
+    if res.returncode != 0:
+        print(f"Error rendering {svg_path.name}: {res.stderr.decode('utf-8')}")
+        return False
 
-
-@dataclass(frozen=True)
-class TileConfig:
-    name: str
-    title: str
-
-
-@dataclass(frozen=True)
-class ContactSheetData:
-    tiles: list[TileConfig]
-    summary_title: str
-    summary_text: str
-
-
-class ContactSheetHtmlParser:
-    """Extracts tile definitions and summary text directly from contact_sheet.html as SSOT."""
-
-    @staticmethod
-    def load(html_path: Path) -> ContactSheetData:
-        if not html_path.exists():
-            raise FileNotFoundError(f"Contact sheet HTML not found: {html_path}")
-
-        content = html_path.read_text(encoding="utf-8")
-
-        # 1. Waveform cards (01 to 14)
-        wave_pattern = re.compile(
-            r'<div class="card">\s*<div class="card-header">(.*?)</div>\s*<div class="card-body">\s*<object data="\.\./svg/(.*?)\.svg"',
-            re.DOTALL,
-        )
-        matches = wave_pattern.findall(content)
-        if not matches:
-            raise ValueError(f"No valid waveform cards found in {html_path}")
-
-        tiles = [TileConfig(name=name.strip(), title=title.strip()) for title, name in matches]
-
-        # 2. Summary card (15)
-        summary_pattern = re.compile(
-            r'<div class="card card-summary">\s*<div class="card-header">(.*?)</div>\s*<div class="card-body card-summary-body"[^>]*>(.*?)</div>',
-            re.DOTALL,
-        )
-        summary_match = summary_pattern.search(content)
-        if summary_match:
-            summary_title = summary_match.group(1).strip()
-            summary_body = summary_match.group(2).strip()
-            # Unescape basic HTML entities
-            summary_body = (
-                summary_body.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
-            )
-            summary_text = f"{summary_title}\n\n{summary_body}"
-        else:
-            summary_title = "15 | 測定諸元一覧 ＆ アノテーション凡例"
-            summary_text = summary_title
-
-        return ContactSheetData(
-            tiles=tiles,
-            summary_title=summary_title,
-            summary_text=summary_text,
-        )
-
-
-import math
-
-
-@dataclass(frozen=True)
-class Affine2D:
-    a: float = 1.0
-    b: float = 0.0
-    c: float = 0.0
-    d: float = 1.0
-    e: float = 0.0
-    f: float = 0.0
-
-    def __matmul__(self, other: "Affine2D") -> "Affine2D":
-        return Affine2D(
-            self.a * other.a + self.c * other.b,
-            self.b * other.a + self.d * other.b,
-            self.a * other.c + self.c * other.d,
-            self.b * other.c + self.d * other.d,
-            self.a * other.e + self.c * other.f + self.e,
-            self.b * other.e + self.d * other.f + self.f,
-        )
-
-    def transform_pt(self, x: float, y: float) -> tuple[float, float]:
-        return (self.a * x + self.c * y + self.e, self.b * x + self.d * y + self.f)
-
-    @staticmethod
-    def translate(tx: float, ty: float = 0.0) -> "Affine2D":
-        return Affine2D(1.0, 0.0, 0.0, 1.0, tx, ty)
-
-    @staticmethod
-    def rotate_deg(deg: float, cx: float = 0.0, cy: float = 0.0) -> "Affine2D":
-        rad = math.radians(deg)
-        cos_v, sin_v = math.cos(rad), math.sin(rad)
-        if cx != 0.0 or cy != 0.0:
-            return (
-                Affine2D.translate(cx, cy)
-                @ Affine2D(cos_v, sin_v, -sin_v, cos_v, 0.0, 0.0)
-                @ Affine2D.translate(-cx, -cy)
-            )
-        return Affine2D(cos_v, sin_v, -sin_v, cos_v, 0.0, 0.0)
-
-
-def parse_transform(s: str) -> Affine2D:
-    mat = Affine2D()
-    tokens = re.findall(r"([a-z]+)\(([^)]+)\)", s)
-    for cmd, args in tokens:
-        vals = [float(v.strip()) for v in re.split(r"[\s,]+", args.strip()) if v.strip()]
-        if cmd == "translate":
-            tx = vals[0]
-            ty = vals[1] if len(vals) > 1 else 0.0
-            mat = mat @ Affine2D.translate(tx, ty)
-        elif cmd == "rotate":
-            deg = vals[0]
-            if len(vals) == 3:
-                mat = mat @ Affine2D.rotate_deg(deg, vals[1], vals[2])
-            else:
-                mat = mat @ Affine2D.rotate_deg(deg)
-    return mat
-
-
-class SvgAnnotationParser:
-    """Parses SVG vector elements and extracts drawing primitives."""
-
-    def parse(self, svg_path: Path) -> SvgScene:
-        tree = ET.parse(svg_path)
-        root = tree.getroot()
-
-        raw_vb = root.attrib.get("viewBox", "0 0 4000 3000").split()
-        vx, vy, vw, vh = (float(v) for v in raw_vb)
-
-        lines: list[VectorLine] = []
-        badges: list[AnnotationBadge] = []
-        raw_filename = ""
-
-        def traverse(elem: ET.Element, current_mat: Affine2D) -> None:
-            nonlocal raw_filename
-            tag = elem.tag.split("}")[-1]
-
-            elem_mat = current_mat
-            if "transform" in elem.attrib:
-                elem_mat = current_mat @ parse_transform(elem.attrib["transform"])
-
-            if tag == "image":
-                href = elem.attrib.get("href", "")
-                raw_filename = Path(href).name
-            elif tag == "line":
-                x1 = float(elem.attrib["x1"])
-                y1 = float(elem.attrib["y1"])
-                x2 = float(elem.attrib["x2"])
-                y2 = float(elem.attrib["y2"])
-                p1 = elem_mat.transform_pt(x1, y1)
-                p2 = elem_mat.transform_pt(x2, y2)
-                lines.append(
-                    VectorLine(
-                        x1=p1[0],
-                        y1=p1[1],
-                        x2=p2[0],
-                        y2=p2[1],
-                        stroke=elem.attrib.get("stroke", "#FFFFFF"),
-                        stroke_width=float(elem.attrib.get("stroke-width", "3")),
-                        dash=elem.attrib.get("stroke-dasharray"),
-                        is_arrow=(
-                            "marker-start" in elem.attrib or "marker-end" in elem.attrib
-                        ),
-                    )
-                )
-            elif tag == "g":
-                rect = elem.find("{http://www.w3.org/2000/svg}rect")
-                text = elem.find("{http://www.w3.org/2000/svg}text")
-                if (
-                    rect is not None
-                    and text is not None
-                    and text.text is not None
-                    and text.text.strip()
-                ):
-                    p0 = elem_mat.transform_pt(0.0, 0.0)
-                    badges.append(
-                        AnnotationBadge(
-                            x=p0[0],
-                            y=p0[1],
-                            w=float(rect.attrib.get("width", "100")),
-                            h=float(rect.attrib.get("height", "50")),
-                            edge_color=rect.attrib.get("stroke", "#E040FB"),
-                            text=text.text.strip(),
-                        )
-                    )
-                    return
-
-            for child in elem:
-                traverse(child, elem_mat)
-
-        traverse(root, Affine2D())
-        return SvgScene(
-            view_box=(vx, vy, vw, vh),
-            raw_filename=raw_filename,
-            lines=lines,
-            badges=badges,
-        )
-
-
-class VectorPdfRenderer:
-    """Renders background photos with vector annotations directly to PDF."""
-
-    def __init__(self, base_dir: Path) -> None:
-        self.base_dir = base_dir
-        self.svg_dir = base_dir / "svg"
-        self.raw_dir = base_dir / "raw"
-        self.contact_dir = base_dir / "contact_sheets"
-        self.parser = SvgAnnotationParser()
-        self.font_prop = self._load_japanese_font()
-        self.sheet_data = ContactSheetHtmlParser.load(self.contact_dir / "contact_sheet.html")
-
-    def _load_japanese_font(self) -> fm.FontProperties:
-        candidate_paths = [
-            Path("/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc"),
-            Path("/System/Library/Fonts/Hiragino Sans GB.ttc"),
-            Path("/Library/Fonts/Arial Unicode.ttf"),
-        ]
-        for path in candidate_paths:
-            if path.exists():
-                return fm.FontProperties(fname=str(path))
-        return fm.FontProperties(family="sans-serif")
-
-    def render_waveform_axis(
-        self,
-        ax: plt.Axes,
-        name: str,
-        *,
-        show_header: bool = False,
-        header_title: str = "",
-    ) -> None:
-        scene = self.parser.parse(self.svg_dir / f"{name}.svg")
-        raw_image_path = self.raw_dir / scene.raw_filename
-        vx, vy, vw, vh = scene.view_box
-
-        img_bgr = cv2.imread(str(raw_image_path))
-        if img_bgr is None:
-            raise FileNotFoundError(f"Raw image not found: {raw_image_path}")
-        img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-
-        img_h, img_w, _ = img_rgb.shape
-        ax.imshow(img_rgb, extent=[0, img_w, img_h, 0], aspect="auto")
-        ax.set_xlim(vx, vx + vw)
-        ax.set_ylim(vy + vh, vy)
-        ax.axis("off")
-
-        for line in scene.lines:
-            if line.is_arrow:
-                lw = line.stroke_width * 0.75
-                ax.annotate(
-                    "",
-                    xy=(line.x2, line.y2),
-                    xytext=(line.x1, line.y1),
-                    arrowprops=dict(
-                        arrowstyle="<|-|>,head_length=0.45,head_width=0.25",
-                        color=line.stroke,
-                        lw=lw,
-                        shrinkA=0,
-                        shrinkB=0,
-                    ),
-                )
-            else:
-                lw = line.stroke_width * 0.6
-                ax.plot(
-                    [line.x1, line.x2],
-                    [line.y1, line.y2],
-                    color=line.stroke,
-                    lw=lw,
-                    linestyle=(0, (6, 4)),
-                    alpha=0.85,
-                )
-
-        for badge in scene.badges:
-            cx = badge.x + badge.w / 2.0
-            cy = badge.y + badge.h / 2.0
-            bbox_props = dict(
-                boxstyle="round,pad=0.25,rounding_size=0.4",
-                fc="#0A0D12",
-                ec=badge.edge_color,
-                lw=1.2,
-                alpha=0.92,
-            )
-            ax.text(
-                cx,
-                cy,
-                badge.text,
-                color="#FFFFFF",
-                fontsize=9.5,
-                fontweight="bold",
-                ha="center",
-                va="center",
-                bbox=bbox_props,
-            )
-
-        if show_header:
-            header_h = vh * 0.055
-            rect = patches.Rectangle(
-                (vx, vy),
-                vw,
-                header_h,
-                linewidth=0,
-                facecolor="#0D1117",
-                alpha=0.92,
-                zorder=10,
-            )
-            ax.add_patch(rect)
-            ax.text(
-                vx + vw * 0.02,
-                vy + header_h * 0.62,
-                header_title,
-                color="#F0F6FC",
-                fontsize=8.5,
-                fontweight="bold",
-                va="center",
-                fontproperties=self.font_prop,
-                zorder=11,
-            )
-
-    def generate_individual_pdfs(self) -> list[Path]:
-        output_paths: list[Path] = []
-        for tile in self.sheet_data.tiles:
-            scene = self.parser.parse(self.svg_dir / f"{tile.name}.svg")
-            _, _, vw, vh = scene.view_box
-
-            fig_w = 8.0
-            fig_h = 8.0 * (vh / vw)
-            fig, ax = plt.subplots(figsize=(fig_w, fig_h), dpi=150)
-            fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
-
-            self.render_waveform_axis(ax, tile.name, show_header=False)
-
-            out_path = self.base_dir / f"{tile.name}.pdf"
-            fig.savefig(out_path, format="pdf", dpi=150)
-            plt.close(fig)
-            output_paths.append(out_path)
-        return output_paths
-
-    def generate_contact_sheet_pdf(self) -> Path:
-        cols, rows = 3, 5
-        fig_w = 20.0
-        fig_h = 20.0 * (rows / cols) * (2560 / 3820)
-        fig, axes = plt.subplots(rows, cols, figsize=(fig_w, fig_h), dpi=150)
-        fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01, wspace=0.015, hspace=0.02)
-
-        for idx, tile in enumerate(self.sheet_data.tiles):
-            r, c = divmod(idx, cols)
-            self.render_waveform_axis(
-                axes[r, c], tile.name, show_header=True, header_title=tile.title
-            )
-
-        # 15th tile: Render summary card parsed dynamically from HTML
-        ax_summary = axes[4, 2]
-        ax_summary.set_facecolor("#0D1117")
-        ax_summary.axis("off")
-        ax_summary.text(
-            0.05,
-            0.95,
-            self.sheet_data.summary_text,
-            color="#C9D1D9",
-            fontsize=11,
-            fontproperties=self.font_prop,
-            va="top",
-            ha="left",
-            transform=ax_summary.transAxes,
-            linespacing=1.6,
-        )
-
-        out_path = self.contact_dir / "sheet_all_15waveforms_annotated.pdf"
-        fig.savefig(out_path, format="pdf", dpi=150)
-        plt.close(fig)
-        return out_path
+    size_kb = out_pdf_path.stat().st_size / 1024
+    print(f"Rendered: {out_pdf_path.name} ({size_kb:.1f} KB)")
+    return True
 
 
 def main() -> None:
-    project_root = Path(__file__).resolve().parents[1]
-    fig_dir = project_root / "report" / "fig_work_A"
-    renderer = VectorPdfRenderer(fig_dir)
+    print(f"Using {RSVG_BIN} for native SVG->PDF vector rendering...")
+    svg_files = sorted(SVG_DIR.glob("*.svg"))
+    success_count = 0
 
-    print(f"Loaded {len(renderer.sheet_data.tiles)} tiles dynamically from contact_sheet.html.")
-    print("Generating individual waveform vector PDFs...")
-    indiv_pdfs = renderer.generate_individual_pdfs()
-    print(f"Generated {len(indiv_pdfs)} individual PDFs.")
+    for svg_file in svg_files:
+        out_pdf = FIG_DIR / f"{svg_file.stem}.pdf"
+        if render_svg_to_pdf(svg_file, out_pdf):
+            success_count += 1
 
-    print("Generating 15-waveform contact sheet vector PDF...")
-    sheet_pdf = renderer.generate_contact_sheet_pdf()
-    print(f"Generated contact sheet: {sheet_pdf}")
+    print(f"Successfully rendered {success_count}/{len(svg_files)} PDFs.")
 
 
 if __name__ == "__main__":
