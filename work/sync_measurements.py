@@ -3,21 +3,19 @@
 sync_measurements.py
 
 全14波形SVGの測定アノテーション（周期・振幅・位相差）を、
-ユーザー指定の手本構造（上端/左端原点・矢印グループ化・バッジネスト）で一括生成・同期するスクリプト。
+ユーザー指定の手本構造（上端/左端原点・バッジ配置・不要なtranslate(0,0)除去）で一括生成・同期するスクリプト。
 
-【手本構造のキー仕様】:
+【仕様】:
   1. 振幅測定:
      - 親: transform="translate(cx, cy)" (上端基準, data-half-span保持)
      - 補助線: 上端 y1="0" y2="0", 下端 y1="span" y2="span"
-     - インジケータ: <g transform="translate(arrow_x, 0)">
-       - 垂直矢印: <line x1="0" y1="0" x2="0" y2="span" stroke="#00E676" ... />
-       - バッジネスト: <g transform="translate(badge_x, badge_y)">
+     - arrow_x != 0 の場合のみ <g transform="translate(arrow_x, 0)"> で包含
+     - arrow_x == 0 の場合は余分なラッパーを排し、直接 <line> と <g transform="translate(badge_x, badge_y)"> を配置
   2. 周期・位相差測定:
      - 親: transform="translate(cx, cy)" (左端基準, data-half-span保持)
      - 補助線: 左端 x1="0" x2="0", 右端 x1="span" x2="span"
-     - インジケータ: <g transform="translate(0, arrow_y)">
-       - 水平矢印: <line x1="0" y1="0" x2="span" y2="0" stroke="#E040FB" ... />
-       - バッジネスト: <g transform="translate(badge_x, badge_y)">
+     - arrow_y != 0 の場合のみ <g transform="translate(0, arrow_y)"> で包含
+     - arrow_y == 0 の場合は余分なラッパーを排し、直接 <line> と <g transform="translate(badge_x, badge_y)"> を配置
 """
 
 from dataclasses import dataclass
@@ -48,9 +46,8 @@ class AmplitudeMeas:
         span_str = f"{self.span:.1f}" if self.span % 1 != 0 else f"{int(self.span)}"
         badge_x_str = f"{self.badge_x:.1f}" if self.badge_x % 1 != 0 else f"{int(self.badge_x)}"
         badge_y_str = f"{self.badge_y:.1f}" if self.badge_y % 1 != 0 else f"{int(self.badge_y)}"
-        arrow_x_str = f"{self.arrow_x:.1f}" if self.arrow_x % 1 != 0 else f"{self.arrow_x:.1f}"
 
-        # 手本コード（紫.svg CH1）の完全一致
+        # 手本コード（紫.svg CH1）の完全一致（arrow_x=50.0 があるため包含グループを残す）
         if self.id == "meas-amplitude-ch1" and self.cx == 1800.0:
             return f"""    <g id="{self.id}" class="measurement" transform="translate(1800.0, 1075.0)" data-half-span="{self.half:.1f}">
       <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
@@ -69,12 +66,10 @@ class AmplitudeMeas:
       </g>
     </g>"""
 
-        return f"""    <g id="{self.id}" class="measurement" transform="translate({self.cx:.1f}, {self.cy:.1f})" data-half-span="{self.half:.1f}">
-      <line x1="{tx1:.1f}" y1="0" x2="{tx2:.1f}" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
-        opacity="0.8" />
-      <line x1="{bx1:.1f}" y1="{span_str}" x2="{bx2:.1f}" y2="{span_str}" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
-        opacity="0.8" />
-      <g transform="translate({arrow_x_str}, 0)">
+        # arrow_x != 0 の場合のみ translate ラッパーを使用
+        if self.arrow_x != 0.0:
+            arrow_x_str = f"{self.arrow_x:.1f}" if self.arrow_x % 1 != 0 else f"{int(self.arrow_x)}"
+            inner = f"""      <g transform="translate({arrow_x_str}, 0)">
         <line x1="0" y1="0" x2="0" y2="{self.span:.1f}" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
           marker-end="url(#arrow-green)" />
         <g transform="translate({badge_x_str}, {badge_y_str})">
@@ -83,7 +78,24 @@ class AmplitudeMeas:
           <text x="{hw}" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
             text-anchor="middle">{self.badge}</text>
         </g>
-      </g>
+      </g>"""
+        else:
+            # 不要な translate(0, 0) ラッパーを排除
+            inner = f"""      <line x1="0" y1="0" x2="0" y2="{self.span:.1f}" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
+        marker-end="url(#arrow-green)" />
+      <g transform="translate({badge_x_str}, {badge_y_str})">
+        <rect width="{self.badge_w}" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
+          stroke-width="2" />
+        <text x="{hw}" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
+          text-anchor="middle">{self.badge}</text>
+      </g>"""
+
+        return f"""    <g id="{self.id}" class="measurement" transform="translate({self.cx:.1f}, {self.cy:.1f})" data-half-span="{self.half:.1f}">
+      <line x1="{tx1:.1f}" y1="0" x2="{tx2:.1f}" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <line x1="{bx1:.1f}" y1="{span_str}" x2="{bx2:.1f}" y2="{span_str}" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+{inner}
     </g>"""
 
 @dataclass
@@ -106,14 +118,11 @@ class PeriodMeas:
         span_str = f"{self.span:.1f}" if self.span % 1 != 0 else f"{int(self.span)}"
         badge_x_str = f"{self.badge_x:.1f}" if self.badge_x % 1 != 0 else f"{int(self.badge_x)}"
         badge_y_str = f"{self.badge_y:.1f}" if self.badge_y % 1 != 0 else f"{int(self.badge_y)}"
-        arrow_y_str = f"{self.arrow_y:.1f}" if self.arrow_y % 1 != 0 else f"{int(self.arrow_y)}"
 
-        return f"""    <g id="{self.id}" class="measurement" transform="translate({self.cx:.1f}, {self.cy:.1f})" data-half-span="{self.half:.1f}">
-      <line x1="0" y1="{y1:.1f}" x2="0" y2="{y2:.1f}" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
-        opacity="0.8" />
-      <line x1="{span_str}" y1="{y1:.1f}" x2="{span_str}" y2="{y2:.1f}" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
-        opacity="0.8" />
-      <g transform="translate(0, {arrow_y_str})">
+        # arrow_y != 0 の場合のみ translate ラッパーを使用
+        if self.arrow_y != 0.0:
+            arrow_y_str = f"{self.arrow_y:.1f}" if self.arrow_y % 1 != 0 else f"{int(self.arrow_y)}"
+            inner = f"""      <g transform="translate(0, {arrow_y_str})">
         <line x1="0" y1="0" x2="{self.span:.1f}" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
           marker-end="url(#arrow-magenta)" />
         <g transform="translate({badge_x_str}, {badge_y_str})">
@@ -122,7 +131,24 @@ class PeriodMeas:
           <text x="{hw}" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
             text-anchor="middle">{self.badge}</text>
         </g>
-      </g>
+      </g>"""
+        else:
+            # 不要な translate(0, 0) ラッパーを排除
+            inner = f"""      <line x1="0" y1="0" x2="{self.span:.1f}" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
+        marker-end="url(#arrow-magenta)" />
+      <g transform="translate({badge_x_str}, {badge_y_str})">
+        <rect width="{self.badge_w}" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB"
+          stroke-width="2" />
+        <text x="{hw}" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
+          text-anchor="middle">{self.badge}</text>
+      </g>"""
+
+        return f"""    <g id="{self.id}" class="measurement" transform="translate({self.cx:.1f}, {self.cy:.1f})" data-half-span="{self.half:.1f}">
+      <line x1="0" y1="{y1:.1f}" x2="0" y2="{y2:.1f}" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <line x1="{span_str}" y1="{y1:.1f}" x2="{span_str}" y2="{y2:.1f}" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+{inner}
     </g>"""
 
 
@@ -223,7 +249,7 @@ def sync_svg(svg_filename: str):
     print(f"Updated {svg_filename} ({len(meas_list)} measurements synced)")
 
 def main():
-    print("Syncing all 14 waveform SVGs with template structure...")
+    print("Syncing all 14 waveform SVGs (cleaned up redundant translate(0,0))...")
     for filename in sorted(MEASUREMENTS.keys()):
         sync_svg(filename)
     print("Sync completed successfully.")
