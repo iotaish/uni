@@ -11,17 +11,24 @@
   <g id="annotations">
     <line x1="1270.0" y1="360.0" x2="1270.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="1840.0" y1="360.0" x2="1840.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="1270.0" y1="1150.0" x2="1840.0" y2="1150.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(1487.0, 1080.0)">
+    <line x1="1270.0" y1="1100.0" x2="1840.0" y2="1100.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
+    <g transform="translate(1487.0, 1030.0)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.2</text>
     </g>
-    <line x1="480.0" y1="1400.0" x2="3180.0" y2="1400.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="480.0" y1="1584.0" x2="3180.0" y2="1584.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2880.0" y1="1584.0" x2="2880.0" y2="1400.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(2915.0, 1462.0)">
-      <rect width="172" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
-      <text x="86.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.85</text>
+    <line x1="480.0" y1="1250.0" x2="3180.0" y2="1250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="480.0" y1="1680.0" x2="3180.0" y2="1680.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2650.0" y1="1680.0" x2="2650.0" y2="1250.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2685.0, 1435.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
+    </g>
+    <line x1="480.0" y1="1478.0" x2="3180.0" y2="1478.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="480.0" y1="1780.0" x2="3180.0" y2="1780.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2920.0" y1="1780.0" x2="2920.0" y2="1478.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2955.0, 1599.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.4</text>
     </g>
   </g>
 </svg>
