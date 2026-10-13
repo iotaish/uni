@@ -25,28 +25,28 @@
           text-anchor="middle">0.8</text>
       </g>
     </g>
-    <g id="meas-amplitude-ch1" class="measurement" transform="translate(2650.0, 888.0)" data-half-span="168.5">
+    <g id="meas-amplitude-ch1" class="measurement" transform="translate(2500.0, 888.0)" data-half-span="168.5">
       <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
       <line x1="-100.0" y1="337" x2="100.0" y2="337" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
       <line x1="0" y1="0" x2="0" y2="337.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
         marker-end="url(#arrow-green)" />
-      <g transform="translate(30, 138.5)">
+      <g transform="translate(30, 130)">
         <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
           stroke-width="2" />
         <text x="55" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
           text-anchor="middle">1.6</text>
       </g>
     </g>
-    <g id="meas-amplitude-ch2" class="measurement" transform="translate(2950.0, 747.0)" data-half-span="506.5">
+    <g id="meas-amplitude-ch2" class="measurement" transform="translate(3350.0, 1565.0)" data-half-span="506.5">
       <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="-100.0" y1="1013" x2="100.0" y2="1013" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="-100.0" y1="170" x2="100.0" y2="170" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="0" y1="0" x2="0" y2="1013.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
+      <line x1="0" y1="0" x2="0" y2="170.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
         marker-end="url(#arrow-green)" />
-      <g transform="translate(30, 476.5)">
+      <g transform="translate(30, 30)">
         <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
           stroke-width="2" />
         <text x="55" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"

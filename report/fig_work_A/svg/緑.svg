@@ -12,9 +12,9 @@
   <image href="../raw/緑.JPG" width="4000" height="3000" />
   <g id="annotations">
     <g id="meas-period" class="measurement" transform="translate(1868.0, 680.0)" data-half-span="386.5">
-      <line x1="0" y1="-250.0" x2="0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="0" y1="-250.0" x2="0" y2="120.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="773" y1="-250.0" x2="773" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="773" y1="-250.0" x2="773" y2="120.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
       <line x1="0" y1="0" x2="773.0" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
         marker-end="url(#arrow-magenta)" />
@@ -25,12 +25,12 @@
           text-anchor="middle">3.0</text>
       </g>
     </g>
-    <g id="meas-amplitude-ch2" class="measurement" transform="translate(2920.0, 440.0)" data-half-span="805.0">
-      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+    <g id="meas-amplitude-ch2" class="measurement" transform="translate(2900.0, 440.0)" data-half-span="805.0">
+      <line x1="-300.0" y1="0" x2="70.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="-100.0" y1="1610" x2="100.0" y2="1610" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="-70.0" y1="1590" x2="300.0" y2="1590" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="0" y1="0" x2="0" y2="1610.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
+      <line x1="0" y1="0" x2="0" y2="1590.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
         marker-end="url(#arrow-green)" />
       <g transform="translate(30, 775)">
         <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"

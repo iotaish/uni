@@ -12,9 +12,9 @@
   <image href="../raw/赤.JPG" width="4000" height="3000" />
   <g id="annotations">
     <g id="meas-period" class="measurement" transform="translate(1920.0, 800.0)" data-half-span="389.5">
-      <line x1="0" y1="-250.0" x2="0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="0" y1="-100.0" x2="0" y2="350.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="779" y1="-250.0" x2="779" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="779" y1="-100.0" x2="779" y2="350.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
       <line x1="0" y1="0" x2="779.0" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
         marker-end="url(#arrow-magenta)" />
@@ -25,10 +25,10 @@
           text-anchor="middle">3.0</text>
       </g>
     </g>
-    <g id="meas-amplitude-ch1" class="measurement" transform="translate(2900.0, 1080.0)" data-half-span="277.5">
-      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+    <g id="meas-amplitude-ch1" class="measurement" transform="translate(2950.0, 1060.0)" data-half-span="277.5">
+      <line x1="-300.0" y1="0" x2="50.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="-100.0" y1="555" x2="100.0" y2="555" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="-30.0" y1="555" x2="200.0" y2="555" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
       <line x1="0" y1="0" x2="0" y2="555.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
         marker-end="url(#arrow-green)" />

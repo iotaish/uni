@@ -12,9 +12,9 @@
   <image href="../raw/青.JPG" width="4000" height="3000" />
   <g id="annotations">
     <g id="meas-period" class="measurement" transform="translate(1801.0, 680.0)" data-half-span="399.5">
-      <line x1="0" y1="-250.0" x2="0" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="0" y1="-100.0" x2="0" y2="300.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="799" y1="-250.0" x2="799" y2="250.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="799" y1="-100.0" x2="799" y2="300.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
       <line x1="0" y1="0" x2="799.0" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
         marker-end="url(#arrow-magenta)" />
@@ -26,11 +26,11 @@
       </g>
     </g>
     <g id="meas-amplitude-ch1" class="measurement" transform="translate(2750.0, 1083.0)" data-half-span="295.5">
-      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="-175.0" y1="0" x2="50.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="-100.0" y1="591" x2="100.0" y2="591" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="-30.0" y1="560" x2="250.0" y2="560" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="0" y1="0" x2="0" y2="591.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
+      <line x1="0" y1="0" x2="0" y2="560.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
         marker-end="url(#arrow-green)" />
       <g transform="translate(30, 265.5)">
         <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
@@ -39,12 +39,12 @@
           text-anchor="middle">2.7</text>
       </g>
     </g>
-    <g id="meas-amplitude-ch2" class="measurement" transform="translate(2980.0, 935.0)" data-half-span="432.5">
-      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+    <g id="meas-amplitude-ch2" class="measurement" transform="translate(2400.0, 910.0)" data-half-span="432.5">
+      <line x1="-100.0" y1="0" x2="300.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="-100.0" y1="865" x2="100.0" y2="865" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="-200.0" y1="925" x2="50.0" y2="925" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="0" y1="0" x2="0" y2="865.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
+      <line x1="0" y1="0" x2="0" y2="925.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
         marker-end="url(#arrow-green)" />
       <g transform="translate(30, 402.5)">
         <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
