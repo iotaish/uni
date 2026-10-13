@@ -107,6 +107,66 @@ class ContactSheetHtmlParser:
         )
 
 
+import math
+
+
+@dataclass(frozen=True)
+class Affine2D:
+    a: float = 1.0
+    b: float = 0.0
+    c: float = 0.0
+    d: float = 1.0
+    e: float = 0.0
+    f: float = 0.0
+
+    def __matmul__(self, other: "Affine2D") -> "Affine2D":
+        return Affine2D(
+            self.a * other.a + self.c * other.b,
+            self.b * other.a + self.d * other.b,
+            self.a * other.c + self.c * other.d,
+            self.b * other.c + self.d * other.d,
+            self.a * other.e + self.c * other.f + self.e,
+            self.b * other.e + self.d * other.f + self.f,
+        )
+
+    def transform_pt(self, x: float, y: float) -> tuple[float, float]:
+        return (self.a * x + self.c * y + self.e, self.b * x + self.d * y + self.f)
+
+    @staticmethod
+    def translate(tx: float, ty: float = 0.0) -> "Affine2D":
+        return Affine2D(1.0, 0.0, 0.0, 1.0, tx, ty)
+
+    @staticmethod
+    def rotate_deg(deg: float, cx: float = 0.0, cy: float = 0.0) -> "Affine2D":
+        rad = math.radians(deg)
+        cos_v, sin_v = math.cos(rad), math.sin(rad)
+        if cx != 0.0 or cy != 0.0:
+            return (
+                Affine2D.translate(cx, cy)
+                @ Affine2D(cos_v, sin_v, -sin_v, cos_v, 0.0, 0.0)
+                @ Affine2D.translate(-cx, -cy)
+            )
+        return Affine2D(cos_v, sin_v, -sin_v, cos_v, 0.0, 0.0)
+
+
+def parse_transform(s: str) -> Affine2D:
+    mat = Affine2D()
+    tokens = re.findall(r"([a-z]+)\(([^)]+)\)", s)
+    for cmd, args in tokens:
+        vals = [float(v.strip()) for v in re.split(r"[\s,]+", args.strip()) if v.strip()]
+        if cmd == "translate":
+            tx = vals[0]
+            ty = vals[1] if len(vals) > 1 else 0.0
+            mat = mat @ Affine2D.translate(tx, ty)
+        elif cmd == "rotate":
+            deg = vals[0]
+            if len(vals) == 3:
+                mat = mat @ Affine2D.rotate_deg(deg, vals[1], vals[2])
+            else:
+                mat = mat @ Affine2D.rotate_deg(deg)
+    return mat
+
+
 class SvgAnnotationParser:
     """Parses SVG vector elements and extracts drawing primitives."""
 
@@ -121,60 +181,69 @@ class SvgAnnotationParser:
         badges: list[AnnotationBadge] = []
         raw_filename = ""
 
-        for elem in root.iter():
+        def traverse(elem: ET.Element, current_mat: Affine2D) -> None:
+            nonlocal raw_filename
             tag = elem.tag.split("}")[-1]
+
+            elem_mat = current_mat
+            if "transform" in elem.attrib:
+                elem_mat = current_mat @ parse_transform(elem.attrib["transform"])
+
             if tag == "image":
                 href = elem.attrib.get("href", "")
                 raw_filename = Path(href).name
             elif tag == "line":
-                lines.append(self._parse_line(elem.attrib))
-            elif tag == "g" and "transform" in elem.attrib:
-                badge = self._parse_badge(elem)
-                if badge is not None:
-                    badges.append(badge)
+                x1 = float(elem.attrib["x1"])
+                y1 = float(elem.attrib["y1"])
+                x2 = float(elem.attrib["x2"])
+                y2 = float(elem.attrib["y2"])
+                p1 = elem_mat.transform_pt(x1, y1)
+                p2 = elem_mat.transform_pt(x2, y2)
+                lines.append(
+                    VectorLine(
+                        x1=p1[0],
+                        y1=p1[1],
+                        x2=p2[0],
+                        y2=p2[1],
+                        stroke=elem.attrib.get("stroke", "#FFFFFF"),
+                        stroke_width=float(elem.attrib.get("stroke-width", "3")),
+                        dash=elem.attrib.get("stroke-dasharray"),
+                        is_arrow=(
+                            "marker-start" in elem.attrib or "marker-end" in elem.attrib
+                        ),
+                    )
+                )
+            elif tag == "g":
+                rect = elem.find("{http://www.w3.org/2000/svg}rect")
+                text = elem.find("{http://www.w3.org/2000/svg}text")
+                if (
+                    rect is not None
+                    and text is not None
+                    and text.text is not None
+                    and text.text.strip()
+                ):
+                    p0 = elem_mat.transform_pt(0.0, 0.0)
+                    badges.append(
+                        AnnotationBadge(
+                            x=p0[0],
+                            y=p0[1],
+                            w=float(rect.attrib.get("width", "100")),
+                            h=float(rect.attrib.get("height", "50")),
+                            edge_color=rect.attrib.get("stroke", "#E040FB"),
+                            text=text.text.strip(),
+                        )
+                    )
+                    return
 
+            for child in elem:
+                traverse(child, elem_mat)
+
+        traverse(root, Affine2D())
         return SvgScene(
             view_box=(vx, vy, vw, vh),
             raw_filename=raw_filename,
             lines=lines,
             badges=badges,
-        )
-
-    def _parse_line(self, attr: dict[str, str]) -> VectorLine:
-        return VectorLine(
-            x1=float(attr["x1"]),
-            y1=float(attr["y1"]),
-            x2=float(attr["x2"]),
-            y2=float(attr["y2"]),
-            stroke=attr.get("stroke", "#FFFFFF"),
-            stroke_width=float(attr.get("stroke-width", "3")),
-            dash=attr.get("stroke-dasharray"),
-            is_arrow="marker-start" in attr or "marker-end" in attr,
-        )
-
-    def _parse_badge(self, group: ET.Element) -> AnnotationBadge | None:
-        transform = group.attrib.get("transform", "")
-        if "translate" not in transform:
-            return None
-
-        coords_str = transform.replace("translate(", "").replace(")", "")
-        parts = [p.strip() for p in coords_str.split(",")]
-        if len(parts) < 2:
-            return None
-        tx, ty = float(parts[0]), float(parts[1])
-
-        rect = group.find("{http://www.w3.org/2000/svg}rect")
-        text = group.find("{http://www.w3.org/2000/svg}text")
-        if rect is None or text is None or text.text is None:
-            return None
-
-        return AnnotationBadge(
-            x=tx,
-            y=ty,
-            w=float(rect.attrib.get("width", "100")),
-            h=float(rect.attrib.get("height", "50")),
-            edge_color=rect.attrib.get("stroke", "#00E5FF"),
-            text=text.text.strip(),
         )
 
 
