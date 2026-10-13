@@ -12,29 +12,29 @@
     <line x1="900.0" y1="360.0" x2="900.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="1760.0" y1="360.0" x2="1760.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="900.0" y1="620.0" x2="1760.0" y2="620.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(1262.0, 550.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.3</text>
+    <g transform="translate(1275.0, 550.0)">
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.3</text>
     </g>
     <line x1="1824.0" y1="1000.0" x2="1824.0" y2="1600.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="1760.0" y1="1350.0" x2="1824.0" y2="1350.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(1724.0, 1280.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
+    <g transform="translate(1737.0, 1280.0)">
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
     </g>
     <line x1="480.0" y1="1157.0" x2="3180.0" y2="1157.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="480.0" y1="1589.0" x2="3180.0" y2="1589.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2700.0" y1="1589.0" x2="2700.0" y2="1157.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(2735.0, 1343.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
+    <line x1="2135.0" y1="1589.0" x2="2135.0" y2="1157.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2170.0, 1343.0)">
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
     </g>
     <line x1="480.0" y1="1115.0" x2="3180.0" y2="1115.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="480.0" y1="1579.0" x2="3180.0" y2="1579.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="2980.0" y1="1579.0" x2="2980.0" y2="1115.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
     <g transform="translate(3015.0, 1317.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.1</text>
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.1</text>
     </g>
   </g>
 </svg>

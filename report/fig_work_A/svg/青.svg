@@ -12,23 +12,23 @@
     <line x1="1801.0" y1="360.0" x2="1801.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="2600.0" y1="360.0" x2="2600.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="1801.0" y1="680.0" x2="2600.0" y2="680.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(2132.5, 610.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.0</text>
+    <g transform="translate(2145.5, 610.0)">
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.0</text>
     </g>
     <line x1="480.0" y1="1083.0" x2="3180.0" y2="1083.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="480.0" y1="1674.0" x2="3180.0" y2="1674.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="2750.0" y1="1674.0" x2="2750.0" y2="1083.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
     <g transform="translate(2785.0, 1348.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.7</text>
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.7</text>
     </g>
     <line x1="480.0" y1="935.0" x2="3180.0" y2="935.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="480.0" y1="1800.0" x2="3180.0" y2="1800.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="2980.0" y1="1800.0" x2="2980.0" y2="935.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
     <g transform="translate(3015.0, 1337.5)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">4.0</text>
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">4.0</text>
     </g>
   </g>
 </svg>

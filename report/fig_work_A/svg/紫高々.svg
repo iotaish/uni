@@ -9,12 +9,6 @@
   </defs>
   <image href="../raw/紫高々.JPG" width="4000" height="3000"/>
   <g id="annotations">
-    <line x1="2591.0" y1="360.0" x2="2591.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2848.0" y1="360.0" x2="2848.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2591.0" y1="1020.0" x2="2848.0" y2="1020.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(2651.5, 950.0)">
-      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.0</text>
-    </g>
+
   </g>
 </svg>
