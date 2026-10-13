@@ -2,7 +2,9 @@
 """Convert annotated waveform SVGs directly to high-fidelity vector PDFs via rsvg-convert.
 
 Renders raw oscilloscope background photos and vector annotations natively
-using rsvg-convert. Also generates the 15-waveform contact sheet PDF.
+using rsvg-convert. Generates individual waveform PDFs and the 12-tile contact sheet PDF.
+All waveform vector graphics (lines, arrows, text) are nested as native vector elements,
+preserving original vector fidelity without any intermediate PNG rasterization.
 The SVG files in report/fig_work_A/svg/ are the single source of truth (SSOT).
 """
 
@@ -53,7 +55,7 @@ def generate_contact_sheet_pdf() -> Path:
     tiles = card_pattern.findall(html_text)
 
     sum_match = re.search(
-        r'<div class="card-header">(15 \| .*?)</div>\s*<div class="card-body card-summary-body"[^>]*>(.*?)</div>',
+        r'<div class="card-header">(12 \| .*?)</div>\s*<div class="card-body card-summary-body"[^>]*>(.*?)</div>',
         html_text,
         re.DOTALL,
     )
@@ -66,7 +68,7 @@ def generate_contact_sheet_pdf() -> Path:
         .replace("&gt;", ">")
     )
 
-    cols, rows = 3, 5
+    cols, rows = 3, 4
     tile_w = 960
     wave_h = round(tile_w * 2560 / 3820)
     hdr_h = 44
@@ -93,14 +95,19 @@ def generate_contact_sheet_pdf() -> Path:
             raw_b64 = base64.b64encode(raw_path.read_bytes()).decode("ascii")
             svg_text = svg_text.replace(f"../raw/{name}.JPG", f"data:image/jpeg;base64,{raw_b64}")
 
-        p = subprocess.run(
-            [str(RSVG_BIN), "-f", "png", "-w", str(tile_w), "-h", str(wave_h), "-"],
-            input=svg_text.encode("utf-8"),
-            capture_output=True,
-        )
-        if p.returncode != 0:
-            raise RuntimeError(f"Failed to render {name}: {p.stderr.decode()}")
-        b64_png = base64.b64encode(p.stdout).decode("ascii")
+        vb_m = re.search(r'viewBox="([^"]*)"', svg_text)
+        vb = vb_m.group(1) if vb_m else "80 120 3820 2560"
+
+        inner_svg = re.sub(r"^\s*<svg[^>]*>", "", svg_text, flags=re.DOTALL)
+        inner_svg = re.sub(r"</svg>\s*$", "", inner_svg, flags=re.DOTALL)
+
+        prefix = f"t{idx}_"
+        ids = re.findall(r'id="([^"]+)"', inner_svg)
+        for i_val in set(ids):
+            inner_svg = inner_svg.replace(f'id="{i_val}"', f'id="{prefix}{i_val}"')
+            inner_svg = inner_svg.replace(f'url(#{i_val})', f'url(#{prefix}{i_val})')
+            inner_svg = inner_svg.replace(f'href="#{i_val}"', f'href="#{prefix}{i_val}"')
+
         escaped_title = html.escape(title)
 
         svg_parts.append(f"""  <g transform="translate({x}, {y})">
@@ -108,12 +115,16 @@ def generate_contact_sheet_pdf() -> Path:
     <path d="M 0 8 Q 0 0 8 0 L {tile_w-8} 0 Q {tile_w} 0 {tile_w} 8 L {tile_w} {hdr_h} L 0 {hdr_h} Z" fill="#21262d" />
     <rect x="0" y="0" width="5" height="{hdr_h}" fill="#58a6ff" />
     <text x="16" y="28" fill="#f0f6fc" font-family="sans-serif" font-size="18" font-weight="bold">{escaped_title}</text>
-    <image href="data:image/png;base64,{b64_png}" x="0" y="{hdr_h}" width="{tile_w}" height="{wave_h}" />
+    <svg x="0" y="{hdr_h}" width="{tile_w}" height="{wave_h}" viewBox="{vb}">
+      {inner_svg}
+    </svg>
+    <rect width="{tile_w}" height="{tile_h}" rx="8" ry="8" fill="none" stroke="#30363d" stroke-width="1.5" />
   </g>""")
 
-    # 15th tile: summary
-    x15 = pad_x + 2 * (tile_w + gap_x)
-    y15 = pad_y + 4 * (tile_h + gap_y)
+    # 12th tile: summary
+    r, c = divmod(11, cols)
+    x12 = pad_x + c * (tile_w + gap_x)
+    y12 = pad_y + r * (tile_h + gap_y)
     escaped_sum_title = html.escape(sum_title)
 
     lines = sum_body.split("\n")
@@ -127,12 +138,13 @@ def generate_contact_sheet_pdf() -> Path:
         text_y += 26
 
     sum_text_block = "\n    ".join(tspan_lines)
-    svg_parts.append(f"""  <g transform="translate({x15}, {y15})">
+    svg_parts.append(f"""  <g transform="translate({x12}, {y12})">
     <rect width="{tile_w}" height="{tile_h}" rx="8" ry="8" fill="#0d1117" stroke="#30363d" stroke-width="1.5" />
     <path d="M 0 8 Q 0 0 8 0 L {tile_w-8} 0 Q {tile_w} 0 {tile_w} 8 L {tile_w} {hdr_h} L 0 {hdr_h} Z" fill="#21262d" />
     <rect x="0" y="0" width="5" height="{hdr_h}" fill="#58a6ff" />
     <text x="16" y="28" fill="#f0f6fc" font-family="sans-serif" font-size="18" font-weight="bold">{escaped_sum_title}</text>
     {sum_text_block}
+    <rect width="{tile_w}" height="{tile_h}" rx="8" ry="8" fill="none" stroke="#30363d" stroke-width="1.5" />
   </g>""")
 
     svg_parts.append("</svg>")
@@ -145,8 +157,8 @@ def generate_contact_sheet_pdf() -> Path:
     if p.returncode != 0:
         raise RuntimeError(f"rsvg-convert failed: {p.stderr.decode()}")
 
-    size_kb = out_pdf.stat().st_size / 1024
-    print(f"Generated contact sheet: {out_pdf.name} ({size_kb:.1f} KB)")
+    size_mb = out_pdf.stat().st_size / (1024 * 1024)
+    print(f"Generated contact sheet: {out_pdf.name} ({size_mb:.2f} MB)")
     return out_pdf
 
 
