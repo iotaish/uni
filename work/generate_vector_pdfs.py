@@ -96,35 +96,17 @@ def generate_contact_sheet() -> None:
         x = pad_x + c * (tile_w + gap_x)
         y = pad_y + r * (tile_h + gap_y)
 
-        svg_text = (SVG_DIR / f"{name}.svg").read_text(encoding="utf-8")
         jpg_path = FIG_DIR / f"{name}.jpg"
-        if jpg_path.exists():
-            jpg_b64 = base64.b64encode(jpg_path.read_bytes()).decode("ascii")
-            svg_text = svg_text.replace(f"../raw/{name}.JPG", f"data:image/jpeg;base64,{jpg_b64}")
-
-        vb_m = re.search(r'viewBox="([^"]*)"', svg_text)
-        vb = vb_m.group(1) if vb_m else "80 120 3820 2560"
-
-        inner_svg = re.sub(r"^\s*<svg[^>]*>", "", svg_text, flags=re.DOTALL)
-        inner_svg = re.sub(r"</svg>\s*$", "", inner_svg, flags=re.DOTALL)
-
-        prefix = f"t{idx}_"
-        ids = re.findall(r'id="([^"]+)"', inner_svg)
-        for i_val in set(ids):
-            inner_svg = inner_svg.replace(f'id="{i_val}"', f'id="{prefix}{i_val}"')
-            inner_svg = inner_svg.replace(f'url(#{i_val})', f'url(#{prefix}{i_val})')
-            inner_svg = inner_svg.replace(f'href="#{i_val}"', f'href="#{prefix}{i_val}"')
-
+        jpg_b64 = base64.b64encode(jpg_path.read_bytes()).decode("ascii")
         escaped_title = html.escape(title)
 
+        # Place card background, header, and the single rendered waveform image (no duplicate annotation overlay)
         svg_parts.append(f"""  <g transform="translate({x}, {y})">
     <rect width="{tile_w}" height="{tile_h}" rx="8" ry="8" fill="#161b22" stroke="#30363d" stroke-width="1.5" />
     <path d="M 0 8 Q 0 0 8 0 L {tile_w-8} 0 Q {tile_w} 0 {tile_w} 8 L {tile_w} {hdr_h} L 0 {hdr_h} Z" fill="#21262d" />
     <rect x="0" y="0" width="5" height="{hdr_h}" fill="#58a6ff" />
     <text x="16" y="28" fill="#f0f6fc" font-family="sans-serif" font-size="18" font-weight="bold">{escaped_title}</text>
-    <svg x="0" y="{hdr_h}" width="{tile_w}" height="{wave_h}" viewBox="{vb}">
-      {inner_svg}
-    </svg>
+    <image href="data:image/jpeg;base64,{jpg_b64}" x="0" y="{hdr_h}" width="{tile_w}" height="{wave_h}" preserveAspectRatio="none" />
     <rect width="{tile_w}" height="{tile_h}" rx="8" ry="8" fill="none" stroke="#30363d" stroke-width="1.5" />
   </g>""")
 
