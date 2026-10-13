@@ -9,16 +9,16 @@
   </defs>
   <image href="../raw/脈拍.JPG" width="4000" height="3000"/>
   <g id="annotations">
-  <!-- 黄色波形 周期測定グループ (3.3 div) -->
-  <g id="meas-period-ch1" class="measurement">
-    <g transform="translate(900.0, 1000.0) rotate(90)">
-      <line x1="-400.0" y1="0.0" x2="400.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+  <!-- シアン波形(CH2出力脈波) 周期測定グループ (3.3 div) -->
+  <g id="meas-period-ch2" class="measurement">
+    <g transform="translate(955.0, 620.0) rotate(90)">
+      <line x1="-130.0" y1="0.0" x2="130.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     </g>
-    <g transform="translate(1760.0, 1000.0) rotate(90)">
-      <line x1="-400.0" y1="0.0" x2="400.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <g transform="translate(1824.0, 620.0) rotate(90)">
+      <line x1="-130.0" y1="0.0" x2="130.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     </g>
-    <line x1="900.0" y1="620.0" x2="1760.0" y2="620.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
-    <g transform="translate(1275.0, 550.0)">
+    <line x1="955.0" y1="620.0" x2="1824.0" y2="620.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
+    <g transform="translate(1334.5, 550.0)">
       <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.3</text>
     </g>
@@ -26,10 +26,10 @@
   <!-- 入出力時間差測定グループ (0.2 div) -->
   <g id="meas-phase-diff" class="measurement">
     <g transform="translate(1760.0, 1350.0) rotate(90)">
-      <line x1="-300.0" y1="0.0" x2="300.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+      <line x1="-80.0" y1="0.0" x2="80.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     </g>
     <g transform="translate(1824.0, 1350.0) rotate(90)">
-      <line x1="-300.0" y1="0.0" x2="300.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+      <line x1="-80.0" y1="0.0" x2="80.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     </g>
     <line x1="1760.0" y1="1350.0" x2="1824.0" y2="1350.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)"/>
     <g transform="translate(1737.0, 1280.0)">
@@ -37,32 +37,32 @@
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.2</text>
     </g>
   </g>
-  <!-- 黄色波形 振幅測定グループ (2.0 div) -->
-  <g id="meas-amplitude-ch1" class="measurement">
-    <g transform="translate(2135.0, 1157.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <g transform="translate(2135.0, 1589.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    </g>
-    <line x1="2135.0" y1="1589.0" x2="2135.0" y2="1157.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(2170.0, 1343.0)">
-      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
-      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
-    </g>
-  </g>
-  <!-- シアン波形 振幅測定グループ (2.1 div) -->
+  <!-- シアン波形(CH2出力) 振幅測定グループ (2.1 div, X=2135) -->
   <g id="meas-amplitude-ch2" class="measurement">
-    <g transform="translate(2980.0, 1115.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <g transform="translate(2135.0, 1115.0) rotate(0)">
+      <line x1="-80.0" y1="0.0" x2="80.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     </g>
-    <g transform="translate(2980.0, 1579.0) rotate(0)">
-      <line x1="-250.0" y1="0.0" x2="250.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <g transform="translate(2135.0, 1579.0) rotate(0)">
+      <line x1="-80.0" y1="0.0" x2="80.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     </g>
-    <line x1="2980.0" y1="1579.0" x2="2980.0" y2="1115.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(3015.0, 1317.0)">
+    <line x1="2135.0" y1="1579.0" x2="2135.0" y2="1115.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2165.0, 1317.0)">
       <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
       <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.1</text>
+    </g>
+  </g>
+  <!-- 黄色波形(CH1入力) 振幅測定グループ (2.0 div, X=2800) -->
+  <g id="meas-amplitude-ch1" class="measurement">
+    <g transform="translate(2800.0, 1157.0) rotate(0)">
+      <line x1="-80.0" y1="0.0" x2="80.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    </g>
+    <g transform="translate(2800.0, 1589.0) rotate(0)">
+      <line x1="-80.0" y1="0.0" x2="80.0" y2="0.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    </g>
+    <line x1="2800.0" y1="1589.0" x2="2800.0" y2="1157.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2830.0, 1343.0)">
+      <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
+      <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
     </g>
   </g>
   </g>
