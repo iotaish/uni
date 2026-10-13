@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
-"""Convert annotated waveform SVGs directly to high-fidelity vector PDFs via rsvg-convert.
+"""Generate lightweight, high-fidelity waveform images and contact sheet (JPEG).
 
-Renders raw oscilloscope background photos and vector annotations natively
-using rsvg-convert. Generates individual waveform PDFs and the 12-tile contact sheet PDF.
-All waveform vector graphics (lines, arrows, text) are nested as native vector elements,
-preserving original vector fidelity without any intermediate PNG rasterization.
-The SVG files in report/fig_work_A/svg/ are the single source of truth (SSOT).
+- Single Source of Truth (SSOT): SVG files in report/fig_work_A/svg/
+- Individual waveforms: rendered directly to crisp ~100KB JPEGs via rsvg-convert & Pillow.
+- Contact sheet: rendered to a high-resolution JPEG (~1.3MB, well below 100MB constraint).
 """
 
 import base64
 import html
+import io
 from pathlib import Path
 import re
 import subprocess
+import sys
+
+# Load venv site-packages if available
+venv_site = Path(__file__).resolve().parents[0] / ".venv" / "lib" / f"python{sys.version_info.major}.{sys.version_info.minor}" / "site-packages"
+if venv_site.exists():
+    sys.path.insert(0, str(venv_site))
+
+from PIL import Image
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 FIG_DIR = PROJECT_ROOT / "report" / "fig_work_A"
@@ -22,31 +29,31 @@ CONTACT_DIR = FIG_DIR / "contact_sheets"
 RSVG_BIN = Path("/opt/homebrew/bin/rsvg-convert")
 
 
-def render_svg_to_pdf(svg_path: Path, out_pdf_path: Path) -> bool:
-    if not svg_path.exists():
-        print(f"Skipping {svg_path.name}: file not found")
-        return False
-
-    svg_text = svg_path.read_text(encoding="utf-8")
+def render_individual_waveform(svg_path: Path, target_width: int = 1200, quality: int = 78) -> None:
     stem = svg_path.stem
     raw_path = RAW_DIR / f"{stem}.JPG"
+    svg_text = svg_path.read_text(encoding="utf-8")
     if raw_path.exists():
-        b64_data = base64.b64encode(raw_path.read_bytes()).decode("ascii")
-        svg_text = svg_text.replace(f"../raw/{stem}.JPG", f"data:image/jpeg;base64,{b64_data}")
+        raw_b64 = base64.b64encode(raw_path.read_bytes()).decode("ascii")
+        svg_text = svg_text.replace(f"../raw/{stem}.JPG", f"data:image/jpeg;base64,{raw_b64}")
 
-    cmd = [str(RSVG_BIN), "-f", "pdf", "-o", str(out_pdf_path), "-"]
-    res = subprocess.run(cmd, input=svg_text.encode("utf-8"), capture_output=True)
+    p = subprocess.run(
+        [str(RSVG_BIN), "-u", "-f", "png", "-w", str(target_width), "-"],
+        input=svg_text.encode("utf-8"),
+        capture_output=True,
+    )
+    if p.returncode != 0:
+        raise RuntimeError(f"Failed to render {stem}: {p.stderr.decode('utf-8')}")
 
-    if res.returncode != 0:
-        print(f"Error rendering {svg_path.name}: {res.stderr.decode('utf-8')}")
-        return False
+    img = Image.open(io.BytesIO(p.stdout)).convert("RGB")
 
-    size_kb = out_pdf_path.stat().st_size / 1024
-    print(f"Rendered: {out_pdf_path.name} ({size_kb:.1f} KB)")
-    return True
+    # Save ~100KB JPEG
+    out_jpg = FIG_DIR / f"{stem}.jpg"
+    img.save(out_jpg, format="JPEG", quality=quality, optimize=True)
+    print(f"Rendered {stem}: JPG {out_jpg.stat().st_size / 1024:.1f} KB")
 
 
-def generate_contact_sheet_pdf() -> Path:
+def generate_contact_sheet() -> None:
     html_text = (CONTACT_DIR / "contact_sheet.html").read_text(encoding="utf-8")
     card_pattern = re.compile(
         r'<div class="card">\s*<div class="card-header">(.*?)</div>\s*<div class="card-body">\s*<object data="\.\./svg/(.*?)\.svg"',
@@ -90,10 +97,10 @@ def generate_contact_sheet_pdf() -> Path:
         y = pad_y + r * (tile_h + gap_y)
 
         svg_text = (SVG_DIR / f"{name}.svg").read_text(encoding="utf-8")
-        raw_path = RAW_DIR / f"{name}.JPG"
-        if raw_path.exists():
-            raw_b64 = base64.b64encode(raw_path.read_bytes()).decode("ascii")
-            svg_text = svg_text.replace(f"../raw/{name}.JPG", f"data:image/jpeg;base64,{raw_b64}")
+        jpg_path = FIG_DIR / f"{name}.jpg"
+        if jpg_path.exists():
+            jpg_b64 = base64.b64encode(jpg_path.read_bytes()).decode("ascii")
+            svg_text = svg_text.replace(f"../raw/{name}.JPG", f"data:image/jpeg;base64,{jpg_b64}")
 
         vb_m = re.search(r'viewBox="([^"]*)"', svg_text)
         vb = vb_m.group(1) if vb_m else "80 120 3820 2560"
@@ -148,32 +155,34 @@ def generate_contact_sheet_pdf() -> Path:
   </g>""")
 
     svg_parts.append("</svg>")
-    out_pdf = CONTACT_DIR / "sheet_all_15waveforms_annotated.pdf"
+    full_svg_text = "\n".join(svg_parts)
+
     p = subprocess.run(
-        [str(RSVG_BIN), "-f", "pdf", "-o", str(out_pdf), "-"],
-        input="\n".join(svg_parts).encode("utf-8"),
+        [str(RSVG_BIN), "-u", "-f", "png", "-w", str(total_w), "-"],
+        input=full_svg_text.encode("utf-8"),
         capture_output=True,
     )
     if p.returncode != 0:
         raise RuntimeError(f"rsvg-convert failed: {p.stderr.decode()}")
 
-    size_mb = out_pdf.stat().st_size / (1024 * 1024)
-    print(f"Generated contact sheet: {out_pdf.name} ({size_mb:.2f} MB)")
-    return out_pdf
+    img = Image.open(io.BytesIO(p.stdout)).convert("RGB")
+
+    # Save high-resolution JPEG (~1.3MB, well below 100MB constraint)
+    out_jpg = CONTACT_DIR / "sheet_all_15waveforms_annotated.jpg"
+    img.save(out_jpg, format="JPEG", quality=88, optimize=True)
+
+    print(f"Generated Contact Sheet: JPG {out_jpg.stat().st_size / 1024 / 1024:.2f} MB")
 
 
 def main() -> None:
-    print(f"Using {RSVG_BIN} for native SVG->PDF vector rendering...")
+    print("Generating ~100KB JPEGs for individual waveforms...")
     svg_files = sorted(SVG_DIR.glob("*.svg"))
-    success_count = 0
-
     for svg_file in svg_files:
-        out_pdf = FIG_DIR / f"{svg_file.stem}.pdf"
-        if render_svg_to_pdf(svg_file, out_pdf):
-            success_count += 1
+        render_individual_waveform(svg_file, target_width=1200, quality=78)
 
-    print(f"Successfully rendered {success_count}/{len(svg_files)} individual PDFs.")
-    generate_contact_sheet_pdf()
+    print("\nGenerating contact sheet (JPEG)...")
+    generate_contact_sheet()
+    print("\nDone!")
 
 
 if __name__ == "__main__":
