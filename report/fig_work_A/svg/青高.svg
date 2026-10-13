@@ -16,17 +16,17 @@
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.8</text>
     </g>
-    <line x1="480.0" y1="888.0" x2="2400.0" y2="888.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="480.0" y1="1225.0" x2="2400.0" y2="1225.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2200.0" y1="1225.0" x2="2200.0" y2="888.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(2029.0, 1026.5)">
+    <line x1="480.0" y1="888.0" x2="3180.0" y2="888.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="480.0" y1="1225.0" x2="3180.0" y2="1225.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2650.0" y1="1225.0" x2="2650.0" y2="888.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2685.0, 1026.5)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.6</text>
     </g>
-    <line x1="2500.0" y1="747.0" x2="3180.0" y2="747.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2500.0" y1="1735.0" x2="3180.0" y2="1735.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2900.0" y1="1735.0" x2="2900.0" y2="747.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(2935.0, 1211.0)">
+    <line x1="480.0" y1="747.0" x2="3180.0" y2="747.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="480.0" y1="1735.0" x2="3180.0" y2="1735.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2950.0" y1="1735.0" x2="2950.0" y2="747.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2985.0, 1211.0)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">4.6</text>
     </g>

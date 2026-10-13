@@ -18,8 +18,8 @@
     </g>
     <line x1="480.0" y1="1265.0" x2="3180.0" y2="1265.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
     <line x1="480.0" y1="1631.0" x2="3180.0" y2="1631.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2950.0" y1="1631.0" x2="2950.0" y2="1265.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
-    <g transform="translate(2985.0, 1418.0)">
+    <line x1="2500.0" y1="1631.0" x2="2500.0" y2="1265.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)"/>
+    <g transform="translate(2535.0, 1418.0)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2"/>
       <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.7</text>
     </g>
