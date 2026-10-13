@@ -11,31 +11,52 @@
   </defs>
   <image href="../raw/青高々.JPG" width="4000" height="3000" />
   <g id="annotations">
-    <g id="meas-period" class="measurement" transform="translate(1555.0, 1100.0)" data-half-span="285.0">
-      <line x1="-285.0" y1="-200.0" x2="-285.0" y2="200.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8" />
-      <line x1="285.0" y1="-200.0" x2="285.0" y2="200.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8" />
-      <line x1="-285.0" y1="0.0" x2="285.0" y2="0.0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)" marker-end="url(#arrow-magenta)" />
-      <g transform="translate(-55.0, -70.0)">
-        <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB" stroke-width="2" />
-        <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.2</text>
+    <g id="meas-period" class="measurement" transform="translate(1270.0, 1100.0)" data-half-span="285.0">
+      <line x1="0" y1="-200.0" x2="0" y2="200.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <line x1="570" y1="-200.0" x2="570" y2="200.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <g transform="translate(0, 0)">
+        <line x1="0" y1="0" x2="570.0" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
+          marker-end="url(#arrow-magenta)" />
+        <g transform="translate(230, -70)">
+          <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB"
+            stroke-width="2" />
+          <text x="55" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
+            text-anchor="middle">2.2</text>
+        </g>
       </g>
     </g>
-    <g id="meas-amplitude-ch1" class="measurement" transform="translate(2650.0, 1465.0)" data-half-span="215.0">
-      <line x1="-100.0" y1="-215.0" x2="100.0" y2="-215.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8" />
-      <line x1="-100.0" y1="215.0" x2="100.0" y2="215.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8" />
-      <line x1="0.0" y1="-215.0" x2="0.0" y2="215.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)" />
-      <g transform="translate(30.0, 0.0)">
-        <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2" />
-        <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
+    <g id="meas-amplitude-ch1" class="measurement" transform="translate(2650.0, 1250.0)" data-half-span="215.0">
+      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <line x1="-100.0" y1="430" x2="100.0" y2="430" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <g transform="translate(0.0, 0)">
+        <line x1="0" y1="0" x2="0" y2="430.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
+          marker-end="url(#arrow-green)" />
+        <g transform="translate(30, 185)">
+          <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
+            stroke-width="2" />
+          <text x="55" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
+            text-anchor="middle">2.0</text>
+        </g>
       </g>
     </g>
-    <g id="meas-amplitude-ch2" class="measurement" transform="translate(2920.0, 1629.0)" data-half-span="151.0">
-      <line x1="-100.0" y1="-151.0" x2="100.0" y2="-151.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8" />
-      <line x1="-100.0" y1="151.0" x2="100.0" y2="151.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8" />
-      <line x1="0.0" y1="-151.0" x2="0.0" y2="151.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)" marker-end="url(#arrow-green)" />
-      <g transform="translate(30.0, 0.0)">
-        <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676" stroke-width="2" />
-        <text x="55.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.4</text>
+    <g id="meas-amplitude-ch2" class="measurement" transform="translate(2920.0, 1478.0)" data-half-span="151.0">
+      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <line x1="-100.0" y1="302" x2="100.0" y2="302" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <g transform="translate(0.0, 0)">
+        <line x1="0" y1="0" x2="0" y2="302.0" stroke="#00E676" stroke-width="5" marker-start="url(#arrow-green)"
+          marker-end="url(#arrow-green)" />
+        <g transform="translate(30, 121)">
+          <rect width="110" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
+            stroke-width="2" />
+          <text x="55" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
+            text-anchor="middle">1.4</text>
+        </g>
       </g>
     </g>
   </g>
