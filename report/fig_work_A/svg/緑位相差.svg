@@ -9,7 +9,7 @@
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E676" />
     </marker>
   </defs>
-  <image href="../raw/青位相差.JPG" width="4000" height="3000" />
+  <image href="../raw/緑位相差.JPG" width="4000" height="3000" />
   <g id="annotations">
     <g id="meas-phase-diff" class="measurement" transform="translate(1555.0, 1150.0)" data-half-span="20.0">
       <line x1="0" y1="-300.0" x2="0" y2="300.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
