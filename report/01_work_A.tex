@@ -342,17 +342,17 @@
 
 ATOM Lite から4種類のテスト波形を入力した際のオシロスコープ設定パラメータおよび目盛り読み取り諸元を表\ref{tab:result_raw_work_A1}に示す．
 また，これらに基づき算出した周期，振幅，増幅率，周波数特性，および入出力位相差を表\ref{tab:result_calc_work_A1}に示す．
-各波形におけるオシロスコープの低周波全体観測画面を図\ref{fig:waveforms_work_A1}に，高周波成分の周期拡大観測および立ち上がり位相差観測画面を図\ref{fig:waveforms_work_A1_zoom}に示す．
-波形写真の命名体系および観測フェーズの対応として，接尾辞「無印」（緑，赤，青，紫）は200\,ms/divにおける低周波全体観測，「高」（赤高，青高，紫高）は高周波成分の周期拡大観測（波形2：4.00\,ms/div，波形3：40.0\,ms/div等），「位相差」（赤位相差，青位相差）は過渡期立ち上がりエッジにおける入出力時間差拡大観測（400\,$\mu$s/div），「高々」（赤高々，青高々，青高々2，紫高々）はさらなる微細時間軸観測を表している．
-各波形写真上には，波形ピーク・谷底および過渡エッジを垂直・水平に貫くオシロスコープ・カーソル線（白色破線），測定区間を示すシアン色寸法線，および直接読み取った目盛り幅（単位省略のdiv値）をオーバーレイ表示し，計測根拠の客観性と視認性を高めた．
-拡大観測（図\ref{fig:waveforms_work_A1_zoom}(c), (d)）において，信号の立ち上がりエッジに着目すると，いずれも黄色（CH1：入力 $v_i$）が先行して立ち上がり，水色（CH2：出力 $v_o$）が遅れて立ち上がっている様子が明瞭に確認できる．
+各入力波形におけるオシロスコープの全体観測画面（低周波観測，200\,ms/div）を図\ref{fig:waveforms_work_A1}に示す．
+また，重畳された高周波成分の拡大観測（波形2：40.0\,ms/div，波形3：100\,ms/div），および信号立ち上がり時における過渡応答の拡大観測（40.0\,ms/div）を図\ref{fig:waveforms_work_A1_zoom}に示す．
+各波形画面上には，波形のピーク・谷底および信号変化点を明確に示すカーソル線（白色破線），測定区間を示す寸法線，ならびに読み取った目盛り幅（div値）を付記し，計測根拠の客観性と視認性を高めた．
+立ち上がり過渡応答の拡大観測（図\ref{fig:waveforms_work_A1_zoom}(c), (d)）に着目すると，いずれの波形においても入力信号 $v_i$（CH1：黄）が先行して変化し，出力信号 $v_o$（CH2：水色）が遅れて応答している様子が明瞭に確認できる．
 入出力信号間の時間差 $\Delta t$ および周期 $T$ に基づく正負ありの位相差 $\theta$ は，出力の入力に対する遅延を負値として，
 \begin{equation}
   \theta = -\frac{\Delta t}{T} \times 2\pi \quad [\mathrm{rad}]
   \label{eq:phase_calc_result}
 \end{equation}
 により算出した．
-また，ATOM Liteの低周波信号設定（公称値1\,Hz，想定周期1000\,ms，200\,ms/divにおいて5.0\,div）に対し，オシロスコープ画面上では波形1において周期3.3\,div（660\,ms，実測周波数1.52\,Hz），波形2において周期3.4\,div（680\,ms，実測周波数1.47\,Hz），波形3において周期3.5\,div（700\,ms，実測周波数1.43\,Hz）として観測された．表\ref{tab:result_raw_work_A1}および表\ref{tab:result_calc_work_A1}には，画面目盛りから直接読み取った一次測定値（div値および計器レンジ），ならびにそれらに基づく二次算出値（実時間・実電圧・増幅率・周波数・位相差）を厳密に分離して記録した．
+また，ATOM Liteの低周波信号設定（公称値1\,Hz，想定周期1000\,ms，200\,ms/divにおいて5.0\,div）に対し，オシロスコープ画面上では波形1において周期3.3\,div（660\,ms，実測周波数1.52\,Hz），波形2において周期3.4\,div（680\,ms，実測周波数1.47\,Hz），波形3において周期3.5\,div（700\,ms，実測周波数1.43\,Hz）として観測された．表\ref{tab:result_raw_work_A1}にはオシロスコープ画面から直接読み取った測定値および計器レンジ設定を，表\ref{tab:result_calc_work_A1}にはそれらに基づき算出した各諸特性（実時間・実電圧・増幅率・周波数・位相差）を整理して記録した．
 
 ここで，本実験で使用した炭素皮膜抵抗器（表\ref{tab:circuit_components}）はすべて第4色帯が金色であり，許容差 $\pm 5\%$ の公差を有する．各増幅段において帰還抵抗が下限値（$-5\%$），入力抵抗が上限値（$+5\%$）となる最悪条件（公差下限）における増幅率は，
 \begin{align}
@@ -368,7 +368,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 となる．
 
 \begin{table}[htbp]
-  \caption{波形出力デバイス入力時の測定諸元およびオシロスコープ設定（一次データ：生データ）}
+  \caption{波形出力デバイス入力時におけるオシロスコープ測定値および設定一覧}
   \centering
   \resizebox{\textwidth}{!}{%
     \begin{tabular}{|c||c|c|c||c|c|c||c|c|c|c|c|}
@@ -389,17 +389,17 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
     \end{tabular}%
   }
   \vspace{0.2em}
-  {\footnotesize \raggedright ※波形1〜3の時間差は過渡期立ち上がり拡大観測（波形1：0.400\,ms/div，波形2および波形3：40.0\,ms/div），波形4の時間差は低周波全体観測（200\,ms/div）における読み取り値．\par}
+  {\footnotesize \raggedright ※波形1〜3の時間差は立ち上がり過渡応答の拡大観測（波形1：0.400\,ms/div，波形2および波形3：40.0\,ms/div），波形4の時間差は低周波観測（200\,ms/div）における読み取り値．\par}
   \label{tab:result_raw_work_A1}
 \end{table}
 
 \begin{table}[htbp]
-  \caption{波形出力デバイス入力時の算出諸特性（二次データ：算出データ）}
+  \caption{波形出力デバイス入力時における算定諸特性一覧}
   \centering
   \resizebox{\textwidth}{!}{%
     \begin{tabular}{|c||c|c|c|c||c|c|c|c||c|c|c|}
       \hline
-      \multirow{3}{*}{入力波形}  & \multicolumn{4}{c||}{低周波信号（算出値）} & \multicolumn{4}{c||}{高周波信号（算出値）} & \multicolumn{3}{c|}{特性算出値}                                                                                               \\
+      \multirow{3}{*}{入力波形}  & \multicolumn{4}{c||}{低周波信号} & \multicolumn{4}{c||}{高周波信号} & \multicolumn{3}{c|}{回路特性}                                                                                               \\
       \cline{2-12}
                              & 周期 $T$                         & 周波数 $f$                           & $v_i$ 振幅                    & $v_o$ 振幅 & 周期 $T_{\mathrm{high}}$ & 周波数 $f_{\mathrm{high}}$ & $v_i$ 振幅 & $v_o$ 振幅 & 増幅率 $A_v$     & 時間差 $\Delta t$ & 位相差 $\theta$  \\
                              & [ms]                           & [Hz]                               & [mV]                        & [mV]     & [ms]                   & [Hz]                     & [mV]     & [mV]     & $v_o/v_i$ [倍] & [ms]           & [rad]          \\
@@ -455,31 +455,31 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
   \begin{minipage}[b]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_A/赤高.jpg}
-    \caption{波形2 高周波成分（100\,Hz周期拡大）}
+    \caption{波形2 高周波成分（100\,Hz）の拡大観測}
     \label{fig:wave2_high}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_A/青高.jpg}
-    \caption{波形3 高周波成分（7\,Hz周期拡大）}
+    \caption{波形3 高周波成分（7\,Hz）の拡大観測}
     \label{fig:wave3_high}
   \end{minipage}
   \vspace{0.8em}
   \begin{minipage}[b]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_A/赤位相差.jpg}
-    \caption{波形2 立ち上がり位相差観測}
+    \caption{波形2 立ち上がり過渡応答の拡大観測}
     \label{fig:wave2_phase}
   \end{minipage}
   \hfill
   \begin{minipage}[b]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_A/青位相差.jpg}
-    \caption{波形3 立ち上がり位相差観測}
+    \caption{波形3 立ち上がり過渡応答の拡大観測}
     \label{fig:wave3_phase}
   \end{minipage}
-  \caption{オシロスコープによる高周波成分および立ち上がり位相差の拡大観測波形（CH1：$v_i$［黄］，CH2：$v_o$［水色］）}
+  \caption{オシロスコープによる高周波成分および立ち上がり過渡応答の拡大観測波形（CH1：$v_i$［黄］，CH2：$v_o$［水色］）}
   \label{fig:waveforms_work_A1_zoom}
 \end{figure}
 
@@ -498,7 +498,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 \end{figure}
 
 \begin{table}[htbp]
-  \caption{指先脈波計測の測定諸元およびオシロスコープ設定（一次データ：生データ）}
+  \caption{生体脈波計測におけるオシロスコープ測定値および設定一覧}
   \centering
   \small
   \begin{tabular}{|l||c|c|}
@@ -524,7 +524,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 \end{table}
 
 \begin{table}[htbp]
-  \caption{指先脈波計測の算出諸特性（二次データ：算出データ）}
+  \caption{生体脈波計測における算定諸特性一覧}
   \centering
   \small
   \begin{tabular}{|l||c|c|}
@@ -611,7 +611,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
 
 オシロスコープ観測により得られた入力信号 $v_i$（CH1：黄色）と出力信号 $v_o$（CH2：水色）の間における時間差および位相差について考察する．
 
-過渡期の波形拡大観測写真（図\ref{fig:waveforms_work_A1_zoom}(c) 赤位相差，(d) 青位相差，および青高々）において，急峻な立ち上がりエッジに着目すると，**いずれの波形においても黄色（CH1：入力 $v_i$）が先行して立ち上がり，水色（CH2：出力 $v_o$）が遅れて立ち上がっている様子**が明瞭に確認できる．
+信号立ち上がり時における過渡応答の拡大観測波形（図\ref{fig:waveforms_work_A1_zoom}(c), (d)）において，急峻な信号変化点に着目すると，いずれの波形においても黄色（CH1：入力 $v_i$）が先行して立ち上がり，水色（CH2：出力 $v_o$）が遅れて追従している様子が明瞭に確認できる．
 出力信号が入力信号に対して時間的に遅れて応答しているため，入出力位相差は負の値（遅れ位相，$\theta < 0\,\mathrm{rad}$）として定義される．
 
 指先脈波計測（ワークA-2）において実測された時間差 $\Delta t = 40.0\,\mathrm{ms}$ は，表\ref{tab:result_calc_work_A2}に示した通り位相差 $\theta = -0.340\,\mathrm{rad}$（最長周期740\,ms時）および $\theta = -0.359\,\mathrm{rad}$（次長周期700\,ms時）に相当する．
@@ -624,7 +624,7 @@ ATOM Lite から4種類のテスト波形を入力した際のオシロスコー
   \item \textbf{オペアンプ（LM358N）の内部応答遅れ}：
         内部位相補償回路およびスルーレートによる微小な応答遅延が加わる．
 \end{enumerate}
-過渡期の写真から明らかな「CH1入力先行・CH2出力追従遅延」の振る舞いは，アナログフィルタ回路の時定数および伝達特性に基づく物理現象として極めて妥当である．
+過渡応答波形から明らかな「CH1入力先行・CH2出力追従遅延」の振る舞いは，アナログフィルタ回路の時定数および伝達特性に基づく物理現象として極めて妥当である．
 
 \section{おわりに}
 %% ワークAを通じて得られた知見や考察，目的の達成度などについて記述し，ワー
