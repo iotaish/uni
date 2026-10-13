@@ -11,18 +11,32 @@
   </defs>
   <image href="../raw/紫高.JPG" width="4000" height="3000" />
   <g id="annotations">
-    <g id="meas-period-fullscreen" class="measurement" transform="translate(550.0, 750.0)" data-half-span="1350.0">
-      <line x1="0" y1="-500.0" x2="0" y2="500.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+    <g id="meas-period" class="measurement" transform="translate(550.0, 1000.0)" data-half-span="1350.0">
+      <line x1="0" y1="-50.0" x2="0" y2="800.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="2700" y1="-500.0" x2="2700" y2="500.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+      <line x1="1650" y1="-500.0" x2="1650" y2="500.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
         opacity="0.8" />
-      <line x1="0" y1="0" x2="2700.0" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
+      <line x1="0" y1="0" x2="1650.0" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
         marker-end="url(#arrow-magenta)" />
-      <g transform="translate(1280, -70)">
+      <g transform="translate(700, -70)">
         <rect width="140" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB"
           stroke-width="2" />
         <text x="70" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
-          text-anchor="middle">10.3</text>
+          text-anchor="middle">6.5</text>
+      </g>
+    </g>
+    <g id="meas-phase-diff" class="measurement" transform="translate(1000.0, 1700.0)" data-half-span="1350.0">
+      <line x1="0" y1="-280.0" x2="0" y2="50.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <line x1="425" y1="-350.0" x2="425" y2="50.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10"
+        opacity="0.8" />
+      <line x1="0" y1="0" x2="425.0" y2="0" stroke="#E040FB" stroke-width="5" marker-start="url(#arrow-magenta)"
+        marker-end="url(#arrow-magenta)" />
+      <g transform="translate(150, 50)">
+        <rect width="140" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB"
+          stroke-width="2" />
+        <text x="70" y="44" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold"
+          text-anchor="middle">1.7</text>
       </g>
     </g>
   </g>
