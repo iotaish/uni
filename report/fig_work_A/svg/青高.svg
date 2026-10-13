@@ -9,6 +9,19 @@
   </defs>
   <image href="../raw/青高.JPG" width="4000" height="3000"/>
   <g id="annotations">
-    <!-- 100ms/div 中間拡大観測（高周波諸元 3.6div/0.85div は 40.0ms/div の青高々.svg に集約） -->
+    <line x1="2220.0" y1="360.0" x2="2220.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2430.0" y1="360.0" x2="2430.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2220.0" y1="750.0" x2="2430.0" y2="750.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
+    <g transform="translate(2257.0, 680.0)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">0.8</text>
+    </g>
+    <line x1="480.0" y1="888.0" x2="3180.0" y2="888.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="480.0" y1="1225.0" x2="3180.0" y2="1225.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2650.0" y1="1225.0" x2="2650.0" y2="888.0" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)"/>
+    <g transform="translate(2685.0, 1026.5)">
+      <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">1.6</text>
+    </g>
   </g>
 </svg>

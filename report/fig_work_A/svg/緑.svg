@@ -9,19 +9,19 @@
   </defs>
   <image href="../raw/緑.JPG" width="4000" height="3000"/>
   <g id="annotations">
-    <line x1="1877.0" y1="360.0" x2="1877.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2637.0" y1="360.0" x2="2637.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="1877.0" y1="680.0" x2="2637.0" y2="680.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
-    <g transform="translate(2189.0, 610.0)">
+    <line x1="1868.0" y1="360.0" x2="1868.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2641.0" y1="360.0" x2="2641.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="1868.0" y1="680.0" x2="2641.0" y2="680.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
+    <g transform="translate(2186.5, 610.0)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.0</text>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.0</text>
     </g>
-    <line x1="480.0" y1="515.0" x2="3180.0" y2="515.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="480.0" y1="2047.0" x2="3180.0" y2="2047.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2920.0" y1="2047.0" x2="2920.0" y2="515.0" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)"/>
-    <g transform="translate(2955.0, 1251.0)">
+    <line x1="480.0" y1="440.0" x2="3180.0" y2="440.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="480.0" y1="2054.0" x2="3180.0" y2="2054.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="2920.0" y1="2054.0" x2="2920.0" y2="440.0" stroke="#FF9100" stroke-width="5" marker-start="url(#arrow-orange)" marker-end="url(#arrow-orange)"/>
+    <g transform="translate(2955.0, 1217.0)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#FF9100" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">7.0</text>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">7.5</text>
     </g>
   </g>
 </svg>

@@ -9,12 +9,12 @@
   </defs>
   <image href="../raw/青高々2.JPG" width="4000" height="3000"/>
   <g id="annotations">
-    <line x1="1454.0" y1="360.0" x2="1454.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="2610.0" y1="360.0" x2="2610.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
-    <line x1="1454.0" y1="835.0" x2="2610.0" y2="835.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
-    <g transform="translate(1964.0, 765.0)">
+    <line x1="1015.0" y1="360.0" x2="1015.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="1641.0" y1="360.0" x2="1641.0" y2="2090.0" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14,10" opacity="0.8"/>
+    <line x1="1015.0" y1="1350.0" x2="1641.0" y2="1350.0" stroke="#00E5FF" stroke-width="5" marker-start="url(#arrow-cyan)" marker-end="url(#arrow-cyan)"/>
+    <g transform="translate(1260.0, 1280.0)">
       <rect width="136" height="60" rx="10" ry="10" fill="#0A0D12" fill-opacity="0.88" stroke="#00E5FF" stroke-width="2"/>
-      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">3.6</text>
+      <text x="68.0" y="44.0" fill="#FFFFFF" font-family="sans-serif" font-size="42" font-weight="bold" text-anchor="middle">2.4</text>
     </g>
   </g>
 </svg>
