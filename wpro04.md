@@ -48,3 +48,18 @@ stateDiagram-v2
     game: /blackjack/game
     rlt: /blackjack/rlt
 ```
+
+## 5. poker
+
+```mermaid
+stateDiagram-v2
+    [*] --> entry: ランディングページ
+    entry --> stt: ポーカーを選ぶ
+    stt --> game: ゲーム開始
+    game --> rlt: 交換確定・ゲーム終了
+
+    entry: /
+    stt: /poker
+    game: /poker/game
+    rlt: /poker/rlt
+```
