@@ -42,6 +42,8 @@ stateDiagram-v2
     entry --> stt
     stt --> game: ゲーム開始
     game --> rlt: ゲーム終了
+
+    entry: /
     stt: /blackjack
     game: /blackjack/game
     rlt: /blackjack/rlt
