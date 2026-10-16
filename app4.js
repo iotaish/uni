@@ -1,13 +1,17 @@
-const express = require("express");
-const path = require('path');
-const { getOmikuji, getComment } = require('./omikuji');
-const { startNewGame, drawCard, finishDealerTurn } = require('./blackjack');
-const { startWordleGame, evaluateGuess } = require('./wordle');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { getOmikuji, getComment } from './omikuji.js';
+import { startNewGame, drawCard, finishDealerTurn } from './blackjack.js';
+import { startWordleGame, evaluateGuess } from './wordle.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 app.set('view engine', 'ejs');
-app.use("/public", express.static(path.join(__dirname + "/public")));
+app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

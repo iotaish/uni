@@ -112,7 +112,7 @@ function finishDealerTurn(gameId) {
     };
 }
 
-module.exports = {
+export {
     startNewGame,
     drawCard,
     finishDealerTurn

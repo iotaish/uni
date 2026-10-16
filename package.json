@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Node.js example server starter project",
   "main": "app4.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "start": "node app4.js",
     "dr": "deno run --allow-net --allow-read --allow-env app4.js"

@@ -139,7 +139,7 @@ function evaluateGuess(gameId, rawGuess) {
     return response;
 }
 
-module.exports = {
+export {
     startWordleGame,
     evaluateGuess
 };
