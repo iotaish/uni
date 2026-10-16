@@ -54,9 +54,9 @@ app.get("/german", (req, res) => {
   res.render('greeting', { message: 'Guten Morgen\n' });
 });
 
-// Blackjack ルート（HTMLテンプレートをクライアントへ返すのみ、計算はクライアントJS側で実行）
+// Blackjack ルート
 app.get("/blackjack", (req, res) => {
-  res.render('blackjack');
+  res.sendFile("blackjack.html", { root: path.join(__dirname, "public") });
 });
 
 app.get("/blackjack/game", (req, res) => {
