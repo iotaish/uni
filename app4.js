@@ -1,15 +1,6 @@
 const express = require("express");
 const path = require('path');
 const { getOmikuji, getComment } = require('./omikuji');
-const {
-  createDeck,
-  parseCards,
-  calculateScore,
-  dealInitialCards,
-  drawCard,
-  playDealerTurn,
-  judgeGame
-} = require('./blackjack');
 
 const app = express();
 
@@ -63,68 +54,17 @@ app.get("/german", (req, res) => {
   res.render('greeting', { message: 'Guten Morgen\n' });
 });
 
-// Blackjack ルート
+// Blackjack ルート（HTMLテンプレートをクライアントへ返すのみ、計算はクライアントJS側で実行）
 app.get("/blackjack", (req, res) => {
   res.render('blackjack');
 });
 
 app.get("/blackjack/game", (req, res) => {
-  let playerCards, dealerCards, deck;
-
-  if (!req.query.p || !req.query.d || !req.query.deck) {
-    // 新規ゲーム開始: デッキ作成 & 初期手札配布
-    const newDeck = createDeck();
-    const dealt = dealInitialCards(newDeck);
-    playerCards = dealt.playerCards;
-    dealerCards = dealt.dealerCards;
-    deck = dealt.remainingDeck;
-  } else {
-    playerCards = req.query.p.split(',').filter(Boolean);
-    dealerCards = req.query.d.split(',').filter(Boolean);
-    deck = req.query.deck.split(',').filter(Boolean);
-
-    if (req.query.action === 'hit') {
-      const { drawnCard, remainingDeck } = drawCard(deck);
-      if (drawnCard) {
-        playerCards.push(drawnCard);
-        deck = remainingDeck;
-      }
-    }
-  }
-
-  const pScore = calculateScore(playerCards);
-  const isBust = pScore > 21;
-
-  res.render('game', {
-    playerCards: parseCards(playerCards),
-    dealerCards: parseCards(dealerCards),
-    playerScore: pScore,
-    isBust: isBust,
-    pStr: playerCards.join(','),
-    dStr: dealerCards.join(','),
-    deckStr: deck.join(',')
-  });
+  res.render('game');
 });
 
 app.get("/blackjack/rlt", (req, res) => {
-  const playerCards = (req.query.p || '').split(',').filter(Boolean);
-  let dealerCards = (req.query.d || '').split(',').filter(Boolean);
-  let deck = (req.query.deck || '').split(',').filter(Boolean);
-
-  // プレイヤーがバーストしていない場合、ディーラーは17以上になるまでカードを引く
-  if (calculateScore(playerCards) <= 21) {
-    const dealerTurn = playDealerTurn(dealerCards, deck);
-    dealerCards = dealerTurn.dealerCards;
-    deck = dealerTurn.remainingDeck;
-  }
-
-  const outcome = judgeGame(playerCards, dealerCards);
-
-  res.render('result', {
-    playerCards: parseCards(playerCards),
-    dealerCards: parseCards(dealerCards),
-    outcome: outcome
-  });
+  res.render('result');
 });
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
