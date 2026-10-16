@@ -1,101 +1,44 @@
 /**
  * /public/blackjack.js
- * クライアントサイド（ブラウザ）で動作するブラックジャックの演算・進行エンジン
+ * サーバーPOST通信と連携し、クライアント側で主要なゲーム演算・状態管理を行うモジュール
  */
 
-// --- 1. カードおよびデッキのデータ定義とモデル ---
-const SUIT_DEFINITIONS = [
-    { code: 'S', symbol: '♠', name: 'スペード', isRed: false },
-    { code: 'H', symbol: '♥', name: 'ハート', isRed: true },
-    { code: 'D', symbol: '♦', name: 'ダイヤ', isRed: true },
-    { code: 'C', symbol: '♣', name: 'クラブ', isRed: false }
-];
+const SUIT_MAP = {
+    'S': { symbol: '♠', isRed: false },
+    'H': { symbol: '♥', isRed: true },
+    'D': { symbol: '♦', isRed: true },
+    'C': { symbol: '♣', isRed: false }
+};
 
-const RANK_DEFINITIONS = [
-    { num: 1, label: 'A' },
-    { num: 2, label: '2' },
-    { num: 3, label: '3' },
-    { num: 4, label: '4' },
-    { num: 5, label: '5' },
-    { num: 6, label: '6' },
-    { num: 7, label: '7' },
-    { num: 8, label: '8' },
-    { num: 9, label: '9' },
-    { num: 10, label: '10' },
-    { num: 11, label: 'J' },
-    { num: 12, label: 'Q' },
-    { num: 13, label: 'K' }
-];
+const RANK_LABELS = {
+    1: 'A',
+    11: 'J',
+    12: 'Q',
+    13: 'K'
+};
 
-class Card {
-    constructor(suitCode, num) {
-        this.suitCode = suitCode;
-        this.num = num;
-        const suit = SUIT_DEFINITIONS.find(s => s.code === suitCode) || { symbol: '?', isRed: false };
-        const rank = RANK_DEFINITIONS.find(r => r.num === num) || { label: String(num) };
-        this.symbol = suit.symbol;
-        this.label = rank.label;
-        this.isRed = suit.isRed;
-    }
-
-    get id() {
-        return `${this.suitCode}_${this.num}`;
-    }
-
-    static fromId(id) {
-        if (!id) return null;
+class CardModel {
+    constructor(id) {
+        this.id = id;
         const [suitCode, numStr] = id.split('_');
-        return new Card(suitCode, parseInt(numStr, 10));
+        this.suitCode = suitCode;
+        this.num = parseInt(numStr, 10);
+        const suit = SUIT_MAP[suitCode] || { symbol: '?', isRed: false };
+        this.symbol = suit.symbol;
+        this.isRed = suit.isRed;
+        this.label = RANK_LABELS[this.num] || String(this.num);
     }
 }
 
-class Deck {
-    constructor(cards = null) {
-        if (cards) {
-            this.cards = cards.map(c => (c instanceof Card ? c : Card.fromId(c)));
-        } else {
-            this.cards = [];
-            this.reset();
-        }
-    }
-
-    reset() {
-        this.cards = [];
-        for (const suit of SUIT_DEFINITIONS) {
-            for (const rank of RANK_DEFINITIONS) {
-                this.cards.push(new Card(suit.code, rank.num));
-            }
-        }
-        this.shuffle();
-    }
-
-    // Fisher-Yates シャッフル（クライアント側で実行）
-    shuffle() {
-        for (let i = this.cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
-        }
-    }
-
-    draw() {
-        return this.cards.pop() || null;
-    }
-
-    toIds() {
-        return this.cards.map(c => c.id);
-    }
-}
-
-// --- 2. ゲームルール・演算エンジン (クライアント側で実行) ---
-class BlackjackEngine {
+class BlackjackClientEngine {
     /**
-     * 手札の合計スコアを計算（Aの11/1自動切替）
+     * 手札の合計点数を計算（Aの1点/11点動的最適化）
      */
-    static calculateScore(cards) {
+    static calculateScore(cardModels) {
         let score = 0;
         let aceCount = 0;
 
-        for (const card of cards) {
+        for (const card of cardModels) {
             if (!card) continue;
             if (card.num === 1) {
                 aceCount++;
@@ -116,18 +59,7 @@ class BlackjackEngine {
     }
 
     /**
-     * ディーラーのAI思考演算（17以上になるまで引く）
-     */
-    static playDealerTurn(dealerCards, deck) {
-        while (this.calculateScore(dealerCards) < 17 && deck.cards.length > 0) {
-            const card = deck.draw();
-            if (card) dealerCards.push(card);
-        }
-        return dealerCards;
-    }
-
-    /**
-     * 勝敗判定
+     * 勝敗の判定演算
      */
     static judge(playerCards, dealerCards) {
         const pScore = this.calculateScore(playerCards);
@@ -164,32 +96,79 @@ class BlackjackEngine {
             message = `同点（${pScore}点）のため、引き分け（Push）です。`;
         }
 
-        return {
-            playerScore: pScore,
-            dealerScore: dScore,
-            outcome: outcome,
-            message: message
-        };
+        return { pScore, dScore, outcome, message };
     }
 }
 
-// --- 3. クライアント側UIレンダラー（<template> を利用） ---
-class CardRenderer {
-    constructor(templateSelector) {
-        this.template = document.querySelector(templateSelector);
+class BlackjackApp {
+    constructor() {
+        this.template = document.querySelector('.card-template');
+        this.startBtn = document.querySelector('[data-action="start"]');
+        this.hitBtn = document.querySelector('[data-action="hit"]');
+        this.standBtn = document.querySelector('[data-action="stand"]');
+        this.restartBtn = document.querySelector('[data-action="restart"]');
+
+        this.playerHandEl = document.querySelector('[data-role="player-hand"]');
+        this.dealerHandEl = document.querySelector('[data-role="dealer-hand"]');
+        this.playerScoreEl = document.querySelector('[data-role="player-score"]');
+        this.dealerScoreEl = document.querySelector('[data-role="dealer-score"]');
+
+        this.resultBannerEl = document.querySelector('[data-role="result-banner"]');
+        this.resultMsgEl = document.querySelector('[data-role="result-message"]');
+        this.resPlayerHandEl = document.querySelector('[data-role="result-player-hand"]');
+        this.resDealerHandEl = document.querySelector('[data-role="result-dealer-hand"]');
+        this.resPlayerScoreEl = document.querySelector('[data-role="result-player-score"]');
+        this.resDealerScoreEl = document.querySelector('[data-role="result-dealer-score"]');
+
+        this.gameId = null;
+        this.playerCards = [];
+        this.dealerVisibleCard = null;
+
+        this.bindEvents();
+        this.bindKeyboardShortcuts();
+    }
+
+    bindEvents() {
+        if (this.startBtn) this.startBtn.addEventListener('click', () => this.startGame());
+        if (this.hitBtn) this.hitBtn.addEventListener('click', () => this.hit());
+        if (this.standBtn) this.standBtn.addEventListener('click', () => this.stand());
+        if (this.restartBtn) this.restartBtn.addEventListener('click', () => this.setState('start'));
+    }
+
+    bindKeyboardShortcuts() {
+        window.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+            const currentState = document.body.dataset.state;
+
+            if (currentState === 'start') {
+                if (e.code === 'Enter' || e.code === 'Space') {
+                    e.preventDefault();
+                    this.startGame();
+                }
+            } else if (currentState === 'playing') {
+                if (e.code === 'KeyH' || e.key === 'h' || e.key === 'H' || e.code === 'Space') {
+                    e.preventDefault();
+                    if (!this.hitBtn.disabled) this.hit();
+                } else if (e.code === 'KeyS' || e.key === 's' || e.key === 'S' || e.code === 'Enter') {
+                    e.preventDefault();
+                    if (!this.standBtn.disabled) this.stand();
+                }
+            } else if (currentState === 'result') {
+                if (e.code === 'Enter' || e.code === 'Space') {
+                    e.preventDefault();
+                    this.setState('start');
+                }
+            }
+        });
+    }
+
+    setState(state) {
+        document.body.dataset.state = state;
     }
 
     createCardElement(card, isHidden = false) {
-        if (!this.template) {
-            const li = document.createElement('li');
-            li.dataset.state = isHidden ? 'hidden' : 'visible';
-            if (card && card.isRed && !isHidden) li.dataset.color = 'red';
-            li.textContent = isHidden ? '?' : `${card.symbol} ${card.label}`;
-            return li;
-        }
-
         const clone = this.template.content.cloneNode(true);
-        const item = clone.querySelector('li') || clone.firstElementChild;
+        const item = clone.querySelector('li');
 
         if (isHidden) {
             item.dataset.state = 'hidden';
@@ -206,162 +185,124 @@ class CardRenderer {
         container.replaceChildren();
         cards.forEach((card, index) => {
             const isHidden = (hideSecond && index >= 1);
-            const el = this.createCardElement(card, isHidden);
-            container.appendChild(el);
+            container.appendChild(this.createCardElement(card, isHidden));
         });
     }
-}
 
-// --- 4. ゲーム画面コントローラー (/blackjack/game 用) ---
-class GamePageController {
-    constructor() {
-        this.renderer = new CardRenderer('.card-template');
-        this.playerHandList = document.querySelector('[data-role="player-hand"]');
-        this.dealerHandList = document.querySelector('[data-role="dealer-hand"]');
-        this.playerScoreOutput = document.querySelector('[data-role="player-score"]');
-        this.dealerScoreOutput = document.querySelector('[data-role="dealer-score"]');
-        this.hitButton = document.querySelector('[data-action="hit"]');
-        this.standButton = document.querySelector('[data-action="stand"]');
-        this.statusSection = document.querySelector('[data-role="game-status"]');
+    // 1. POST /api/blackjack/start でサーバー乱数デッキから初期手札を取得
+    async startGame() {
+        this.startBtn.disabled = true;
+        try {
+            const res = await fetch('/api/blackjack/start', { method: 'POST' });
+            if (!res.ok) throw new Error('ゲーム開始通信に失敗しました');
+            const data = await res.json();
 
-        this.deck = new Deck();
-        this.playerCards = [];
-        this.dealerCards = [];
+            this.gameId = data.gameId;
+            this.playerCards = data.player.map(id => new CardModel(id));
+            this.dealerVisibleCard = new CardModel(data.dealerVisible);
 
-        this.init();
-    }
+            this.hitBtn.disabled = false;
+            this.standBtn.disabled = false;
+            this.setState('playing');
+            this.updatePlayingView();
 
-    init() {
-        // 新規ゲーム開始: 初期手札を2枚ずつ配る（クライアント側で演算）
-        this.playerCards = [this.deck.draw(), this.deck.draw()];
-        this.dealerCards = [this.deck.draw(), this.deck.draw()];
-
-        this.saveState();
-        this.bindEvents();
-        this.updateView();
-    }
-
-    bindEvents() {
-        if (this.hitButton) {
-            this.hitButton.addEventListener('click', () => this.onHit());
-        }
-        if (this.standButton) {
-            this.standButton.addEventListener('click', () => this.onStand());
-        }
-    }
-
-    // クライアント側でカードを引き、スコアを再計算
-    onHit() {
-        const drawn = this.deck.draw();
-        if (drawn) {
-            this.playerCards.push(drawn);
-        }
-        this.saveState();
-        this.updateView();
-
-        const score = BlackjackEngine.calculateScore(this.playerCards);
-        if (score > 21) {
-            // バースト判定
-            if (this.statusSection) {
-                this.statusSection.dataset.state = 'bust';
+            // クライアント側で即時ブラックジャック判定
+            const initialScore = BlackjackClientEngine.calculateScore(this.playerCards);
+            if (initialScore === 21) {
+                // ナチュラルBJなら自動でStandへ進む
+                setTimeout(() => this.stand(), 800);
             }
-            if (this.hitButton) this.hitButton.disabled = true;
+        } catch (err) {
+            alert(err.message);
+        } finally {
+            this.startBtn.disabled = false;
         }
     }
 
-    // クライアント側で状態を保存し、結果画面へ遷移
-    onStand() {
-        this.saveState();
-        window.location.href = '/blackjack/rlt';
+    // 2. POST /api/blackjack/hit で山札から1枚取得
+    async hit() {
+        this.hitBtn.disabled = true;
+        try {
+            const res = await fetch('/api/blackjack/hit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ gameId: this.gameId })
+            });
+            if (!res.ok) throw new Error('ドロー通信に失敗しました');
+            const data = await res.json();
+
+            this.playerCards.push(new CardModel(data.card));
+            this.updatePlayingView();
+
+            // クライアント側でスコア＆バースト判定
+            const score = BlackjackClientEngine.calculateScore(this.playerCards);
+            if (score > 21) {
+                // バーストしたら即終了して結果画面へ
+                this.hitBtn.disabled = true;
+                this.standBtn.disabled = true;
+                setTimeout(() => this.showResult([]), 600);
+            } else {
+                this.hitBtn.disabled = false;
+            }
+        } catch (err) {
+            alert(err.message);
+            this.hitBtn.disabled = false;
+        }
     }
 
-    saveState() {
-        const state = {
-            player: this.playerCards.map(c => c.id),
-            dealer: this.dealerCards.map(c => c.id),
-            deck: this.deck.toIds()
-        };
-        sessionStorage.setItem('bj_state', JSON.stringify(state));
+    // 3. POST /api/blackjack/stand でディーラーの最終手札を取得
+    async stand() {
+        this.hitBtn.disabled = true;
+        this.standBtn.disabled = true;
+        try {
+            const res = await fetch('/api/blackjack/stand', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ gameId: this.gameId })
+            });
+            if (!res.ok) throw new Error('勝負通信に失敗しました');
+            const data = await res.json();
+
+            const dealerCards = data.dealerCards.map(id => new CardModel(id));
+            this.showResult(dealerCards);
+        } catch (err) {
+            alert(err.message);
+            this.hitBtn.disabled = false;
+            this.standBtn.disabled = false;
+        }
     }
 
-    updateView() {
-        // プレイヤー手札描画
-        this.renderer.renderHand(this.playerHandList, this.playerCards, false);
-        const pScore = BlackjackEngine.calculateScore(this.playerCards);
-        if (this.playerScoreOutput) {
-            this.playerScoreOutput.textContent = `${pScore} 点`;
-        }
+    // ゲーム画面の描画更新（クライアント側でスコア計算）
+    updatePlayingView() {
+        this.renderHand(this.playerHandEl, this.playerCards, false);
+        const pScore = BlackjackClientEngine.calculateScore(this.playerCards);
+        this.playerScoreEl.textContent = `${pScore} 点`;
 
-        // ディーラー手札描画（2枚目は伏せる）
-        this.renderer.renderHand(this.dealerHandList, this.dealerCards, true);
-        if (this.dealerScoreOutput && this.dealerCards.length > 0) {
-            const visibleScore = this.dealerCards[0].num === 1 ? 11 : Math.min(this.dealerCards[0].num, 10);
-            this.dealerScoreOutput.textContent = `${visibleScore} 点 + ?`;
-        }
+        // ディーラー（1枚表示、1枚伏せ）
+        this.renderHand(this.dealerHandEl, [this.dealerVisibleCard, null], true);
+        const visibleScore = this.dealerVisibleCard.num === 1 ? 11 : Math.min(this.dealerVisibleCard.num, 10);
+        this.dealerScoreEl.textContent = `${visibleScore} 点 + ?`;
+    }
+
+    // 4. 結果画面の描画（クライアント側で勝敗判定を演算）
+    showResult(dealerCards) {
+        // バースト等で dealerCards が空の場合、見えていたカードのみで判定
+        const finalDealerCards = dealerCards.length > 0 ? dealerCards : [this.dealerVisibleCard];
+        const result = BlackjackClientEngine.judge(this.playerCards, finalDealerCards);
+
+        this.renderHand(this.resPlayerHandEl, this.playerCards, false);
+        this.renderHand(this.resDealerHandEl, finalDealerCards, false);
+
+        this.resPlayerScoreEl.textContent = `${result.pScore} 点 ${result.pScore > 21 ? '（バースト）' : ''}`;
+        this.resDealerScoreEl.textContent = `${result.dScore} 点 ${result.dScore > 21 ? '（バースト）' : ''}`;
+
+        this.resultBannerEl.dataset.outcome = result.outcome;
+        this.resultMsgEl.textContent = result.message;
+
+        this.setState('result');
     }
 }
 
-// --- 5. 結果画面コントローラー (/blackjack/rlt 用) ---
-class ResultPageController {
-    constructor() {
-        this.renderer = new CardRenderer('.card-template');
-        this.playerHandList = document.querySelector('[data-role="player-hand"]');
-        this.dealerHandList = document.querySelector('[data-role="dealer-hand"]');
-        this.playerScoreOutput = document.querySelector('[data-role="player-score"]');
-        this.dealerScoreOutput = document.querySelector('[data-role="dealer-score"]');
-        this.resultBanner = document.querySelector('[data-role="result-banner"]');
-        this.messageOutput = document.querySelector('[data-role="result-message"]');
-
-        this.init();
-    }
-
-    init() {
-        const rawState = sessionStorage.getItem('bj_state');
-        if (!rawState) {
-            // 状態がない場合は新規スタートへリダイレクト
-            window.location.href = '/blackjack';
-            return;
-        }
-
-        const state = JSON.parse(rawState);
-        const playerCards = state.player.map(id => Card.fromId(id));
-        let dealerCards = state.dealer.map(id => Card.fromId(id));
-        const deck = new Deck(state.deck);
-
-        // クライアント側でディーラーの思考演算（17以上までドロー）
-        const pScore = BlackjackEngine.calculateScore(playerCards);
-        if (pScore <= 21) {
-            dealerCards = BlackjackEngine.playDealerTurn(dealerCards, deck);
-        }
-
-        // クライアント側で勝敗判定
-        const result = BlackjackEngine.judge(playerCards, dealerCards);
-
-        // 画面描画
-        this.renderer.renderHand(this.playerHandList, playerCards, false);
-        this.renderer.renderHand(this.dealerHandList, dealerCards, false);
-
-        if (this.playerScoreOutput) {
-            this.playerScoreOutput.textContent = `${result.playerScore} 点 ${result.playerScore > 21 ? '（バースト）' : ''}`;
-        }
-        if (this.dealerScoreOutput) {
-            this.dealerScoreOutput.textContent = `${result.dealerScore} 点 ${result.dealerScore > 21 ? '（バースト）' : ''}`;
-        }
-        if (this.resultBanner) {
-            this.resultBanner.dataset.outcome = result.outcome;
-        }
-        if (this.messageOutput) {
-            this.messageOutput.textContent = result.message;
-        }
-    }
-}
-
-// --- 起動ディスパッチャー ---
 document.addEventListener('DOMContentLoaded', () => {
-    const pageType = document.body.dataset.page;
-    if (pageType === 'game') {
-        new GamePageController();
-    } else if (pageType === 'result') {
-        new ResultPageController();
-    }
+    new BlackjackApp();
 });
