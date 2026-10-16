@@ -39,8 +39,9 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
     [*] --> stt
-    stt: /blackjack/
-    stt --> game: 初期手札
-    game: /blackjack/game/
-
+    stt: /blackjack
+    stt --> game: ゲーム開始
+    game --> rlt: ゲーム終了
+    game: /blackjack/game
+    rlt: /blackjack/rlt
 ```
