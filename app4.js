@@ -1,12 +1,15 @@
 const express = require("express");
 const path = require('path');
 const { getOmikuji, getComment } = require('./omikuji');
+const { startNewGame, drawCard, finishDealerTurn } = require('./blackjack');
+const { startWordleGame, evaluateGuess } = require('./wordle');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.use("/public", express.static(path.join(__dirname + "/public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.sendFile("index.html", { root: path.join(__dirname, "public") });
@@ -59,12 +62,43 @@ app.get("/blackjack", (req, res) => {
   res.sendFile("blackjack.html", { root: path.join(__dirname, "public") });
 });
 
-app.get("/blackjack/game", (req, res) => {
-  res.render('game');
+// Blackjack POST API（乱数・山札ドロー管理）
+app.post("/api/blackjack/start", (req, res) => {
+  res.json(startNewGame());
 });
 
-app.get("/blackjack/rlt", (req, res) => {
-  res.render('result');
+app.post("/api/blackjack/hit", (req, res) => {
+  const result = drawCard(req.body.gameId);
+  if (!result) {
+    return res.status(400).json({ error: "Game not found or deck empty" });
+  }
+  res.json(result);
+});
+
+app.post("/api/blackjack/stand", (req, res) => {
+  const result = finishDealerTurn(req.body.gameId);
+  if (!result) {
+    return res.status(400).json({ error: "Game not found" });
+  }
+  res.json(result);
+});
+
+// Wordle ルート
+app.get("/wordle", (req, res) => {
+  res.sendFile("wordle.html", { root: path.join(__dirname, "public") });
+});
+
+// Wordle POST API（乱数単語選定・辞書判定）
+app.post("/api/wordle/start", (req, res) => {
+  res.json(startWordleGame());
+});
+
+app.post("/api/wordle/guess", (req, res) => {
+  const result = evaluateGuess(req.body.gameId, req.body.guess);
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  res.json(result);
 });
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
