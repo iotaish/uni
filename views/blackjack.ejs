@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Blackjack - スタート</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            color: #222;
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #2e7d32;
+            padding-bottom: 1rem;
+        }
+        main {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            line-height: 1.6;
+        }
+        ul {
+            padding-left: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        nav {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        a.action-button {
+            display: inline-block;
+            background-color: #2e7d32;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        a.action-button:hover {
+            background-color: #1b5e20;
+        }
+        nav.sub-nav {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        nav.sub-nav a {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🃏 ブラックジャック</h1>
+        <p>ディーラーと勝負して21を目指しましょう！</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>ルール説明</h2>
+            <ul>
+                <li>カードの合計値を「21」に近づけた方の勝利です。</li>
+                <li>「2〜10」はそのままの数字、「J / Q / K」は10点、「A」は1点または11点として計算されます。</li>
+                <li>合計値が21を超えると「バースト」となり即座に敗北します。</li>
+                <li>ディーラーは合計値が17以上になるまで必ずカードを引きます。</li>
+            </ul>
+        </section>
+
+        <nav>
+            <a href="/blackjack/game" class="action-button">ゲーム開始</a>
+        </nav>
+
+        <nav class="sub-nav">
+            <a href="/public/index.html">← メニューへ戻る</a>
+        </nav>
+    </main>
+</body>
+</html>

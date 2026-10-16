@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Blackjack - ゲーム中</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 650px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            color: #222;
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #2e7d32;
+            padding-bottom: 0.5rem;
+        }
+        main {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        section.hand-area {
+            background-color: #f1f8e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 1.2rem;
+        }
+        ul.card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.8rem 0;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        li.card {
+            background-color: #fff;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            padding: 0.8rem 1rem;
+            min-width: 3.5rem;
+            text-align: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li.card[data-color="red"] {
+            color: #d32f2f;
+        }
+        li.card[data-state="hidden"] {
+            background-color: #37474f;
+            color: #fff;
+            border-color: #263238;
+        }
+        p.score-display {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 0.5rem 0 0;
+        }
+        p.bust-alert {
+            color: #c62828;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background-color: #ffebee;
+            padding: 0.8rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+        nav.action-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        a.button-hit {
+            background-color: #1976d2;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        a.button-hit:hover {
+            background-color: #1565c0;
+        }
+        a.button-stand {
+            background-color: #2e7d32;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        a.button-stand:hover {
+            background-color: #1b5e20;
+        }
+        a.button-result {
+            background-color: #d32f2f;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        a.button-result:hover {
+            background-color: #b71c1c;
+        }
+        nav.sub-nav {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        nav.sub-nav a {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🃏 ゲーム進行</h1>
+    </header>
+
+    <main>
+        <!-- ディーラーの手札（1枚オープン、1枚伏せ） -->
+        <section class="hand-area">
+            <h2>ディーラーの手札</h2>
+            <ul class="card-list">
+                <% if (dealerCards && dealerCards.length > 0) { %>
+                    <li class="card" <%= dealerCards[0].isRed ? 'data-color="red"' : '' %>>
+                        <%= dealerCards[0].suitSymbol %> <%= dealerCards[0].rankLabel %>
+                    </li>
+                    <li class="card" data-state="hidden">
+                        ?
+                    </li>
+                    <% for (let i = 2; i < dealerCards.length; i++) { %>
+                        <li class="card" data-state="hidden">?</li>
+                    <% } %>
+                <% } %>
+            </ul>
+            <p class="score-display">見えているカード：<%= dealerCards[0].value %>点 + ?</p>
+        </section>
+
+        <!-- プレイヤーの手札 -->
+        <section class="hand-area">
+            <h2>あなたの手札</h2>
+            <ul class="card-list">
+                <% playerCards.forEach(card => { %>
+                    <li class="card" <%= card.isRed ? 'data-color="red"' : '' %>>
+                        <%= card.suitSymbol %> <%= card.rankLabel %>
+                    </li>
+                <% }); %>
+            </ul>
+            <p class="score-display">合計点数：<%= playerScore %> 点</p>
+        </section>
+
+        <% if (isBust) { %>
+            <p class="bust-alert">⚠️ バースト（21超え）しました！</p>
+            <nav class="action-nav">
+                <a href="/blackjack/rlt?p=<%= pStr %>&d=<%= dStr %>&deck=<%= deckStr %>" class="button-result">ゲーム終了（結果を見る）</a>
+            </nav>
+        <% } else { %>
+            <nav class="action-nav">
+                <a href="/blackjack/game?p=<%= pStr %>&d=<%= dStr %>&deck=<%= deckStr %>&action=hit" class="button-hit">もう1枚引く (Hit)</a>
+                <a href="/blackjack/rlt?p=<%= pStr %>&d=<%= dStr %>&deck=<%= deckStr %>" class="button-stand">ゲーム終了 (Stand)</a>
+            </nav>
+        <% } %>
+
+        <nav class="sub-nav">
+            <a href="/blackjack">最初からやり直す</a>
+        </nav>
+    </main>
+</body>
+</html>

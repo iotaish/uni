@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Blackjack - 結果発表</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 650px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            color: #222;
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #2e7d32;
+            padding-bottom: 0.5rem;
+        }
+        main {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        section.result-banner {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        section.result-banner[data-outcome="win"] {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+            border: 2px solid #81c784;
+        }
+        section.result-banner[data-outcome="lose"] {
+            background-color: #ffebee;
+            color: #b71c1c;
+            border: 2px solid #e57373;
+        }
+        section.result-banner[data-outcome="push"] {
+            background-color: #fff8e1;
+            color: #f57f17;
+            border: 2px solid #ffd54f;
+        }
+        section.hand-area {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.2rem;
+        }
+        ul.card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.8rem 0;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        li.card {
+            background-color: #fff;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            padding: 0.8rem 1rem;
+            min-width: 3.5rem;
+            text-align: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li.card[data-color="red"] {
+            color: #d32f2f;
+        }
+        p.score-display {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 0.5rem 0 0;
+        }
+        nav.action-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        a.action-button {
+            display: inline-block;
+            background-color: #2e7d32;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        a.action-button:hover {
+            background-color: #1b5e20;
+        }
+        nav.sub-nav {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        nav.sub-nav a {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🃏 ゲーム結果</h1>
+    </header>
+
+    <main>
+        <!-- 勝敗メッセージバナー -->
+        <section class="result-banner" data-outcome="<%= outcome.result %>">
+            <h2><%= outcome.message %></h2>
+        </section>
+
+        <!-- ディーラーの手札（全公開） -->
+        <section class="hand-area">
+            <h2>ディーラーの手札</h2>
+            <ul class="card-list">
+                <% dealerCards.forEach(card => { %>
+                    <li class="card" <%= card.isRed ? 'data-color="red"' : '' %>>
+                        <%= card.suitSymbol %> <%= card.rankLabel %>
+                    </li>
+                <% }); %>
+            </ul>
+            <p class="score-display">ディーラーの合計点数：<%= outcome.dealerScore %> 点 <%= outcome.dealerScore > 21 ? '（バースト）' : '' %></p>
+        </section>
+
+        <!-- プレイヤーの手札 -->
+        <section class="hand-area">
+            <h2>あなたの手札</h2>
+            <ul class="card-list">
+                <% playerCards.forEach(card => { %>
+                    <li class="card" <%= card.isRed ? 'data-color="red"' : '' %>>
+                        <%= card.suitSymbol %> <%= card.rankLabel %>
+                    </li>
+                <% }); %>
+            </ul>
+            <p class="score-display">あなたの合計点数：<%= outcome.playerScore %> 点 <%= outcome.playerScore > 21 ? '（バースト）' : '' %></p>
+        </section>
+
+        <!-- アクションリンク -->
+        <nav class="action-nav">
+            <a href="/blackjack" class="action-button">もう一度プレイ</a>
+        </nav>
+
+        <nav class="sub-nav">
+            <a href="/public/index.html">← メニューへ戻る</a>
+        </nav>
+    </main>
+</body>
+</html>
