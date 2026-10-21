@@ -20,7 +20,7 @@ uint16_t top() {
   bool peak_started = false;
   uint16_t result = 0;
 
-  while (timeout--) {
+  while (timeout-- > count) {
     uint16_t value = analogRead(PIN_IN);
     uint32_t time = millis();
 
