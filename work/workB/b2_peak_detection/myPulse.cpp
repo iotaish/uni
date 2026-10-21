@@ -3,9 +3,9 @@
 #define PIN_IN A0      // アナログ入力PINの設定
 #define DELAY_TIME 20  // ディレイ時間(ms)の設定
 
-#define TOP_THRESHOLD 0   // 信号が山の部分にあるかの判定に利用する閾値
-#define DOWN_THRESHOLD 0  // 下降傾向にあるかの判定に利用する閾値
-#define UP_THRESHOLD 1    // 上昇傾向にあるかの判定に利用する閾値
+#define TOP_THRESHOLD 400  // 信号が山の部分にあるかの判定に利用する閾値
+#define DOWN_THRESHOLD 2   // 下降傾向にあるかの判定に利用する閾値
+#define UP_THRESHOLD 1     // 上昇傾向にあるかの判定に利用する閾値
 
 uint16_t top() {
   uint32_t times[256];
@@ -76,7 +76,7 @@ uint16_t top() {
     Serial.print(",");
     Serial.print(values[i]);
     Serial.print(",");
-    Serial.println(result != 0 && i == peak_index ? 1 : 0);
+    Serial.println(result != 0 && (i == peak_index) ? 1 : 0);
   }
 
   return result;
