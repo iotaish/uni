@@ -22,18 +22,18 @@ def _(mo):
 
 @app.cell
 def _():
-    import serial
     import csv
-    import os
     import hashlib
-    from datetime import datetime
     import threading
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import japanize_matplotlib
-    import pandas as pd
+    import time
+    from datetime import datetime
 
-    return csv, datetime, hashlib, pd, plt, serial, threading
+    import japanize_matplotlib  # noqa: F401
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import serial
+
+    return csv, datetime, hashlib, pd, plt, serial, threading, time
 
 
 @app.cell(hide_code=True)
@@ -48,7 +48,7 @@ def _(mo):
 
 
 @app.cell
-def _():
+def setup_params():
     ################### 変更する箇所 ###################
     student_id = "26G1012"  # 自分の学籍番号を省略せずに設定
     top_threshold = 400  # Arduinoのプログラムで設定したTOP_THRESHOLDの値を設定する
@@ -66,27 +66,28 @@ def _(mo):
     port='/dev/tty'の y と ' の間にカーソルを合わせ . を入力すると候補が表示されるので，usbmodem.....を選択
     実行後にArduinoからの信号待ち状態に入る
 
-    eを入力し，Enterで終了するとそれまでにArudinoから送信されたデータがファイルに出力される
+    シリアルデータの送信が途絶えると自動で終了し，ファイルが出力される（eを入力し，Enterで手動終了も可能）
     """)
     return
 
 
 @app.cell
-def _(csv, datetime, file_name, serial, student_id, threading):
+def capture_serial(csv, datetime, file_name, serial, student_id, threading, time):
     ################### 変更する箇所：シリアルポート ###################
     ## ttyの後ろに.を入力すると候補が表示されるのでusbmodemの方を選択（数値は各々のMacやArduinoによって異なる）
     ##例：ser = serial.Serial(port='/dev/tty.usbmodem4827E2E0D9D02', baudrate=115200, timeout=1)
     ser = serial.Serial(port="/dev/tty.usbmodemACA7043A47282", baudrate=115200, timeout=1)
     _data = []
-    exit_flag = False
+    stop_event = threading.Event()
     ###################  これ以降は修正の必要はない  ###################
-
 
     def save_to_csv(data):
         with open(f"{file_name}.csv", "w", newline="") as f:
             writer = csv.writer(f)
+            # 先頭行がヘッダーでなければ明示的に付与
+            if not data or [x.lower() for x in data[0]] != ["time", "value", "peak"]:
+                writer.writerow(["time", "value", "peak"])
             writer.writerows(data)
-
 
     def log_to_file(port):
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
@@ -102,37 +103,67 @@ def _(csv, datetime, file_name, serial, student_id, threading):
                 writer = csv.writer(log)
                 writer.writerow(log_data)
 
-
     def read_serial():
-        global exit_flag
-        while not exit_flag:
-            if ser.in_waiting > 0:
-                line = ser.readline().decode("utf-8").rstrip()
-                print(line, flush=True)
-                parsed_line = line.replace('",', ",").replace('"', "")
-                parts = parsed_line.split(",")
-                if len(parts) == 3:
-                    _data.append([parts[0].strip(), parts[1].strip(), parts[2].strip()])
+        last_received_time = None
+        has_received_data = False
+        idle_timeout = 2.0  # シリアルデータ途絶判定時間（秒）
 
+        while not stop_event.is_set():
+            if ser.in_waiting > 0:
+                line = ser.readline().decode("utf-8", errors="replace").rstrip()
+                if line:
+                    print(line, flush=True)
+                    last_received_time = time.time()
+                    has_received_data = True
+                    parsed_line = line.replace('",', ",").replace('"', "")
+                    parts = [p.strip() for p in parsed_line.split(",")]
+                    if len(parts) == 3:
+                        if [x.lower() for x in parts] == ["time", "value", "peak"]:
+                            if not _data:
+                                _data.append(["time", "value", "peak"])
+                        else:
+                            try:
+                                float(parts[0])
+                                int(parts[1])
+                                int(parts[2])
+                                _data.append(parts)
+                            except ValueError:
+                                pass
+            else:
+                if (
+                    has_received_data
+                    and last_received_time is not None
+                    and (time.time() - last_received_time > idle_timeout)
+                ):
+                    print(
+                        f"\nシリアル値の送信が停止しました（{idle_timeout}秒間無通信）。自動で終了します。",
+                        flush=True,
+                    )
+                    stop_event.set()
+                    break
+                time.sleep(0.01)
 
     def wait_for_exit():
-        global exit_flag
-        while not exit_flag:
-            if input() == "e":
-                exit_flag = True
-                save_to_csv(_data)
-                log_to_file(ser.port)
-                print("終了キーが押されました。データを保存して終了します。")
-
+        while not stop_event.is_set():
+            try:
+                if input() == "e":
+                    print("終了キーが押されました。データを保存して終了します。")
+                    stop_event.set()
+                    break
+            except EOFError:
+                break
 
     print("シリアル通信の読み込み開始，Arduinoのリセットボタンを押して下さい．", flush=True)
     print(
-        "ArduinoのTX LEDが消灯後，eを入力しEnterで終了し，ファイルが出力されます", flush=True
-    )  # キー入力を待機
-    input_thread = threading.Thread(target=wait_for_exit)
+        "シリアル値が停止すると自動で終了し，ファイルが出力されます（手動終了は e + Enter）",
+        flush=True,
+    )
+    input_thread = threading.Thread(target=wait_for_exit, daemon=True)
     input_thread.start()
     read_serial()
-    input_thread.join()
+
+    save_to_csv(_data)
+    log_to_file(ser.port)
     ser.close()
     return
 
@@ -149,7 +180,7 @@ def _(mo):
 
 
 @app.cell
-def _(
+def plot_graph(
     datetime,
     down_threshold,
     file_name,
@@ -168,7 +199,16 @@ def _(
     required_columns = ["time", "value", "peak"]
     missing_columns = [column for column in required_columns if column not in _data.columns]
     if missing_columns:
-        raise ValueError(f"CSV形式が正しくありません。不足している列: {missing_columns}")
+        # ヘッダーが欠落している場合は header=None で再読み込みを試みる
+        try:
+            _fallback_data = pd.read_csv(f"{file_name}.csv", header=None, names=required_columns)
+            # 全列が数値に変換可能か確認
+            pd.to_numeric(_fallback_data["time"])
+            pd.to_numeric(_fallback_data["value"])
+            pd.to_numeric(_fallback_data["peak"])
+            _data = _fallback_data
+        except Exception as e:
+            raise ValueError(f"CSV形式が正しくありません。不足している列: {missing_columns}") from e
     if _data.empty:
         raise ValueError("CSVに測定データがありません。Arduinoの出力を確認してください。")
     canonical_data = _data[["time", "value", "peak"]].to_csv(
@@ -201,7 +241,8 @@ def _(
     plt.savefig(output_png, dpi=150)
     print(f"画像ファイルを保存しました: {output_png}")
     plt.show()
-    return
+    plt.close(fig)
+    return (output_png,)
 
 
 if __name__ == "__main__":
