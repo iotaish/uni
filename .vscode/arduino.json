@@ -1,6 +1,6 @@
 {
     "board": "arduino:renesas_uno:unor4wifi",
-    "sketch": "work/workB/b1_signal_check/b1_signal_check.ino",
+    "sketch": "work/workB/b2_peak_detection/b2_peak_detection.ino",
     "port": "/dev/tty.usbmodemACA7043A47282",
     "output": "./build"
 }
