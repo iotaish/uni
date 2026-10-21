@@ -19,13 +19,11 @@ uint16_t top() {
   while (timeout--) {
     value = analogRead(PIN_IN);  // アナログ入力で値を読み取る
 
-    if (value >=
-        TOP_THRESHOLD) {  // 読み込んだ値が山の閾値以上である場合のみピーク検出の処理を行う
-      if (value > maximum) {  // 読み込んだ値が最大値より大きい場合，maximum,
-                              // up_count, down_countを更新する
-        maximum = value;      // 最大値（maximum）を更新する
-        up_count++;           // 最大値が更新されたため，up_countを増やす
-        down_count = 0;       // 最大値が更新されたため，down_countを初期化する
+    if (value >= TOP_THRESHOLD) {  // 読み込んだ値が山の閾値以上である場合のみピーク検出の処理を行う
+      if (value > maximum) {       // 読み込んだ値が最大値より大きい場合，maximum, up_count, down_countを更新する
+        maximum = value;           // 最大値（maximum）を更新する
+        up_count++;                // 最大値が更新されたため，up_countを増やす
+        down_count = 0;            // 最大値が更新されたため，down_countを初期化する
       } else {
         down_count++;  // 最大値を更新しなかったため，down_countを増やす
       }

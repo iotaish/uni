@@ -8,19 +8,19 @@
 #define UP_THRESHOLD 1     // 上昇傾向にあるかの判定に利用する閾値
 
 uint16_t top() {
-  uint32_t times[256];
-  uint16_t values[256];
+  uint8_t timeout = 255;
+  uint32_t times[timeout + 1];
+  uint16_t values[timeout + 1];
   uint8_t count = 0;
   int16_t peak_index = -1;  // -1は配列にピークがないことを示す
 
   uint16_t maximum = 0;
   uint8_t up_count = 0;    // 連続で閾値を超えて上昇傾向を示した回数
   uint8_t down_count = 0;  // 連続で閾値以上で下降傾向を示した回数
-  uint8_t timeout = 255;
   bool peak_started = false;
   uint16_t result = 0;
 
-  while (timeout-- > count) {
+  while (timeout > count) {
     uint16_t value = analogRead(PIN_IN);
     uint32_t time = millis();
 
