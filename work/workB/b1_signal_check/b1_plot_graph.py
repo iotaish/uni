@@ -58,7 +58,7 @@ def _(mo):
 def _():
     ################### 変更する箇所 ###################
     student_id = "26G1012"  # 自分の学籍番号を省略せずに設定
-    color = "green"  # LEDの色を仕様に合わせて設定
+    color = "parple"  # LEDの色を仕様に合わせて設定
     ################### 変更ここまで #########################
 
     file_name = f"b1_{student_id}_{color}"  # 上記の設定により自動でファイル名が設定される
@@ -129,16 +129,17 @@ def _(csv, datetime, file_name, serial, student_id, threading):
                 save_to_csv(_data)
                 log_to_file(ser.port)
                 print("終了キーが押されました。データを保存して終了します。")
+                break
 
 
     print("シリアル通信の読み込み開始，Arduinoのリセットボタンを押して下さい．", flush=True)
     print(
         "ArduinoのTX LEDが消灯後，eを入力しEnterで終了し，ファイルが出力されます", flush=True
     )  # キー入力を待機
-    input_thread = threading.Thread(target=wait_for_exit)
+    input_thread = threading.Thread(target=wait_for_exit, daemon=True)
     input_thread.start()
     read_serial()
-    input_thread.join()
+    input_thread.join(timeout=1.0)
     ser.close()
     return
 
