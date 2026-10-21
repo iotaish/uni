@@ -92,7 +92,7 @@ void setup() {
 
 void loop() {
   float t = millis() / 1000.0;
-  if (t <= 5.0) {
+  if (t < 5.0) {
     uint16_t v = analogRead(A0);
 
     Serial.print(t, 2);
