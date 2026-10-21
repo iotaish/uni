@@ -3,9 +3,9 @@
 #define PIN_IN A0      // アナログ入力PINの設定
 #define DELAY_TIME 20  // ディレイ時間(ms)の設定
 
-#define TOP_THRESHOLD 0   // 信号が山の部分にあるかの判定に利用する閾値
-#define DOWN_THRESHOLD 0  // 下降傾向にあるかの判定に利用する閾値
-#define UP_THRESHOLD 1    // 上昇傾向にあるかの判定に利用する閾値
+#define TOP_THRESHOLD 400  // 信号が山の部分にあるかの判定に利用する閾値
+#define DOWN_THRESHOLD 2   // 下降傾向にあるかの判定に利用する閾値
+#define UP_THRESHOLD 1     // 上昇傾向にあるかの判定に利用する閾値
 
 // アナログ入力で読み込んだ信号からピークを検出する関数
 uint16_t top() {
@@ -23,9 +23,9 @@ uint16_t top() {
         TOP_THRESHOLD) {  // 読み込んだ値が山の閾値以上である場合のみピーク検出の処理を行う
       if (value > maximum) {  // 読み込んだ値が最大値より大きい場合，maximum,
                               // up_count, down_countを更新する
-        maximum = value;  // 最大値（maximum）を更新する
-        up_count++;       // 最大値が更新されたため，up_countを増やす
-        down_count = 0;   // 最大値が更新されたため，down_countを初期化する
+        maximum = value;      // 最大値（maximum）を更新する
+        up_count++;           // 最大値が更新されたため，up_countを増やす
+        down_count = 0;       // 最大値が更新されたため，down_countを初期化する
       } else {
         down_count++;  // 最大値を更新しなかったため，down_countを増やす
       }

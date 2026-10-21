@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.24.2"
+__generated_with = "0.25.1"
 app = marimo.App()
 
 
@@ -58,8 +58,8 @@ def _(mo):
 def _():
     ################### 変更する箇所 ###################
     student_id = "26G1012"  # 自分の学籍番号を省略せずに設定
-    top_threshold = 0  # Arduinoのプログラムで設定したTOP_THRESHOLDの値を設定する
-    down_threshold = 0  # Arduinoのプログラムで設定したDOWN_THRESHOLDの値を設定する
+    top_threshold = 400  # Arduinoのプログラムで設定したTOP_THRESHOLDの値を設定する
+    down_threshold = 2  # Arduinoのプログラムで設定したDOWN_THRESHOLDの値を設定する
     ################### 変更ここまで #########################
 
     file_name = f"b3_{student_id}_top{top_threshold}_down{down_threshold}_pulse"  # 上記の設定により自動でファイル名が設定される
