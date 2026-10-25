@@ -39,8 +39,9 @@ def _():
     import matplotlib.pyplot as plt
     import japanize_matplotlib
     import pandas as pd
+    import sys
 
-    return csv, datetime, hashlib, pd, plt, serial, threading
+    return csv, datetime, hashlib, pd, plt, serial, sys, threading
 
 
 @app.cell(hide_code=True)
@@ -79,7 +80,7 @@ def _(mo):
 
 
 @app.cell
-def _(csv, datetime, file_name, serial, student_id, threading):
+def _(csv, datetime, file_name, serial, student_id, sys, threading):
     ################### 変更する箇所：シリアルポート ###################
     ## ttyの後ろに.を入力すると候補が表示されるのでusbmodemの方を選択（数値は各々のMacやArduinoによって異なる）
     ##例：ser = serial.Serial(port='/dev/tty.usbmodem4827E2E0D9D02', baudrate=115200, timeout=1)
@@ -138,9 +139,13 @@ def _(csv, datetime, file_name, serial, student_id, threading):
     )  # キー入力を待機
     input_thread = threading.Thread(target=wait_for_exit)
     input_thread.start()
-    read_serial()
-    input_thread.join()
-    ser.close()
+    try:
+        read_serial()
+    finally:
+        exit_flag = True
+        sys.stdin._stream.input_queue.put("")
+        input_thread.join()
+        ser.close()
     return
 
 

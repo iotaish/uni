@@ -39,8 +39,9 @@ def _():
     import matplotlib.pyplot as plt
     import japanize_matplotlib
     import pandas as pd
+    import sys
 
-    return csv, datetime, hashlib, pd, plt, serial, threading
+    return csv, datetime, hashlib, pd, plt, serial, sys, threading
 
 
 @app.cell(hide_code=True)
@@ -58,7 +59,7 @@ def _(mo):
 def _():
     ################### 変更する箇所 ###################
     student_id = "26G1012"  # 自分の学籍番号を省略せずに設定
-    color = "red"  # LEDの色を仕様に合わせて設定
+    color = "green"  # LEDの色を仕様に合わせて設定
     ################### 変更ここまで #########################
 
     file_name = f"b1_{student_id}_{color}"  # 上記の設定により自動でファイル名が設定される
@@ -78,7 +79,7 @@ def _(mo):
 
 
 @app.cell
-def _(csv, datetime, file_name, serial, student_id, threading):
+def _(csv, datetime, file_name, serial, student_id, sys, threading):
     ################### 変更する箇所：シリアルポート ###################
     ## ttyの後ろに.を入力すると候補が表示されるのでusbmodemの方を選択（数値は各々のMacやArduinoによって異なる）
     ##例：ser = serial.Serial(port='/dev/tty.usbmodem4827E2E0D9D02', baudrate=9600, timeout=1)
@@ -129,7 +130,6 @@ def _(csv, datetime, file_name, serial, student_id, threading):
                 save_to_csv(_data)
                 log_to_file(ser.port)
                 print("終了キーが押されました。データを保存して終了します。")
-                break
 
 
     print("シリアル通信の読み込み開始，Arduinoのリセットボタンを押して下さい．", flush=True)
@@ -138,9 +138,13 @@ def _(csv, datetime, file_name, serial, student_id, threading):
     )  # キー入力を待機
     input_thread = threading.Thread(target=wait_for_exit, daemon=True)
     input_thread.start()
-    read_serial()
-    input_thread.join(timeout=1.0)
-    ser.close()
+    try:
+        read_serial()
+    finally:
+        exit_flag = True
+        sys.stdin._stream.input_queue.put("")
+        input_thread.join()
+        ser.close()
     return
 
 
