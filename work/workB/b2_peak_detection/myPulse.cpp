@@ -9,8 +9,8 @@
 
 uint16_t top() {
   uint8_t timeout = 255;
-  uint32_t times[timeout + 1];
-  uint16_t values[timeout + 1];
+  uint32_t times[timeout];
+  uint16_t values[timeout];
   uint8_t count = 0;
   int16_t peak_index = -1;  // -1は配列にピークがないことを示す
 
