@@ -288,9 +288,9 @@ void loop() {
 配布時の \texttt{myPulse.cpp} は閾値が \texttt{0} に初期設定されており，また \texttt{while (timeout--)} ループ内でアナログ入力値を1サンプル読み取るたびに \texttt{Serial.println(time/1000.0, 2);} と \texttt{Serial.println(value);} で時間と値を別々の行に逐次出力し，ピーク確定時（\texttt{return maximum;}）または失敗時（\texttt{return 0;}）に即座に関数を終了する構成であった．しかし，あるサンプルがピークか否かは頂点通過後に下降傾向を確認した時点で初めて確定するため，ピークが見つかるまで配列に蓄えて探索終了後に一括出力する構成へ変更した（1ページに収めるため2つに分割して掲載する）：
 \begin{itemize}
   \item \textbf{最適閾値の設定}（ソースコード\ref{b2_myPulse.cpp_part1}の6--7行目）：前節で決定した最適閾値に従い，山領域の判定閾値 \texttt{TOP\_THRESHOLD} を \texttt{0} から \texttt{400} に（6行目），下降傾向の判定閾値 \texttt{DOWN\_THRESHOLD} を \texttt{0} から \texttt{2} に（7行目）変更した．
-  \item \textbf{データ保存用配列とインデックス管理変数の導入}（ソースコード\ref{b2_myPulse.cpp_part1}の11--29行目，54行目）：先頭にあったスカラー変数 \texttt{uint32\_t time = 0;}，\texttt{uint16\_t value = 0;} の宣言を \texttt{while} ループ内（24--25行目）へ移し，代わりに最大試行回数（\texttt{timeout = 255}，11行目）分のデータを蓄える配列 \texttt{uint32\_t times[timeout + 1];}（12行目）および \texttt{uint16\_t values[timeout + 1];}（13行目）と，保存位置 \texttt{uint8\_t count = 0;}（14行目），ピーク位置の添字 \texttt{int16\_t peak\_index = -1;}（15行目），および戻り値保持用の変数 \texttt{uint16\_t result = 0;}（21行目）を追加した．これに伴い，ループ条件を \texttt{while (timeout--)} から \texttt{while (timeout > count)}（23行目）へ変更し，各反復で取得した \texttt{value} と \texttt{time} を逐次出力する代わりに \texttt{values[count]} と \texttt{times[count]} へ保存して（28--29行目），判定処理の後に \texttt{count++;} で保存位置を進める処理（54行目）を追加した．
-  \item \textbf{ピーク保存位置の記録とリセット}（ソースコード\ref{b2_myPulse.cpp_part1}の32行目，37行目，46--52行目）：山の閾値判定を \texttt{value >= TOP\_THRESHOLD}（32行目）とし，最大値 \texttt{maximum} を更新した際にその配列位置を \texttt{peak\_index = count;} として記録する処理を追加した（37行目）．また，上昇傾向と判定される前に閾値未満となって次の山を探し直す分岐（46--52行目）において，\texttt{peak\_index = -1;} にリセットする処理を追加した（51行目）．
-  \item \textbf{ループ終了後の配列一括シリアル出力}（ソースコード\ref{b2_myPulse.cpp_part2}の57--81行目）：ループ内で逐次出力していた \texttt{Serial.println} の2行を削除し，上昇・下降傾向の両方を確認してピークが確定した際は \texttt{return maximum;} の代わりに \texttt{result = maximum;} を代入して \texttt{break;} でループを抜け（58--61行目），下降確認前に閾値未満となった失敗時も \texttt{return 0;} の代わりに \texttt{result = 0;} および \texttt{peak\_index = -1;} として \texttt{break;} でループを抜けるように変更した（64--68行目）．ループ終了後，配列に蓄えた \texttt{count} 個のデータを \texttt{for} 文で走査し，経過時間 \texttt{times[i] / 1000.0}（小数点以下2桁），AD変換値 \texttt{values[i]}，およびピーク判定フラグ（\texttt{result != 0 \&\& (i == peak\_index) ? 1 : 0}）をカンマ区切りで1行ずつ出力した上で，末尾で \texttt{return result;} を返すように変更した（73--81行目，仕様4）．
+  \item \textbf{データ保存用配列とインデックス管理変数の導入}（ソースコード\ref{b2_myPulse.cpp_part1}の11--28行目，53行目）：先頭にあったスカラー変数 \texttt{uint32\_t time = 0;}，\texttt{uint16\_t value = 0;} の宣言を \texttt{while} ループ内（24--25行目）へ移し，代わりに最大試行回数（\texttt{timeout = 255}，11行目）分のデータを蓄える配列 \texttt{uint32\_t times[timeout];}（12行目）および \texttt{uint16\_t values[timeout];}（13行目）と，保存位置 \texttt{uint8\_t count = 0;}（14行目），ピーク位置の添字 \texttt{int16\_t peak\_index = -1;}（15行目），および戻り値保持用の変数 \texttt{uint16\_t result = 0;}（21行目）を追加した．配布コードのループ条件 \texttt{while (timeout--)}（23行目）を踏襲しつつ，各反復で取得した \texttt{value} と \texttt{time} を逐次出力する代わりに \texttt{values[count]} と \texttt{times[count]} へ保存して（27--28行目），判定処理の後に \texttt{count++;} で保存位置を進める処理（53行目）を追加した．
+  \item \textbf{ピーク保存位置の記録とリセット}（ソースコード\ref{b2_myPulse.cpp_part1}の31行目，36行目，46--51行目）：山の閾値判定を \texttt{value >= TOP\_THRESHOLD}（31行目）とし，最大値 \texttt{maximum} を更新した際にその配列位置を \texttt{peak\_index = count;} として記録する処理を追加した（36行目）．また，上昇傾向と判定される前に閾値未満となって次の山を探し直す分岐（46--51行目）において，\texttt{peak\_index = -1;} にリセットする処理を追加した（50行目）．
+  \item \textbf{ループ終了後の配列一括シリアル出力}（ソースコード\ref{b2_myPulse.cpp_part2}の55--80行目）：ループ内で逐次出力していた \texttt{Serial.println} の2行を削除し，上昇・下降傾向の両方を確認してピークが確定した際は \texttt{return maximum;} の代わりに \texttt{result = maximum;} を代入して \texttt{break;} でループを抜け（56--59行目），下降確認前に閾値未満となった失敗時も \texttt{return 0;} の代わりに \texttt{result = 0;} および \texttt{peak\_index = -1;} として \texttt{break;} でループを抜けるように変更した（62--66行目）．ループ終了後，配列に蓄えた \texttt{count} 個のデータを \texttt{for} 文で走査し，経過時間 \texttt{times[i] / 1000.0}（小数点以下2桁），AD変換値 \texttt{values[i]}，およびピーク判定フラグ（\texttt{result != 0 \&\& (i == peak\_index) ? 1 : 0}）をカンマ区切りで1行ずつ出力した上で，末尾で \texttt{return result;} を返すように変更した（71--80行目，仕様4）．
 \end{itemize}
 
 \begin{figure}[H]
@@ -337,22 +337,21 @@ uint16_t top();  // 関数を宣言
 
 uint16_t top() {
   uint8_t timeout = 255;
-  uint32_t times[timeout + 1];
-  uint16_t values[timeout + 1];
+  uint32_t times[timeout];
+  uint16_t values[timeout];
   uint8_t count = 0;
-  int16_t peak_index = -1;  // @\texttt{-1}@は配列にピークがないことを示す
+  int16_t peak_index = -1;
 
   uint16_t maximum = 0;
-  uint8_t up_count = 0;    // 連続で閾値を超えて上昇傾向を示した回数
-  uint8_t down_count = 0;  // 連続で閾値以上で下降傾向を示した回数
+  uint8_t up_count = 0;    // 上昇傾向を判定するためのカウント
+  uint8_t down_count = 0;  // 下降傾向を判定するためのカウント
   bool peak_started = false;
   uint16_t result = 0;
 
-  while (timeout > count) {
+  while (timeout--) {
     uint16_t value = analogRead(PIN_IN);
     uint32_t time = millis();
 
-    // 配列に@\texttt{append}@
     values[count] = value;
     times[count] = time;
 
@@ -368,7 +367,7 @@ uint16_t top() {
       }
     }
 
-    // @\texttt{peak}@の開始の判定，@\texttt{UP\_THRESHOLD+1}@連続
+    // @\texttt{up\_count}@が@\texttt{UP\_THRESHOLD}@より大きい場合，上昇傾向にあると判定する
     if (up_count > UP_THRESHOLD) peak_started = true;
 
     // @\texttt{TOP\_THRESHOLD}@未満になり，上昇傾向と判定されていない場合は，次の山を探し直す
@@ -385,8 +384,6 @@ uint16_t top() {
 
 \begin{figure}[H]
   \begin{lstlisting}[caption=myPulse.cpp（後半：ピーク確定および一括シリアル出力処理）, label=b2_myPulse.cpp_part2, firstnumber=55, escapechar=\@]
-    // ここから終了判定をする
-
     // 上昇傾向と下降傾向の両方を確認できた場合，ピーク値を返す
     if (peak_started && down_count > DOWN_THRESHOLD) {
       result = maximum;
