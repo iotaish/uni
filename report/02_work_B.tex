@@ -163,13 +163,13 @@ void loop() {
 \begin{enumerate}
   \item \textbf{$\mathrm{TOP} = 350$（$\mathrm{DOWN} = 1, 2, 3$ の省略理由）}：
         図\ref{fig:b2_350_0}（$\mathrm{DOWN} = 0$）および最も厳しい下降確認条件である図\ref{fig:b2_350_4}（$\mathrm{DOWN} = 4$）の双方において，重複波の最大値（約387）が閾値350を上回り5サンプル以上にわたって350以上を維持したため複数検出（$\times$多）となった．したがって，その中間の $\mathrm{DOWN} = 1, 2, 3$（連続2〜4サンプルの下降確認）においても重複波による複数検出（$\times$多）を回避できないことは実測結果から明らかであるため，計測を省略した．
-  \item \textbf{$\mathrm{TOP} = 500$（$\mathrm{DOWN} = 1, 2, 3$ の省略理由）}：
-        図\ref{fig:b2_500_0}（$\mathrm{DOWN} = 0$）および図\ref{fig:b2_500_4}（$\mathrm{DOWN} = 4$）の波形において，主峰が500以上となるサンプル数は1拍あたり3〜4点であり，頂点通過後に500以上に留まるサンプル数は1〜2点に過ぎない．このため，$\mathrm{DOWN} \ge 2$（頂点後3サンプル以上の連続下降確認）では確定前に500未満へ落ちて検出漏れ（$\times$漏）となり，正常検出可能な範囲が $\mathrm{DOWN} \le 1$ に狭く制限されることが実測波形から判断できるため，中間の $\mathrm{DOWN} = 1, 2, 3$ の計測を省略し，より低い閾値（$\mathrm{TOP} = 400, 450$）の検討へ進んだ．
+  \item \textbf{$\mathrm{TOP} = 500$（$\mathrm{DOWN} = 1$ の計測と $\mathrm{DOWN} = 2, 3$ の省略理由）}：
+        $\mathrm{TOP} = 500$ において下降確認幅を広げた図\ref{fig:b2_500_1}（$\mathrm{DOWN} = 1$）を計測したところ，全拍が正常検出（$\bigcirc$）された．しかし，主峰が500以上となるサンプル数は1拍あたり3〜4点であり，頂点通過後に500以上に留まるサンプル数は1〜2点に過ぎないため，$\mathrm{DOWN} \ge 2$（頂点後3サンプル以上の連続下降確認）では図\ref{fig:b2_500_4}（$\mathrm{DOWN} = 4$）と同様に確定前に500未満へ落ちて確実に検出漏れ（$\times$漏）となる．したがって正常検出可能な範囲が $\mathrm{DOWN} \le 1$ に狭く制限されることが実測波形から判断できるため，中間の $\mathrm{DOWN} = 2, 3$ の計測を省略し，より低い閾値（$\mathrm{TOP} = 400, 450$）の検討へ進んだ．
   \item \textbf{$\mathrm{TOP} = 450$（$\mathrm{DOWN} = 0, 1, 2$ の計測と $\mathrm{DOWN} = 3, 4$ の省略理由）}：
         $\mathrm{TOP} = 450$ について $\mathrm{DOWN} = 0, 1, 2$ を順に計測したところ，図\ref{fig:b2_450_0}（$\mathrm{DOWN} = 0$）および図\ref{fig:b2_450_1}（$\mathrm{DOWN} = 1$）では全拍が正常検出（$\bigcirc$）されたが，図\ref{fig:b2_450_2}（$\mathrm{DOWN} = 2$）では $t = 3.60\,\mathrm{s}$ の第3拍（頂点531）において頂点通過後のサンプルが $501 \to 475 \to 440$ と推移し，3サンプル目の非更新時点で450未満へ脱落して検出漏れ（$\times$漏）が発生した．$\mathrm{DOWN} = 2$ で既に頂点後の閾値維持サンプル数が不足して検出漏れとなった以上，さらに多くのサンプル数を要する $\mathrm{DOWN} = 3, 4$ でも確実に検出漏れとなるため，$\mathrm{DOWN} = 3, 4$ の計測を省略した．
 \end{enumerate}
 
-以上の検討に沿って計測した結果を表\ref{tab:threshold_results}に，計測した $\mathrm{TOP} = 400$（$\mathrm{DOWN} = 0 \sim 4$）および $\mathrm{TOP} = 450$（$\mathrm{DOWN} = 0 \sim 2$）の全波形のグラフを図\ref{fig:b2_400_450_all}（図\ref{fig:b2_400_0}〜図\ref{fig:b2_450_2}）および図\ref{fig:b2_optimal_plot}（$\mathrm{TOP} = 400, \mathrm{DOWN} = 2$）に示す．
+以上の検討に沿って計測した結果を表\ref{tab:threshold_results}に，計測した $\mathrm{TOP} = 400$（$\mathrm{DOWN} = 0 \sim 4$），$\mathrm{TOP} = 450$（$\mathrm{DOWN} = 0 \sim 2$），および $\mathrm{TOP} = 500$（$\mathrm{DOWN} = 1$）の全波形のグラフを図\ref{fig:b2_400_450_all}（図\ref{fig:b2_400_0}〜図\ref{fig:b2_500_1}）および図\ref{fig:b2_optimal_plot}（$\mathrm{TOP} = 400, \mathrm{DOWN} = 2$）に示す．
 
 \begin{table}[htbp]
   \centering
@@ -186,7 +186,7 @@ void loop() {
     350        & $\times$多  & --         & --         & --         & $\times$多 \\
     400        & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ & $\times$漏 \\
     450        & $\bigcirc$ & $\bigcirc$ & $\times$漏  & --         & --        \\
-    500        & $\bigcirc$ & --         & --         & --         & $\times$漏 \\
+    500        & $\bigcirc$ & $\bigcirc$ & --         & --         & $\times$漏 \\
     \hline
   \end{tabular}
 
@@ -247,7 +247,14 @@ void loop() {
     \caption{$\mathrm{TOP} = 450, \mathrm{DOWN} = 2$（$\times$漏）}
     \label{fig:b2_450_2}
   \end{minipage}
-  \caption{$\mathrm{TOP} = 400$ および $\mathrm{TOP} = 450$ の各計測条件におけるピーク検出結果}
+  \hfill
+  \begin{minipage}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig_work_B/b2_26G1012_top500_down1_20261021_164241_865d3287f2a7.png}
+    \caption{$\mathrm{TOP} = 500, \mathrm{DOWN} = 1$（$\bigcirc$）}
+    \label{fig:b2_500_1}
+  \end{minipage}
+  \caption{$\mathrm{TOP} \in \{400, 450, 500\}$ の各計測条件におけるピーク検出結果}
   \label{fig:b2_400_450_all}
 \end{figure}
 
@@ -261,7 +268,7 @@ void loop() {
 表\ref{tab:threshold_results}および図\ref{fig:b2_400_450_all}，図\ref{fig:b2_optimal_plot}より，最適な閾値を以下のように決定した：
 \begin{itemize}
   \item \textbf{\texttt{TOP\_THRESHOLD} の決定}：
-        $\mathrm{TOP} = 400$ は重複波（最大約387）を確実に除外しつつ主峰頂点との間に十分な振幅余裕を確保できるため，図\ref{fig:b2_400_0}（$\mathrm{DOWN} = 0$），図\ref{fig:b2_400_1}（$\mathrm{DOWN} = 1$），図\ref{fig:b2_optimal_plot}（$\mathrm{DOWN} = 2$），および図\ref{fig:b2_400_3}（$\mathrm{DOWN} = 3$）の広い範囲で全拍の正常検出（$\bigcirc$）を達成した（図\ref{fig:b2_400_4}の $\mathrm{DOWN} = 4$ のみ5サンプル確認中に400未満へ落ちて検出漏れ）．$\mathrm{DOWN} \le 1$ までしか正常検出できない $\mathrm{TOP} = 450, 500$ と比較して最も安定しているため，$\mathrm{TOP\_THRESHOLD} = 400$ が最適である．
+        $\mathrm{TOP} = 400$ は重複波（最大約387）を確実に除外しつつ主峰頂点との間に十分な振幅余裕を確保できるため，図\ref{fig:b2_400_0}（$\mathrm{DOWN} = 0$），図\ref{fig:b2_400_1}（$\mathrm{DOWN} = 1$），図\ref{fig:b2_optimal_plot}（$\mathrm{DOWN} = 2$），および図\ref{fig:b2_400_3}（$\mathrm{DOWN} = 3$）の広い範囲で全拍の正常検出（$\bigcirc$）を達成した（図\ref{fig:b2_400_4}の $\mathrm{DOWN} = 4$ のみ5サンプル確認中に400未満へ落ちて検出漏れ）．$\mathrm{DOWN} \le 1$ までしか正常検出できない $\mathrm{TOP} = 450$（図\ref{fig:b2_450_0}, 図\ref{fig:b2_450_1}）や $\mathrm{TOP} = 500$（図\ref{fig:b2_500_0}, 図\ref{fig:b2_500_1}）と比較して最も安定しているため，$\mathrm{TOP\_THRESHOLD} = 400$ が最適である．
   \item \textbf{\texttt{DOWN\_THRESHOLD} の決定}：
         $\mathrm{TOP} = 400$ における正常検出範囲（$\mathrm{DOWN} = 0 \sim 3$）のうち，$\mathrm{DOWN} = 0$（図\ref{fig:b2_400_0}）は1サンプルの揺らぎで確定するためノイズに弱く，逆に $\mathrm{DOWN} = 3$（図\ref{fig:b2_400_3}）は検出漏れ境界である $\mathrm{DOWN} = 4$（図\ref{fig:b2_400_4}）に隣接している．また，$\mathrm{DOWN} = 1$（図\ref{fig:b2_400_1}）と $\mathrm{DOWN} = 2$（図\ref{fig:b2_optimal_plot}）はいずれも境界から余裕があるが，頂点通過後に3サンプル（約60\,ms）の連続下降を確認する $\mathrm{DOWN} = 2$ の方が上昇途中の微小な停滞に対する耐性が高い．
 \end{itemize}
