@@ -376,25 +376,24 @@ Arduinoをアクセスポイント（SSID: \texttt{ZZAP012}）として起動し
 
 
 \subsection{CdSセルの特性と遮蔽による電圧変化の要因}
-ワークC-2では，CdSセルから手までの距離が近いほど出力電圧が高くなり，約 9\,cm，約 6\,cm，約 3\,cm の順に電圧が段階的に上昇した．この電圧変化は，素子の光導電効果および分圧回路の二重の非線形性に基づくものである．
+ワークC-2では，CdSセルから手までの距離が近いほど出力電圧が高くなり，約 9\,cm，約 6\,cm，約 3\,cm の順に電圧が段階的に上昇した．この電圧変化は，CdSセルの光導電特性および分圧回路の動作に基づくものである．
 
-第1の要因は，CdS（硫化カドミウム）光導電セルの非線形な光導電特性である\cite{川口慎一朗1966cds, 石川太郎1974照明制御システムへの半導体応用, advanced_photonix_pdv_p5002}．CdS素子の内部抵抗 $R_{\mathrm{CdS}}$ は，受光面の照度 $L\,\mathrm{[lx]}$ に対して線形ではなく，データシート記載のベキ乗特性：
+CdS（硫化カドミウム）光導電セルの内部抵抗 $R_{\mathrm{CdS}}$ は，受光面の照度 $L\,\mathrm{[lx]}$ に対して一定の割合ではなく，データシート記載のベキ乗特性：
 \begin{equation}
     R_{\mathrm{CdS}} \approx R_0 \cdot L^{-\gamma} \quad (\gamma \approx 0.7 \sim 0.9)
     \label{eq:cds_power_law}
 \end{equation}
-に従って非線形に変化する．手がかざされると天井照明からの直接光が遮られて照度 $L$ が低下し，上式に従って内部抵抗 $R_{\mathrm{CdS}}$ は急激かつ非線形に増大する．
+に従って変化する\cite{川口慎一朗1966cds, 石川太郎1974照明制御システムへの半導体応用, advanced_photonix_pdv_p5002}．手がかざされると天井照明からの直接光が遮られて照度 $L$ が低下し，上式に従って内部抵抗 $R_{\mathrm{CdS}}$ が急激に増大する．
 
-第2の要因は，分圧回路が有する非線形な入出力特性である．本回路は5\,V電源側に固定抵抗 $R_F = 3.3\,\mathrm{k}\Omega$，GND側にCdSセルを接続した構成であり，出力電圧 $V_{\mathrm{out}}$ は式(\ref{eq:cds_divider_actual})に示す通り，
+本回路は，5\,V電源側に固定抵抗 $R_F = 3.3\,\mathrm{k}\Omega$，GND側にCdSセルを接続した分圧回路であり，A0ピンの出力電圧 $V_{\mathrm{out}}$ は式(\ref{eq:cds_divider_actual})の通り，
 \begin{equation}
     V_{\mathrm{out}} = V_{CC} \times \frac{R_{\mathrm{CdS}}}{R_F + R_{\mathrm{CdS}}}
 \end{equation}
-という $R_{\mathrm{CdS}}$ に関する有理関数（非線形関数）で決定される．
-式(\ref{eq:cds_divider_actual})を変形した $R_{\mathrm{CdS}} = \frac{3.3 \times V_{\mathrm{out}}}{5.0 - V_{\mathrm{out}}}$ を用い，表\ref{tab:c2_voltage_summary}の平均電圧から各高さにおけるCdS素子の抵抗値を算出すると，手をかざしていない開放時は約 $4.4\,\mathrm{k}\Omega$，約 9\,cm では約 $6.6\,\mathrm{k}\Omega$（開放時比 $+2.2\,\mathrm{k}\Omega$），約 6\,cm では約 $8.7\,\mathrm{k}\Omega$（9\,cm比 $+2.1\,\mathrm{k}\Omega$），約 3\,cm では約 $11.7\,\mathrm{k}\Omega$（6\,cm比 $+3.0\,\mathrm{k}\Omega$）となった．
-手が 6\,cm から 3\,cm へと近接した際，抵抗値の増加幅が $2.1\,\mathrm{k}\Omega$ から $3.0\,\mathrm{k}\Omega$ へと急拡大しており，受光面が覆われるにつれて照度低下に対する素子抵抗の増加率が非線形に跳ね上がっていることが確認された．
-このように，照度に対する素子抵抗のベキ乗特性（式(\ref{eq:cds_power_law})）と分圧比の非線形性が重畳することで，手の接近に伴う電圧上昇の非線形なステップ特性が形成された．
-したがって，照明環境が一定であれば，手のおおよその接近距離を電圧値から識別できる．ただし，周囲の明るさによって基準電圧がシフトするため，実用時には環境に応じた事前の基準較正が不可欠である．
-
+で決定される．$R_{\mathrm{CdS}}$ が大きくなるほどCdSセルにかかる分圧の割合が増加するため，電圧 $V_{\mathrm{out}}$ は上昇する．
+式(\ref{eq:cds_divider_actual})を変形した $R_{\mathrm{CdS}} = \frac{3.3 \times V_{\mathrm{out}}}{5.0 - V_{\mathrm{out}}}$ を用い，表\ref{tab:c2_voltage_summary}の平均電圧から各高さにおけるCdS素子の抵抗値を逆算すると，手をかざしていない開放時は約 $4.4\,\mathrm{k}\Omega$，約 9\,cm では約 $6.6\,\mathrm{k}\Omega$（開放時比 $+2.2\,\mathrm{k}\Omega$），約 6\,cm では約 $8.7\,\mathrm{k}\Omega$（9\,cm比 $+2.1\,\mathrm{k}\Omega$），約 3\,cm では約 $11.7\,\mathrm{k}\Omega$（6\,cm比 $+3.0\,\mathrm{k}\Omega$）となった．
+手が 6\,cm から 3\,cm へと近接した際，抵抗値の増加幅が $2.1\,\mathrm{k}\Omega$ から $3.0\,\mathrm{k}\Omega$ へと急拡大しており，手が至近距離に入るほど照度低下に伴う抵抗の増大が著しくなる傾向が実測値からも確認された．
+このように，照度に対する素子のベキ乗特性と分圧回路の特性が組み合わさることで，手の接近に伴う段階的な電圧上昇特性が得られた．
+したがって，照明環境が一定であれば，手のおおよその接近距離を電圧値から識別できる．ただし，周囲の明るさによって基準電圧がシフトするため，実用時には環境に応じた事前の基準較正が必要である．
 
 \subsection{移動平均（MA）と指数移動平均（EMA）の平滑化特性の比較考察}
 ワークC-3において，時系列電圧データに対する移動平均（MA）と指数移動平均（EMA）の平滑化結果を比較したところ，ノイズ低減効果，初期値の扱い，および過渡応答に関して明確な差異が確認された．
