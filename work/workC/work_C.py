@@ -256,7 +256,7 @@ def _(Path, np, pd, plt):
     if csv_path_c3.exists():
         df_c3 = pd.read_csv(csv_path_c3)
         v_raw = df_c3["voltage"]
-        v_ma = v_raw.rolling(window=5, min_periods=1).mean()
+        v_ma = v_raw.rolling(window=5).mean()
         v_ema = v_raw.ewm(span=5, adjust=False).mean()
 
         fig_c3, (ax1, ax2, ax3) = plt.subplots(
