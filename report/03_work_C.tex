@@ -94,20 +94,20 @@ A0ピンから\texttt{analogRead(A0)}により読み取った10ビットデジ�
 
 \begin{figure}[htbp]
   \centering
-  \begin{minipage}[t]{0.48\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_C/c1_circuit.png}
-    \vspace{2mm}
-    \centerline{(a) 距離測定回路}
-  \end{minipage}
+    \caption{距離測定回路}
+    \label{fig:c1_circuit}
+  \end{subfigure}%
   \hfill
-  \begin{minipage}[t]{0.48\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_C/c1_experiment.png}
-    \vspace{2mm}
-    \centerline{(b) 距離測定の様子}
-  \end{minipage}
-  \caption{フォトリフレクタを用いた距離測定実験（(a) 距離測定回路，(b) 距離測定の様子）}
+    \caption{距離測定の様子}
+    \label{fig:c1_experiment}
+  \end{subfigure}
+  \caption{フォトリフレクタを用いた距離測定実験}
   \label{fig:c1_setup}
 \end{figure}
 
@@ -175,20 +175,20 @@ CdSセルは，光の照射強度（ルクス）に応じて素子抵抗値 $R_{
 
 \begin{figure}[htbp]
   \centering
-  \begin{minipage}[t]{0.48\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_C/c2_circuit.png}
-    \vspace{2mm}
-    \centerline{(a) 照度変化測定回路}
-  \end{minipage}
+    \caption{照度変化測定回路}
+    \label{fig:c2_circuit}
+  \end{subfigure}%
   \hfill
-  \begin{minipage}[t]{0.48\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \centering
     \includegraphics[width=\textwidth,clip]{fig_work_C/c2_experiment.png}
-    \vspace{2mm}
-    \centerline{(b) 手をかざして測定する様子}
-  \end{minipage}
-  \caption{CdSセルを用いた照度変化測定実験（(a) 照度変化測定回路，(b) 手をかざして測定する様子）}
+    \caption{手をかざして測定する様子}
+    \label{fig:c2_experiment}
+  \end{subfigure}
+  \caption{CdSセルを用いた照度変化測定実験}
   \label{fig:c2_setup}
 \end{figure}
 
