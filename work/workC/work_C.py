@@ -37,18 +37,7 @@ def _():
     import pandas as pd
     import requests
 
-    return (
-        Path,
-        datetime,
-        deque,
-        hashlib,
-        np,
-        pd,
-        plt,
-        requests,
-        threading,
-        time,
-    )
+    return Path, datetime, deque, np, pd, plt, requests, threading, time
 
 
 @app.cell(hide_code=True)
@@ -86,12 +75,8 @@ def _():
 
 
 @app.cell
-def _(Path, d, datetime, hashlib, pd, plt, student_id, v):
+def _(Path, d, plt, v):
     fig_c1, ax_c1 = plt.subplots(figsize=(6, 6))
-
-    df_c1 = pd.DataFrame({"distance_cm": d, "voltage_v": v})
-    canonical_c1 = df_c1.to_csv(index=False, lineterminator="\n", float_format="%.10g")
-    data_id_c1 = hashlib.sha256(canonical_c1.encode("utf-8")).hexdigest()[:12]
 
     ax_c1.plot(d, v, "ko-", markersize=6, linewidth=1.5)
     ax_c1.set_xlabel("距離 (cm)", fontsize=16, labelpad=8)
@@ -100,12 +85,6 @@ def _(Path, d, datetime, hashlib, pd, plt, student_id, v):
     ax_c1.set_ylim(0, 5.3)
     ax_c1.tick_params(labelsize=14)
     ax_c1.grid(True, linestyle="--", alpha=0.5)
-
-    created_at_c1 = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    ax_c1.set_title(
-        f"学籍番号: {student_id}  データID: {data_id_c1}\n作成時刻: {created_at_c1}",
-        fontsize=11,
-    )
     plt.tight_layout()
 
     out_c1 = Path("result_C1.png")
