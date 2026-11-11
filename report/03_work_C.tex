@@ -75,13 +75,20 @@ Arduino UNO R4 WiFiのA/D変換の分解能は初期設定で10ビットであ�
 \subsubsection{距離測定実験の手順}
 実験手順は以下の通りである：
 \begin{enumerate}
-    \item ブレッドボード上にフォトリフレクタ回路を配線し，Arduinoの5\,V，GND，A0ピンに接続した．ブレッドボードを安定して固定し，センサ受発光面を適切な高さに保つため，半透明プラスチック容器を台座（ベース）として設置した．
+    \item ブレッドボード上にフォトリフレクタ回路を配線し，Arduinoの5\,V，GND，A0ピンに接続した．ブレッドボードを安定して固定し，センサ受発光面を適切な高さに保つため，実験器具として半透明プラスチック容器（図\ref{fig:basis}）を台座（ベース）として設置した．
     \item センサ受発光面の正面に垂直な遮蔽物（白色平板）を対向配置した．
     \item センサ受発光面と遮蔽物間の距離 $d$ を，目盛り付き定規を用いて $0.5\,\mathrm{cm}$（$5\,\mathrm{mm}$）から $5.0\,\mathrm{cm}$（$50\,\mathrm{mm}$）まで $0.5\,\mathrm{cm}$ 間隔で精密に設定した．
     \item 各距離においてLEDマトリクスに表示された電圧値，およびシリアルモニタで得られた安定電圧値を記録した．
     \item 得られた測定データをPythonスクリプト（\texttt{work\_C.py}）およびJupyter Notebook（\texttt{work\_C.ipynb}）に入力し，距離--電圧特性曲線を描画して画像（\texttt{result\_C1.png}）として保存した．
 \end{enumerate}
 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.52\textwidth,clip]{fig_work_C/basis.png}
+  \caption{ブレッドボード固定および高さ調整用の台座（半透明プラスチック容器）}
+  \label{fig:basis}
+\end{figure}
 
 \subsection{ワークC-2：Webサーバ構築とネットワーク経由データ取得}
 
