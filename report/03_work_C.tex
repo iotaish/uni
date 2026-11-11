@@ -103,7 +103,7 @@ Arduino上で動作するWebサーバ（\texttt{WiFiServer server(80)}）は，T
 データ送信完了後，\texttt{client.flush()} によりソケットバッファの送出完了を確認した上で \texttt{client.stop()} を実行し，接続を正常切断する処理とした．
 
 \subsubsection{CdS光導電セルを用いた照度センサ回路}
-ワークC-2では，環境光および遮蔽による照度変化を検出するため，光電導素子であるCdSセル\cite{川口慎一朗1966cds, 石川太郎1974照明制御システムへの半導体応用}を用いた．
+ワークC-2では，環境光および遮蔽による照度変化を検出するため，光電導素子であるCdSセル\cite{川口慎一朗1966cds, 石川太郎1974照明制御システムへの半導体応用, advanced_photonix_pdv_p5002}を用いた．
 センサ回路の外観を図\ref{fig:c2_circuit}に，センサ上方に手をかざして電圧を測定する様子を図\ref{fig:c2_experiment}に示す．
 CdSセルは，光の照射強度（ルクス）に応じて素子抵抗値 $R_{\mathrm{CdS}}$ が大きく低下する負の光導電特性を有する．
 
@@ -181,7 +181,7 @@ PCをArduinoのアクセスポイント \texttt{ZZAP012} にWi-Fi接続した状
 \end{equation}
 を採用した．初期値 $y_{\mathrm{EMA}}[0]$ には最初の実測値 $x[0]$ を用いた．
 
-Pythonの \texttt{pandas} ライブラリを用い，生データ（\texttt{voltage}），移動平均（\texttt{voltage\_MA}），および指数移動平均（\texttt{voltage\_EMA}）の波形を共通の時間軸上に3段スタック形式でプロットし，\texttt{result\_C3.png} として保存した．
+Pythonの \texttt{pandas} ライブラリを用い，生データ（\texttt{voltage}），\texttt{rolling} メソッド\cite{pandas_rolling}による移動平均（\texttt{voltage\_MA}），および \texttt{ewm} メソッド\cite{pandas_ewm}による指数移動平均（\texttt{voltage\_EMA}）の波形を共通の時間軸上に3段スタック形式でプロットし，\texttt{result\_C3.png} として保存した．
 
 
 \subsection{使用素子及び実験装置}
@@ -324,7 +324,7 @@ Arduinoをアクセスポイント（SSID: \texttt{ZZAP012}）として起動し
 ワークC-1において，フォトリフレクタ（LBR-127HLD）と遮蔽物の距離 $d$ が増大するに伴い，出力電圧 $V_{\mathrm{out}}$ が単調増加し，遠距離で飽和する特性が得られた．この物理的要因について回路論および光学的知見に基づいて考察する．
 
 フォトリフレクタは，赤外発光ダイオード（LED）からの放射光が遮蔽物表面で乱反射し，近接配置されたフォトトランジスタの受光面に入射することで動作する\cite{LBR-127HLD, 中村力1987ゲート蓄積型, wilson1998optoelectronics}．
-点光源から出射された光の放射照度 $E$ は，幾何光学的な逆二乗則に従い，遮蔽物までの距離 $d$ の二乗に反比例して減衰する：
+点光源から出射された光の放射照度 $E$ は，幾何光学的な逆二乗則に従い\cite{iwasaki_point_method}，遮蔽物までの距離 $d$ の二乗に反比例して減衰する：
 \begin{equation}
     E(d) \propto \frac{1}{d^2}
 \end{equation}
