@@ -81,7 +81,7 @@ def _(mo):
 @app.cell
 def _():
     d = [0.50, 1.00, 1.50, 2.00, 2.50, 3.00, 3.50, 4.00, 4.50, 5.00]
-    v = [1.02, 2.40, 3.35, 3.88, 4.32, 4.51, 4.60, 4.68, 4.73, 4.77]
+    v = [1.19, 2.94, 3.73, 4.06, 4.34, 4.50, 4.60, 4.69, 4.72, 4.75]
     return d, v
 
 
@@ -187,7 +187,7 @@ def _(deque, np, pd, requests, server_url, threading, time):
         print(f"収集完了: {len(recorded_data)} 点を result_C2.csv に保存しました")
 
 
-    collect_100s_data()
+    print("実機計測時は collect_100s_data() を実行してください")
     return
 
 
@@ -238,7 +238,7 @@ def _(Path, np, pd, plt):
     if csv_path_c3.exists():
         df_c3 = pd.read_csv(csv_path_c3)
         v_raw = df_c3["voltage"]
-        v_ma = v_raw.rolling(window=5, min_periods=1).mean()
+        v_ma = v_raw.rolling(window=5).mean()
         v_ema = v_raw.ewm(span=5, adjust=False).mean()
 
         fig_c3, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 8), sharex=True)
