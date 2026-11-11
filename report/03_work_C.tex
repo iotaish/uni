@@ -24,20 +24,13 @@ Arduino UNO R4 WiFiには，基板表面に8行12列（計96個）の赤色LED�
 表示内容は，8行12列の2値状態を保持する\texttt{byte}型2次元配列\texttt{frame[8][12]}（0：消灯，1：点灯）によって管理され，Arduino標準の\texttt{Arduino\_LED\_Matrix}ライブラリに属する\texttt{matrix.renderBitmap(frame, 8, 12)}関数を呼び出すことでLEDマトリクス上に描画される．
 
 本ワークでは，A0ピンから取得したアナログ入力電圧（0.00〜5.00\,V）を小数第2位までの3桁の数値として表示するため，縦5ドット×横3ドットの数字フォントパターン（0〜9）を格納した2次元配列\texttt{digits[5][30]}を定義した．
-3桁の数字および小数点の配置座標は，図\ref{fig:matrix_layout}に示す通りに設計した：
+3桁の数字および小数点の配置座標は，以下に示す通りに設計した：
 \begin{itemize}
     \item \textbf{百の位（整数部）}：開始座標を2行目1列目（\texttt{s\_r = 2, s\_c = 1}）とし，1〜3列目，2〜6行目に描画した．
     \item \textbf{小数点}：整数部と小数第1位の区切りを明確にするため，7行目4列目のLEDを常時点灯（\texttt{frame[7][4] = 1}）させた．
     \item \textbf{十の位（小数第1位）}：開始座標を2行目5列目（\texttt{s\_r = 2, s\_c = 5}）とし，5〜7列目，2〜6行目に描画した．
     \item \textbf{一の位（小数第2位）}：開始座標を2行目9列目（\texttt{s\_r = 2, s\_c = 9}）とし，9〜11列目，2〜6行目に描画した．
 \end{itemize}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.6\textwidth,clip]{fig_work_C/prm.png}
-  \caption{フォトリフレクタの受発光原理とLEDマトリクス表示の概念}
-  \label{fig:matrix_layout}
-\end{figure}
 
 指定された数字 $d \in \{0, \dots, 9\}$ を指定座標 $(s\_r, s\_c)$ に描画する関数\texttt{displayDigitC1}では，2重の\texttt{for}ループを用いて\texttt{digits}配列から\texttt{frame}配列への値のコピーを行った：
 \begin{equation}
@@ -82,7 +75,7 @@ Arduino UNO R4 WiFiのA/D変換の分解能は初期設定で10ビットであ�
 \subsubsection{距離測定実験の手順}
 実験手順は以下の通りである：
 \begin{enumerate}
-    \item ブレッドボード上にフォトリフレクタ回路を配線し，Arduinoの5\,V，GND，A0ピンに接続した．
+    \item ブレッドボード上にフォトリフレクタ回路を配線し，Arduinoの5\,V，GND，A0ピンに接続した．ブレッドボードを安定して固定し，センサ受発光面を適切な高さに保つため，半透明プラスチック容器を台座（ベース）として設置した．
     \item センサ受発光面の正面に垂直な遮蔽物（白色平板）を対向配置した．
     \item センサ受発光面と遮蔽物間の距離 $d$ を，目盛り付き定規を用いて $0.5\,\mathrm{cm}$（$5\,\mathrm{mm}$）から $5.0\,\mathrm{cm}$（$50\,\mathrm{mm}$）まで $0.5\,\mathrm{cm}$ 間隔で精密に設定した．
     \item 各距離においてLEDマトリクスに表示された電圧値，およびシリアルモニタで得られた安定電圧値を記録した．
@@ -215,6 +208,8 @@ Pythonの \texttt{pandas} ライブラリを用い，生データ（\texttt{volt
     ジャンパーワイヤ & オス--オス 各種 & 1組 & 回路結線用 \\
     \hline
     遮蔽物 & 白色アクリル平板 / 手 & 各1 & 距離および照度変化入力用 \\
+    \hline
+    台座（ベース） & 半透明プラスチック容器 & 1個 & ブレッドボード固定・高さ調整用 \\
     \hline
   \end{tabular}
   \label{tab:components_work_C}
