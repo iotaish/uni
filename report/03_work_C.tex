@@ -54,6 +54,12 @@ Arduino UNO R4 WiFiのA/D変換の分解能は初期設定で10ビットであ�
 距離測定部には，赤外発光ダイオードとフォトトランジスタを一体化した反射型フォトリフレクタ（LBR-127HLD\cite{LBR-127HLD}）を採用した．
 回路構成を図\ref{fig:c1_circuit}に，測定時の配置の様子を図\ref{fig:c1_experiment}に示す．
 赤外LEDのアノード側には電流制限抵抗 $R_D = 330\,\Omega$ を直列接続して電源電圧5\,Vを印加し，カソード側をGNDに接地した．
+赤外LEDの順方向電圧を $V_F$（標準 $1.2 \sim 1.5\,\mathrm{V}$\cite{LBR-127HLD}）とすると，直列抵抗にかかる電圧降下から流れる順方向電流 $I_F$ は，
+\begin{equation}
+    I_F = \frac{V_{CC} - V_F}{R_D} = \frac{5.0 - V_F}{330} \approx 10.6 \sim 11.5\,\mathrm{mA}
+    \label{eq:if_diode}
+\end{equation}
+となり，データシートの最大定格（$50\,\mathrm{mA}$）および推奨値（$20\,\mathrm{mA}$）を下回る安全な動作電流に設定されている．
 フォトトランジスタのコレクタ端子には負荷抵抗 $R_L = 3.3\,\mathrm{k}\Omega$ を接続して5\,Vラインにプルアップし，エミッタ端子をGNDに接地した．コレクタと抵抗 $R_L$ の接続点からセンサ出力電圧 $V_{\mathrm{out}}$ を引き出し，ArduinoのA0ピンに入力した．
 
 \begin{figure}[htbp]
@@ -277,7 +283,7 @@ Pythonの \texttt{pandas} ライブラリを用い，生データ（\texttt{volt
 
 \subsection{ワークC-2：CdSセルによる照度変化データの取得結果}
 
-Arduinoをアクセスポイント（SSID: \texttt{ZZAP012}）として起動し，Pythonプログラムから $1.0\,\mathrm{s}$ 周期で100秒間にわたり取得したCdSセンサ回路の出力電圧波形を図\ref{fig:result_C2}に示す．
+Arduinoをアクセスポイント（SSID: \texttt{ZZAP012}）として起動し，Pythonプログラムから $1.0\,\mathrm{s}$ 周期で100秒間にわたり取得したCdSセンサ回路の出力電圧波形を図\ref{fig:result_C2}に，各測定区間の統計値を表\ref{tab:c2_voltage_summary}に示す．
 
 \begin{figure}[htbp]
   \centering
@@ -286,7 +292,29 @@ Arduinoをアクセスポイント（SSID: \texttt{ZZAP012}）として起動し
   \label{fig:result_C2}
 \end{figure}
 
-図\ref{fig:result_C2}に示す通り，各測定フェーズにおける電圧挙動は以下の明確な段階的変化を示した：
+\begin{table}[htbp]
+  \caption{CdSセルの上方に手をかざしたときの各区間の電圧}
+  \centering
+  \small
+  \begin{tabular}{|c|c||c|c|c|}
+    \hline
+    時間 [s] & 手の位置 & 平均 [V] & 最小 [V] & 最大 [V] \\
+    \hline\hline
+    0〜19 & なし（開放定常） & 2.85 & 2.80 & 2.89 \\
+    \hline
+    20〜40 & 約 9\,cm & 3.34 & 3.16 & 3.40 \\
+    \hline
+    41〜60 & 約 6\,cm & 3.62 & 3.48 & 3.69 \\
+    \hline
+    61〜80 & 約 3\,cm & 3.90 & 3.87 & 3.94 \\
+    \hline
+    81〜100 & なし（復帰） & 2.90 & 2.80 & 3.12 \\
+    \hline
+  \end{tabular}
+  \label{tab:c2_voltage_summary}
+\end{table}
+
+図\ref{fig:result_C2}および表\ref{tab:c2_voltage_summary}に示す通り，各測定フェーズにおける電圧挙動は以下の明確な段階的変化を示した：
 \begin{enumerate}
     \item \textbf{0〜19\,s（非遮蔽定常状態）}：センサ上部が完全に開放された状態であり，室内照明光を直接受光して電圧は平均 $2.85\,\mathrm{V}$（$2.80 \sim 2.89\,\mathrm{V}$）で極めて安定に推移した．
     \item \textbf{20〜40\,s（上部約9\,cm遮蔽）}：手を9\,cm上空にかざした直後に電圧が平均 $3.36\,\mathrm{V}$（$3.16 \sim 3.40\,\mathrm{V}$）へとステップ状に上昇した．手の微小な揺れを反映して微小な変動が観測された．
@@ -311,7 +339,7 @@ Arduinoをアクセスポイント（SSID: \texttt{ZZAP012}）として起動し
 図\ref{fig:result_C3}より，各平滑化処理の特徴は以下の通り確認された：
 \begin{itemize}
     \item \textbf{生データ（上段）}：各定常区間において高周波の微小リップル（幅約 $0.05\,\mathrm{V}$）が頻繁に観測され，波形輪郭が粗い状態であった．
-    \item \textbf{移動平均 MA（中段）}：定常領域の微小ノイズが均一に平滑化され，滑らかなトレースが得られた．しかし，手が接近・離脱した各ステップ境界（$t=20, 41, 61, 81\,\mathrm{s}$）において，立ち上がりおよび立ち下がりが5サンプル（5秒間）にわたって斜めに傾斜し，過渡変化に対する時間的遅れ（位相ラグ）が顕著に生じた．
+    \item \textbf{移動平均 MA（中段）}：定常領域の微小ノイズが均一に平滑化され，滑らかなトレースが得られた．過去5サンプルのデータが蓄積されるまで平均値を算出できないため，測定開始直後の最初の4点（0〜3\,s）において値が得られず欠損（NaN）となる特性が確認された．また，手が接近・離脱した各ステップ境界（$t=20, 41, 61, 81\,\mathrm{s}$）において，立ち上がりおよび立ち下がりが5サンプル（5秒間）にわたって斜めに傾斜し，過渡変化に対する時間的遅れ（位相ラグ）が顕著に生じた．
     \item \textbf{指数移動平均 EMA（下段）}：MAと同様に定常部のノイズを十分に抑制しつつ，ステップ変化の立ち上がり初期においてMAよりも急峻に追従した．段差開始直後の1〜2サンプルで変化幅の過半を捉えており，過渡応答の応答遅延がMAに比べて大幅に軽減されている様子が確認された．
 \end{itemize}
 
@@ -552,6 +580,28 @@ plt.show()
 
 
 \subsection{ワークC-2で作成したプログラム}
+
+\begin{lstlisting}[caption={ワークC-2 メインスケッチ (myprm.ino)}, label={lst:c2_myprm}]
+#include "myLEDMatrix.h"
+#include "myServer.h"
+
+int analogValue = 0;
+double measuredVoltage = 0.0;
+
+void setup() {
+  Serial.begin(9600);
+  initLEDMatrix();
+  initServer();
+}
+
+void loop() {
+  analogValue = analogRead(A0);
+  measuredVoltage = (double)analogValue / 1023.0 * 5.0;
+  updateDisplayC1(measuredVoltage);
+  handleClientRequest(measuredVoltage);
+  delay(100);
+}
+\end{lstlisting}
 
 \begin{lstlisting}[caption={ワークC-2 通信設定ヘッダ (config.h)}, label={lst:c2_config}]
 #ifndef Config_h
