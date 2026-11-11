@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.25.0"
+__generated_with = "0.25.2"
 app = marimo.App(width="medium")
 
 
@@ -37,19 +37,7 @@ def _():
     import pandas as pd
     import requests
 
-    return (
-        Path,
-        datetime,
-        deque,
-        hashlib,
-        japanize_matplotlib,
-        np,
-        pd,
-        plt,
-        requests,
-        threading,
-        time,
-    )
+    return Path, datetime, hashlib, np, pd, plt, requests
 
 
 @app.cell(hide_code=True)
@@ -66,7 +54,7 @@ def _():
     student_id = "26G1012"
     student_id_num = 12  # 学籍番号の下3桁（8進数解釈を防ぐため先頭0を除く）
     server_url = f"http://192.168.{student_id_num}.2"
-    return server_url, student_id, student_id_num
+    return server_url, student_id
 
 
 @app.cell(hide_code=True)
@@ -82,7 +70,7 @@ def _(mo):
 @app.cell
 def _():
     d = [0.50, 1.00, 1.50, 2.00, 2.50, 3.00, 3.50, 4.00, 4.50, 5.00]
-    v = [1.02, 2.40, 3.35, 3.88, 4.32, 4.51, 4.60, 4.68, 4.73, 4.77]
+    v = [1.19, 2.94, 3.73, 4.06, 4.34, 4.50, 4.60, 4.69, 4.72, 4.75]
     return d, v
 
 
@@ -116,16 +104,7 @@ def _(Path, d, datetime, hashlib, pd, plt, student_id, v):
     plt.savefig(report_c1, dpi=300)
     print(f"C-1 グラフ保存完了: {out_c1} / {report_c1}")
     plt.show()
-    return (
-        ax_c1,
-        canonical_c1,
-        created_at_c1,
-        data_id_c1,
-        df_c1,
-        fig_c1,
-        out_c1,
-        report_c1,
-    )
+    return
 
 
 @app.cell(hide_code=True)
@@ -161,14 +140,15 @@ def _(requests, server_url):
     return
 
 
-@app.cell
-def _(Path, deque, np, pd, requests, server_url, threading, time):
+app._unparsable_cell(
+    r"""
     num_samples = 101
     sample_interval = 1.0
     val_queue = deque([np.nan] * num_samples, maxlen=num_samples)
     recorded_data = []
     latest_val = 0.0
     http_session = requests.Session()
+
 
     def fetch_worker():
         nonlocal latest_val
@@ -178,6 +158,7 @@ def _(Path, deque, np, pd, requests, server_url, threading, time):
             latest_val = float(res.json()["value"])
         except Exception:
             pass
+
 
     def collect_100s_data():
         base_time = time.perf_counter()
@@ -191,22 +172,14 @@ def _(Path, deque, np, pd, requests, server_url, threading, time):
             )
             val_queue.append(latest_val)
             recorded_data.append(latest_val)
-        pd.DataFrame({"voltage": recorded_data}).to_csv(
-            "result_C2.csv", index=False
-        )
+        pd.DataFrame({"voltage": recorded_data}).to_csv("result_C2.csv", index=False)
         print(f"収集完了: {len(recorded_data)} 点を result_C2.csv に保存しました")
 
+
     print("実機計測時は collect_100s_data() を実行してください")
-    return (
-        collect_100s_data,
-        fetch_worker,
-        http_session,
-        latest_val,
-        num_samples,
-        recorded_data,
-        sample_interval,
-        val_queue,
-    )
+    """,
+    name="_"
+)
 
 
 @app.cell
@@ -237,7 +210,7 @@ def _(Path, np, pd, plt):
         plt.savefig(report_c2, dpi=300)
         print(f"C-2 グラフ保存完了: {out_c2} / {report_c2}")
         plt.show()
-    return ax_c2, csv_path_c2, df_c2, fig_c2, out_c2, report_c2
+    return
 
 
 @app.cell(hide_code=True)
@@ -259,15 +232,11 @@ def _(Path, np, pd, plt):
         v_ma = v_raw.rolling(window=5).mean()
         v_ema = v_raw.ewm(span=5, adjust=False).mean()
 
-        fig_c3, (ax1, ax2, ax3) = plt.subplots(
-            3, 1, figsize=(8, 8), sharex=True
-        )
+        fig_c3, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 8), sharex=True)
         t_axis = np.arange(len(v_raw))
 
         # 1段目: 生データ (Raw)
-        ax1.plot(
-            t_axis, v_raw, "ko-", markersize=3, linewidth=1, label="voltage"
-        )
+        ax1.plot(t_axis, v_raw, "ko-", markersize=3, linewidth=1, label="voltage")
         ax1.set_ylabel("電圧 (V)", fontsize=14)
         ax1.set_ylim(2.0, 4.5)
         ax1.grid(True, linestyle="--", alpha=0.5)
@@ -275,9 +244,7 @@ def _(Path, np, pd, plt):
         ax1.tick_params(labelsize=12)
 
         # 2段目: 移動平均 (MA)
-        ax2.plot(
-            t_axis, v_ma, "ro-", markersize=3, linewidth=1, label="voltage_MA"
-        )
+        ax2.plot(t_axis, v_ma, "ro-", markersize=3, linewidth=1, label="voltage_MA")
         ax2.set_ylabel("電圧 (V)", fontsize=14)
         ax2.set_ylim(2.0, 4.5)
         ax2.grid(True, linestyle="--", alpha=0.5)
@@ -309,20 +276,7 @@ def _(Path, np, pd, plt):
         plt.savefig(report_c3, dpi=300)
         print(f"C-3 グラフ保存完了: {out_c3} / {report_c3}")
         plt.show()
-    return (
-        ax1,
-        ax2,
-        ax3,
-        csv_path_c3,
-        df_c3,
-        fig_c3,
-        out_c3,
-        report_c3,
-        t_axis,
-        v_ema,
-        v_ma,
-        v_raw,
-    )
+    return
 
 
 if __name__ == "__main__":
