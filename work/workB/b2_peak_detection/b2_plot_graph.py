@@ -1,0 +1,249 @@
+import marimo
+
+__generated_with = "0.25.1"
+app = marimo.App()
+
+
+@app.cell
+def _():
+    import marimo as mo
+
+    return (mo,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## １. ライブラリのインポート
+    以下を実行してライブラリをインポート
+    """)
+    return
+
+
+@app.cell
+def _():
+    import csv
+    import hashlib
+    import threading
+    import time
+    from datetime import datetime
+
+    import japanize_matplotlib  # noqa: F401
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import serial
+
+    return csv, datetime, hashlib, pd, plt, serial, threading, time
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## 2. ファイル名の設定
+    出力されるCSVとPNGのファイル名を設定
+
+    以下の「変更する箇所」で，学籍番号とArduinoで設定した閾値を入力
+    """)
+    return
+
+
+@app.cell
+def setup_params():
+    ################### 変更する箇所 ###################
+    student_id = "26G1012"  # 自分の学籍番号を省略せずに設定
+    top_threshold = 400  # Arduinoのプログラムで設定したTOP_THRESHOLDの値を設定する
+    down_threshold = 2  # Arduinoのプログラムで設定したDOWN_THRESHOLDの値を設定する
+    ################### 変更ここまで #########################
+
+    file_name = f"b2_{student_id}_top{top_threshold}_down{down_threshold}"  # 上記の設定により自動でファイル名が設定される
+    return down_threshold, file_name, student_id, top_threshold
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## ３. シリアル通信によるデータの読み込み
+    port='/dev/tty'の y と ' の間にカーソルを合わせ . を入力すると候補が表示されるので，usbmodem.....を選択
+    実行後にArduinoからの信号待ち状態に入る
+
+    シリアルデータの送信が途絶えると自動で終了し，ファイルが出力される（eを入力し，Enterで手動終了も可能）
+    """)
+    return
+
+
+@app.cell
+def capture_serial(csv, datetime, file_name, serial, student_id, threading, time):
+    ################### 変更する箇所：シリアルポート ###################
+    ## ttyの後ろに.を入力すると候補が表示されるのでusbmodemの方を選択（数値は各々のMacやArduinoによって異なる）
+    ##例：ser = serial.Serial(port='/dev/tty.usbmodem4827E2E0D9D02', baudrate=115200, timeout=1)
+    ser = serial.Serial(port="/dev/tty.usbmodemACA7043A47282", baudrate=115200, timeout=1)
+    _data = []
+    stop_event = threading.Event()
+    ###################  これ以降は修正の必要はない  ###################
+
+    def save_to_csv(data):
+        with open(f"{file_name}.csv", "w", newline="") as f:
+            writer = csv.writer(f)
+            # 先頭行がヘッダーでなければ明示的に付与
+            if not data or [x.lower() for x in data[0]] != ["time", "value", "peak"]:
+                writer.writerow(["time", "value", "peak"])
+            writer.writerows(data)
+
+    def log_to_file(port):
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+        log_data = [current_time, port, file_name]
+        log_file = f"b2_{student_id}_log.csv"  # ミリ秒まで取得
+        try:
+            with open(log_file, "x", newline="") as log:
+                writer = csv.writer(log)
+                writer.writerow(["Timestamp", "Port", "OutputFile"])
+                writer.writerow(log_data)
+        except FileExistsError:  # ヘッダー行
+            with open(log_file, "a", newline="") as log:
+                writer = csv.writer(log)
+                writer.writerow(log_data)
+
+    def read_serial():
+        last_received_time = None
+        has_received_data = False
+        idle_timeout = 2.0  # シリアルデータ途絶判定時間（秒）
+
+        while not stop_event.is_set():
+            if ser.in_waiting > 0:
+                line = ser.readline().decode("utf-8", errors="replace").rstrip()
+                if line:
+                    print(line, flush=True)
+                    last_received_time = time.time()
+                    has_received_data = True
+                    parsed_line = line.replace('",', ",").replace('"', "")
+                    parts = [p.strip() for p in parsed_line.split(",")]
+                    if len(parts) == 3:
+                        if [x.lower() for x in parts] == ["time", "value", "peak"]:
+                            if not _data:
+                                _data.append(["time", "value", "peak"])
+                        else:
+                            try:
+                                float(parts[0])
+                                int(parts[1])
+                                int(parts[2])
+                                _data.append(parts)
+                            except ValueError:
+                                pass
+            else:
+                if (
+                    has_received_data
+                    and last_received_time is not None
+                    and (time.time() - last_received_time > idle_timeout)
+                ):
+                    print(
+                        f"\nシリアル値の送信が停止しました（{idle_timeout}秒間無通信）。自動で終了します。",
+                        flush=True,
+                    )
+                    stop_event.set()
+                    break
+                time.sleep(0.01)
+
+    def wait_for_exit():
+        while not stop_event.is_set():
+            try:
+                if input() == "e":
+                    print("終了キーが押されました。データを保存して終了します。")
+                    stop_event.set()
+                    break
+            except EOFError:
+                break
+
+    print("シリアル通信の読み込み開始，Arduinoのリセットボタンを押して下さい．", flush=True)
+    print(
+        "シリアル値が停止すると自動で終了し，ファイルが出力されます（手動終了は e + Enter）",
+        flush=True,
+    )
+    input_thread = threading.Thread(target=wait_for_exit, daemon=True)
+    input_thread.start()
+    read_serial()
+
+    save_to_csv(_data)
+    log_to_file(ser.port)
+    ser.close()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## ４. 図の描画
+
+    CSVの出力を元にグラフを作成して画像ファイル(PNG形式)で出力する
+    2. ファイル名の設定で設定した名前に基づいてcsvの読み込みと，pngの出力が行われる
+    """)
+    return
+
+
+@app.cell
+def plot_graph(
+    datetime,
+    down_threshold,
+    file_name,
+    hashlib,
+    pd,
+    plt,
+    student_id,
+    top_threshold,
+):
+    fig = plt.figure(figsize=(8, 4))
+    ax = fig.subplots()
+    try:
+        _data = pd.read_csv(f"{file_name}.csv")
+    except pd.errors.EmptyDataError as e:
+        raise ValueError("CSVファイルが空です。Arduinoの出力形式を確認してください。") from e
+    required_columns = ["time", "value", "peak"]
+    missing_columns = [column for column in required_columns if column not in _data.columns]
+    if missing_columns:
+        # ヘッダーが欠落している場合は header=None で再読み込みを試みる
+        try:
+            _fallback_data = pd.read_csv(f"{file_name}.csv", header=None, names=required_columns)
+            # 全列が数値に変換可能か確認
+            pd.to_numeric(_fallback_data["time"])
+            pd.to_numeric(_fallback_data["value"])
+            pd.to_numeric(_fallback_data["peak"])
+            _data = _fallback_data
+        except Exception as e:
+            raise ValueError(f"CSV形式が正しくありません。不足している列: {missing_columns}") from e
+    if _data.empty:
+        raise ValueError("CSVに測定データがありません。Arduinoの出力を確認してください。")
+    canonical_data = _data[["time", "value", "peak"]].to_csv(
+        index=False, lineterminator="\n", float_format="%.10g"
+    )
+    full_data_hash = hashlib.sha256(canonical_data.encode("utf-8")).hexdigest()
+    data_id = full_data_hash[:12]
+    t = _data["time"].values
+    v = _data["value"].values
+    ax.plot(t, v, marker="o", color="#000000", linestyle="-", markersize=4)
+    peak_t = _data["time"][_data["peak"] == 1].values
+    peak_v = _data["value"][_data["peak"] == 1].values
+    ax.plot(peak_t, peak_v, marker="x", color="red", linestyle="None", markersize=8)
+    ax.xaxis.set_tick_params(labelsize=16)
+    ax.yaxis.set_tick_params(labelsize=16)
+    ax.xaxis.labelpad = 8
+    ax.yaxis.labelpad = 8
+    ax.axhline(y=top_threshold, linestyle="--", linewidth=1.5, color="orange")
+    ax.set_xlabel("time (s)", fontsize=20)
+    ax.set_ylabel("value", fontsize=20)
+    plot_created_at = datetime.now()
+    plot_time_text = plot_created_at.strftime("%Y-%m-%d %H:%M:%S")
+    plot_time_filename = plot_created_at.strftime("%Y%m%d_%H%M%S")
+    ax.set_title(
+        f"学籍番号: {student_id}  TOP={top_threshold}, DOWN={down_threshold}\n図作成時刻: {plot_time_text}  データID: {data_id}",
+        fontsize=12,
+    )
+    plt.tight_layout()
+    output_png = f"{file_name}_{plot_time_filename}_{data_id}.png"
+    plt.savefig(output_png, dpi=150)
+    print(f"画像ファイルを保存しました: {output_png}")
+    plt.show()
+    plt.close(fig)
+    return (output_png,)
+
+
+if __name__ == "__main__":
+    app.run()

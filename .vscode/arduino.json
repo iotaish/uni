@@ -1,6 +1,6 @@
 {
     "board": "arduino:renesas_uno:unor4wifi",
-    "sketch": "work/tutorial/tutorial.ino",
+    "sketch": "work/workB/b3_pulse_measurement/b3_pulse_measurement.ino",
     "port": "/dev/tty.usbmodemACA7043A47282",
     "output": "./build"
 }
