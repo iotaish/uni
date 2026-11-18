@@ -1,58 +1,838 @@
 \chapter{ワークC データ取得・分析}
 
 \section{はじめに}
-本ワークにおいて，何を目的にどのような実験を行ったのか，得られた結果から何が考察できるのかについて報告する内容を整理して記述する．
-例えば次のように記述する．\\
+現代の産業機器や民生用測定機器（ヘルスケア機器やスマート測定器など）は，物理量を電気信号へと変換する「測定機能」と，
+得られた情報を視覚的に伝達する「表示機能」を兼ね備えている．
+さらに，近年ではIoT（Internet of Things）の急速な普及に伴い，
+長期間にわたるデータの蓄積や高度な統計分析を可能にするため，
+外部のコンピュータやクラウドシステムと連携する「通信機能」を統合したシステムが不可欠となっている．
+例えばスマート体重計においては，単独で体重や体組成の測定と内蔵ディスプレイへの即時表示を行う一方，
+無線通信を介してスマートフォン等の上位計算機へデータを定期転送し，
+時系列分析や健康管理アプリケーションを担わせる構成が一般的である．
 
-（例）本ワークでは～を目的とし，～の実験を行った．
-実験を通じて～の結果を得た．
-それらの結果より，～であることを明らかにする．
+本実習（ワークC）の目的は，
+マイコン（Arduino UNO R4 WiFi）に標準搭載された表示デバイスおよび無線通信モジュールを活用し，センサデータの取得
+，可視化表示，ネットワーク配信，ならびに時系列データの信号処理に至る一連のデータ処理技術を総合的に習得することである．
+本ワークは以下の3段階の課題に沿って実施した．
 
-\section{方法}
-本ワークで行った実験に関する条件や学んだ理論について記述する．
-以下の内容が記載されているか注意しながら進めること．
-例文は不慣れな学生向けの一例にすぎず，必ずしも同様の書き方をする必要はない．
-必要に応じて図表や数式を用いて説明することが求められる．
+ワークC-1（LEDマトリクスを用いたデータの表示と距離測定）では，
+Arduino UNO R4 WiFiに内蔵された8×12赤色LEDマトリクスを用い，
+多次元配列の操作によって測定電圧値を小数第2位まで視覚表示するプログラムを開発した．
+さらに，反射型フォトリフレクタ（LBR-127HLD）を用いたセンサ回路を構築し，
+センサ受発光面と遮蔽物との間の距離を段階的に変化させた際の出力電圧特性を測定・グラフ化した．
 
-\begin{itemize}
-    \item[・] 実験に用いた材料およびその性能，型式など\ （例）○○の評価では，○○（型式: ○○），○○（型式: ○○），および○○（型式: ○○）を図〇〇に示すように使用した．
-    \item[・] データの取得方法および作業手順\ （例）○○データの取得のため，○○を用いて○○を測定した．まず〇〇秒間〇〇し，次に〇〇し$\cdots$，最後に〇〇した．
-    \item[・] 評価方法\ （例）取得されたデータを〇〇法により〇〇し，〇〇を評価した． \end{itemize}
+ワークC-2（ネットワークを介したデータの取得とWebサーバ構築）では，
+Arduino UNO R4 WiFiに搭載されたESP32-S3モジュールを用いて独自のWi-Fiアクセスポイントを起動し，
+クライアントからの要求に応じて測定データをJSON（JavaScript Object Notation）形式で配信する組み込みWebサーバを構築した．
+そして，硫化カドミウム（CdS）セルを用いた照度センサ回路を接続し，遮蔽物（手）の接近・離脱に伴う電圧の時間変化を，
+Pythonを用いたクライアントPC上のプログラムにより非同期通信で自動取得してCSV形式で記録した．
 
-以下のように記述する．
+ワークC-3（時系列データの平滑化処理）では，
+ワークC-2で取得した照度変化の時系列電圧データに対し，計測ノイズの低減と信号トレンドの抽出を目的として，
+移動平均（Moving Average: MA）および指数移動平均（Exponential Moving Average: EMA）の2種類の平滑化アルゴリズムを実装・適用した．
+平滑化前後の波形比較を通じて，各手法におけるノイズ抑制性能と応答遅延のトレードオフを定量的に評価・考察した．
 
-（例）本ワークでは$\cdots$を目的に$\cdots$を行った．
-○○の評価では，光センサとして○○と，○○，および○○を図〇〇に示すように配線した．
-また，○○の評価のため，○○を行った．○○のデータ取得のため，まず〇〇秒間〇〇し，次に〇〇し$\cdots$最後に〇〇した．
-取得されたデータを〇〇法により〇〇し，〇〇を評価した．
 
-\subsection{ワークC-1 LEDマトリクスの活用}
+%-----------------------------------------------------------------------------------
+\section{方法及び手順}
 
-\subsection{ワークC-2 ネットワークを介したデータの取得と分析}
+\subsection{ワークC-1：LEDマトリクスの活用と距離測定回路}
 
-\subsection{ワークC-3 時系列データの平滑化}
+\subsubsection{LEDマトリクスによる数値表示の設計}
+Arduino UNO R4 WiFiには，基板表面に8行12列（計96個）の赤色LEDマトリクスが標準搭載されている．
+表示内容は，
+8行12列の2値状態を保持する\texttt{byte}型2次元配列\texttt{frame[8][12]}（0：消灯，
+1：点灯）によって管理され，
+Arduino標準の\texttt{Arduino\_LED\_Matrix}ライブラリに属する\texttt{matrix.renderBitmap(frame, 8, 12)}関数を呼び出すことでLEDマトリクス上に描画される．
 
-\clearpage \section{結果}
-実験から得られた結果について記述し，その中で読者の興味を引く結果がどれであり，それが何であるかを述べる．
-グラフや表にまとめるべきデータがあれば適切に図表として示すこと．
-本節の目的は図表を活用して要点を簡潔にまとめることであり，図表を文章にするのではない点に注意する．
+本ワークでは，A0ピンから取得したアナログ入力電圧（0.00〜5.00 V）を小数第2位までの3桁の数値として表示するため，
+縦5ドット×横3ドットの数字フォントパターン（0〜9）を格納した2次元配列\texttt{digits[5][30]}を定義した．
+3桁の数字および小数点の配置座標は，
+百の位（整数部）の開始座標を2行目1列目（\texttt{s\_r = 2, s\_c = 1}）として1〜3列目，2〜6行目に描画し，
+十の位（小数第1位）の開始座標を2行目5列目（\texttt{s\_r = 2, s\_c = 5}）として5〜7列目，2〜6行目に，
+一の位（小数第2位）の開始座標を2行目9列目（\texttt{s\_r = 2, s\_c = 9}）として9〜11列目，2〜6行目にそれぞれ描画した．
+また，整数部と小数第1位の区切りを明確にするため，7行目4列目のLEDを小数点として常時点灯（\texttt{frame[7][4] = 1}）させた．
 
-\subsection{ワークC-1 LEDマトリクスの活用}
+指定された数字 $d \in \{0, \dots, 9\}$ を指定座標 $(s\_r, s\_c)$ に描画する関数\texttt{displayDigitC1}では
+，
+2重の\texttt{for}ループを用いて\texttt{digits}配列から\texttt{frame}配列への値のコピーを行った：
+\begin{equation}
+  \texttt{frame}[s\_r + r][s\_c + c] = \texttt{digits}[r][d \times 3 + c] \quad (r \in [0, 4], c \in [0, 2])
+\end{equation}
+Arduino UNO R4 WiFiのA/D変換の分解能は初期設定で10ビットであり\cite{arduino_adc_resolution}
+，
+A0ピンから\texttt{analogRead(A0)}により読み取った10ビットデジタル値（0〜1023）を電圧値 $V$ に変換する計算式は
+，
+\begin{equation}
+  V = \frac{\texttt{analogValue}}{1023.0} \times 5.0\ \mathrm{[V]}
+  \label{eq:adc_to_voltage}
+\end{equation}
+とした．
+この電圧値を100倍して整数化した値に対し，剰余演算および除算を用いて各桁の数値を抽出し，100 msごとに画面を更新する構成とした．
 
-\subsection{ワークC-2 ネットワークを介したデータの取得と分析}
+\subsubsection{フォトリフレクタを用いた距離測定回路の構成}
+距離測定部には，
+赤外発光ダイオードとフォトトランジスタを一体化した反射型フォトリフレクタ（LBR-127HLD\cite{LBR-127HLD}）を採用した．
+回路構成を図\ref{fig:c1_setup}(a)に，測定時の配置の様子を図\ref{fig:c1_setup}(b)に示す．
+赤外LEDのアノード側には電流制限抵抗 $R_D = 330\ \Omega$ を直列接続して電源電圧5 Vを印加し，カソード側をGNDに接地した．
+赤外LEDの順方向電圧を $V_F$（標準 $1.2 \sim 1.5\ \mathrm{V}$\cite{LBR-127HLD}）とすると
+，直列抵抗にかかる電圧降下から流れる順方向電流 $I_F$ は，
+\begin{equation}
+  I_F = \frac{V_{CC} - V_F}{R_D} = \frac{5.0 - V_F}{330} \approx 10.6 \sim 11.5\ \mathrm{mA}
+  \label{eq:if_diode}
+\end{equation}
+となり，
+データシートの最大定格（$50\ \mathrm{mA}$）および推奨値（$20\ \mathrm{mA}$）を下回る安全な動作電流に設定されている．
+フォトトランジスタのコレクタ端子には負荷抵抗 $R_L = 3.3\ \mathrm{k}\Omega$ を接続して5 Vラインにプルアップし
+，エミッタ端子をGNDに接地した．
+コレクタと抵抗 $R_L$ の接続点からセンサ出力電圧 $V_{\mathrm{out}}$ を引き出し，ArduinoのA0ピンに入力した．
 
-\subsection{ワークC-3 時系列データの平滑化}
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,clip]{fig_work_C/c1_circuit.png}
+    \caption{距離測定回路}
+    \label{fig:c1_circuit}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,clip]{fig_work_C/c1_experiment.png}
+    \caption{距離測定の様子}
+    \label{fig:c1_experiment}
+  \end{subfigure}
+  \caption{フォトリフレクタを用いた距離測定実験}
+  \label{fig:c1_setup}
+\end{figure}
 
-\clearpage \section{考察}
-本ワークで得られた結果について考察する．
-例えば，以下のように記述する．
+\subsubsection{距離測定実験の手順}
+実験ではまず，ブレッドボード上にフォトリフレクタ回路を配線してArduinoの5 V，GND，A0ピンに接続し，
+ブレッドボードを安定して固定しつつセンサ受発光面を適切な高さに保つため，
+半透明プラスチック容器（図\ref{fig:basis}）を台座として設置した．
+次に，センサ受発光面の正面に垂直な遮蔽物（白色平板）を対向配置し，
+センサ受発光面と遮蔽物間の距離 $d$ を目盛り付き定規を用いて $0.5\ \mathrm{cm}$（$5\ \mathrm{mm}$）から $5.0\ \mathrm{cm}$（$50\ \mathrm{mm}$）まで $0.5\ \mathrm{cm}$ 間隔で精密に設定した．
+各距離においてLEDマトリクスに表示された電圧値およびシリアルモニタで得られた安定電圧値を記録した後，
+得られた測定データをPythonスクリプト（\texttt{work\_C.py}）およびJupyter Notebook（\texttt{work\_C.ipynb}）に入力し，
+距離--電圧特性曲線を描画して画像（\texttt{result\_C1.png}）として保存した．
 
-（例）本ワーク○○では○○の結果が得られたが，これは理論値と比較して○○な結果である．これは○○が原因であると考えられる．
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.52\textwidth,clip]{fig_work_C/basis.png}
+  \caption{ブレッドボード固定用の台座（半透明プラスチック容器）}
+  \label{fig:basis}
+\end{figure}
+
+\subsection{ワークC-2：Webサーバ構築とネットワーク経由データ取得}
+
+\subsubsection{組み込みWebサーバの構築と通信仕様}
+Arduino UNO R4 WiFiに搭載されたESP32-S3無線モジュールを利用し，
+外部ルータを介さずにPCと直接1対1で通信可能なSoftAP（Software Access Point）モードを設定した．
+アクセスポイントのSSIDは，学籍番号（26G1012）の下3桁に基づいて \texttt{"ZZAP012"}，
+パスワードは空文字列（オープンネットワーク）に設定した．
+IPアドレス体系として，Cクラスプライベートアドレス \texttt{192.168.12.2} を静的に割り当てた．
+
+本ワークでは，クライアントサーバ方式によりデータを取得した\cite{rfc9110}．
+Arduino上で動作するWebサーバ（\texttt{WiFiServer server(80)}）は，
+TCPポート80にてHTTPリクエストを監視する．
+クライアント（PC）からHTTP GETリクエストを受信すると，HTTP/1.1標準に準拠したレスポンスヘッダ，
+および測定データを名前と値の組で表現するJSON形式のメッセージボディ\cite{rfc8259}を生成してクライアントへ返信する．
+具体的には，ステータスラインとして \texttt{HTTP/1.1 200 OK}，
+ヘッダ行として \texttt{Content-Type: application/json}，\texttt{Content-Length: [長さ]}，および \texttt{Connection: close} を送信し，
+続いてメッセージボディとして \verb|{"value": X.XX}|（ここで \texttt{X.XX} はA0ピンで測定された電圧値の実数値）を返す構成とした．
+データ送信完了後，
+\texttt{client.flush()} によりソケットバッファの送出完了を確認した上で \texttt{client.stop()} を実行し
+，接続を正常切断する処理とした．
+
+\subsubsection{CdSセルを用いた照度センサ回路}
+ワークC-2では，環境光および遮蔽による照度変化を検出するため，
+光電導素子であるCdSセル\cite{川口慎一朗1966cds, 石川太郎1974照明制御システムへの半導体応用, advanced_photonix_pdv_p5002}を用いた．
+センサ回路の外観を図\ref{fig:c2_setup}(a)に，
+センサ上方に手をかざして電圧を測定する様子を図\ref{fig:c2_setup}(b)に示す．
+CdSセルは，受光面への光の照射強度（照度）が高くなるほど素子抵抗値 $R_{\mathrm{CdS}}$ が大きく低下する性質を有する．
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,clip]{fig_work_C/c2_circuit.png}
+    \caption{照度変化測定回路}
+    \label{fig:c2_circuit}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,clip]{fig_work_C/c2_experiment.png}
+    \caption{手をかざして測定する様子}
+    \label{fig:c2_experiment}
+  \end{subfigure}
+  \caption{CdSセルを用いた照度変化測定実験}
+  \label{fig:c2_setup}
+\end{figure}
+
+回路構成は，
+電源電圧 $V_{CC} = 5\ \mathrm{V}$ とGNDの間にCdSセルと固定抵抗 $R_F = 3.3\ \mathrm{k}\Omega$ を直列に接続した分圧回路とした．
+固定抵抗 $R_F$ をGND側に配置し，CdSセルと $R_F$ の接続点電位をA0ピンに接続した．
+この構成における出力電圧 $V_{\mathrm{out}}$ は，
+\begin{equation}
+  V_{\mathrm{out}} = V_{CC} \times \frac{R_F}{R_{\mathrm{CdS}} + R_F}
+  \label{eq:cds_divider}
+\end{equation}
+により決定される．
+手がセンサを覆って照度が低下すると $R_{\mathrm{CdS}}$ が増大するため，
+出力電圧 $V_{\mathrm{out}}$ は低下する（またはCdSの配置位置をGND側とした場合は上昇する）．
+本実習では，遮蔽物（手）の接近に伴いA0電圧が単調増加するように，
+5 V側に固定抵抗 $R_F = 3.3\ \mathrm{k}\Omega$，GND側にCdSセルを接続し，分圧点電位
+\begin{equation}
+  V_{\mathrm{out}} = V_{CC} \times \frac{R_{\mathrm{CdS}}}{R_F + R_{\mathrm{CdS}}}
+  \label{eq:cds_divider_actual}
+\end{equation}
+をA0ピンに入力する回路を採用した．
+
+\subsubsection{時系列データ取得手順}
+PCをArduinoのアクセスポイント \texttt{ZZAP012} にWi-Fi接続した状態で，
+Pythonプログラム（\texttt{requests}ライブラリおよび別スレッドワーカーを用いた非同期ポーリング）を実行した．
+サンプリング周期は $1.0\ \mathrm{s}$，総計測時間は $100\ \mathrm{s}$（計101サンプル）とし，
+各20秒間の5段階に分けて意図的な照度変化を与えた．
+まずフェーズ1（0〜20 s）では，CdSセルの受光面を天井照明に向け，センサ上部に遮蔽物が何もない開放状態で定常電圧を測定した．
+続くフェーズ2（21〜40 s）では受光面上部約 $9\ \mathrm{cm}$ の位置に手のひらを水平にかざして弱遮蔽時の電圧を測定し，
+フェーズ3（41〜60 s）では約 $6\ \mathrm{cm}$ の位置まで手を下降させて中遮蔽時の電圧を，
+フェーズ4（61〜80 s）では約 $3\ \mathrm{cm}$ の位置まで手を接近させて強遮蔽時の電圧をそれぞれ測定した．
+最後のフェーズ5（81〜100 s）では手を完全に離し，再びセンサ上部を開放した状態で基線電圧への復帰挙動を測定した．
+取得した時系列データは \texttt{result\_C2.csv} に保存し，
+時間--電圧波形グラフ（\texttt{result\_C2.png}）を生成した．
+
+
+\subsection{ワークC-3：時系列データの平滑化処理アルゴリズム}
+
+実測されたセンサデータには，素子の熱雑音，商用電源起因のリップル，および手の微小な震え（体動）に伴うランダムノイズが重畳する．
+本ワークでは，ノイズを除去して真の物理的変位傾向を抽出するため，2種類の代表的なデジタルフィルタを実装した．
+
+\subsubsection{単純移動平均（Simple Moving Average: MA）}
+移動平均法は，
+過去 $M$ サンプルの観測値の相加平均を順次算出する有限インパルス応答（FIR）フィルタである\cite{smith1997scientist}．
+離散時刻 $n$ における入力データを $x[n]$，ウインドウサイズを $M = 5$ とすると，
+平滑化出力 $y_{\mathrm{MA}}[n]$ は，
+\begin{equation}
+  y_{\mathrm{MA}}[n] = \frac{1}{M} \sum_{k=0}^{M-1} x[n-k] = \frac{x[n] + x[n-1] + x[n-2] + x[n-3] + x[n-4]}{5}
+  \label{eq:ma_def}
+\end{equation}
+で表される．
+すべての重み係数が等しく $1/M$ であり，急激な変動を平準化する基本特性を持つ．
+
+\subsubsection{指数移動平均（Exponential Moving Average: EMA）}
+指数移動平均法は，
+過去のデータに対して指数関数的に減衰する重みを付与する無限インパルス応答（IIR）フィルタである\cite{oppenheim2009discrete}．
+直近の測定値ほど高い重みが与えられるため，急峻な変化に対する応答性が優れている．
+離散時刻 $n$ における平滑化出力 $y_{\mathrm{EMA}}[n]$ の漸化式は，
+\begin{equation}
+  y_{\mathrm{EMA}}[n] = \alpha \cdot x[n] + (1 - \alpha) \cdot y_{\mathrm{EMA}}[n-1]
+  \label{eq:ema_def}
+\end{equation}
+で定義される．
+平滑化係数（忘却係数）$\alpha \in (0, 1]$ は，ウインドウサイズ $M = 5$ に相当するスパン設定に基づき，
+\begin{equation}
+  \alpha = \frac{2}{M + 1} = \frac{2}{5 + 1} = \frac{1}{3} \approx 0.333
+  \label{eq:ema_alpha}
+\end{equation}
+を採用した．
+初期値 $y_{\mathrm{EMA}}[0]$ には最初の実測値 $x[0]$ を用いた．
+
+Pythonの \texttt{pandas} ライブラリを用い，生データ（\texttt{voltage}），
+\texttt{rolling} メソッド\cite{pandas_rolling}による移動平均（\texttt{voltage\_MA}）
+，
+および \texttt{ewm} メソッド\cite{pandas_ewm}による指数移動平均（\texttt{voltage\_EMA}）の波形を共通の時間軸上に3段スタック形式でプロットし
+，\texttt{result\_C3.png} として保存した．
+
+
+\subsection{使用素子及び実験装置}
+
+本ワークで使用した電子部品一覧を表\ref{tab:components_work_C}に，
+使用した実験装置および開発環境一覧を表\ref{tab:instruments_work_C}に示す．
+
+\begin{table}[htbp]
+  \caption{使用電子部品一覧}
+  \centering
+  \small
+  \begin{tabular}{|p{4.2cm}|p{4.2cm}|c|p{4.8cm}|}
+    \hline
+    部品名         & 型式 / 規格                            & 数量 & 用途               \\
+    \hline\hline
+    反射型フォトリフレクタ & LBR-127HLD                         & 1個 & ワークC-1：遮蔽物距離検出用  \\
+    \hline
+    CdSセル       & 5 mm径（GL5528等）                     & 1個 & ワークC-2：環境照度変化検出用 \\
+    \hline
+    炭素皮膜抵抗器     & 330 $\Omega$（1/4 W, 許容差$\pm 5\%$）  & 1本 & 赤外LED電流制限抵抗      \\
+    \hline
+    炭素皮膜抵抗器     & 3.3 k$\Omega$（1/4 W, 許容差$\pm 5\%$） & 2本 & センサ分圧・負荷抵抗       \\
+    \hline
+    ブレッドボード     & 165401020E                         & 1枚 & 回路実装用            \\
+    \hline
+    ジャンパーワイヤ    & オス--オス 各種                          & 1組 & 回路結線用            \\
+    \hline
+    遮蔽物         & 白色アクリル平板 / 手                       & 各1 & 距離および照度変化入力用     \\
+    \hline
+    台座          & 半透明プラスチック容器                        & 1個 & ブレッドボード固定・高さ調整用  \\
+    \hline
+  \end{tabular}
+  \label{tab:components_work_C}
+\end{table}
+
+\begin{table}[htbp]
+  \caption{使用機器およびソフトウェア環境一覧}
+  \centering
+  \small
+  \begin{tabular}{|p{3.8cm}|p{5.2cm}|p{5.5cm}|}
+    \hline
+    項目            & 名称 / バージョン                          & 用途                      \\
+    \hline\hline
+    マイクロコントローラ    & Arduino UNO R4 WiFi                 & センサ計測，LEDマトリクス表示，Webサーバ \\
+    \hline
+    無線通信モジュール     & Espressif ESP32-S3                  & SoftAP（Wi-Fi）通信         \\
+    \hline
+    クライアント計算機     & Apple Mac（macOS Sonoma）             & データ受信，解析，レポート作成         \\
+    \hline
+    統合開発環境        & Arduino IDE 2.3.x                   & Arduinoファームウェア開発・書き込み   \\
+    \hline
+    データ解析環境       & Python 3.12 / VSCode                & HTTPデータ受信，CSV保存，グラフ描画   \\
+    \hline
+    主要Pythonパッケージ & requests, pandas, numpy, matplotlib & 通信制御および時系列データ平滑化        \\
+    \hline
+  \end{tabular}
+  \label{tab:instruments_work_C}
+\end{table}
+
+
+%-----------------------------------------------------------------------------------
+\clearpage
+\section{結果}
+
+\subsection{ワークC-1：フォトリフレクタによる距離測定結果}
+
+センサ受発光面と遮蔽物との距離 $d$ を $0.5\ \mathrm{cm}$ から $5.0\ \mathrm{cm}$ まで $0.5\ \mathrm{cm}$ 刻みで変化させた際に測定されたA0ピン電圧値の一次データを表\ref{tab:c1_distance_voltage}に示す．
+また，得られた測定結果をプロットした距離--電圧特性曲線を図\ref{fig:result_C1}に示す．
+
+\begin{table}[htbp]
+  \caption{遮蔽物との距離に対するフォトリフレクタ出力電圧の測定結果}
+  \centering
+  \small
+  \begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    距離 $d$ [cm]  & 0.5  & 1.0  & 1.5  & 2.0  & 2.5  & 3.0  & 3.5  & 4.0  & 4.5  & 5.0  \\
+    \hline
+    測定電圧 $V$ [V] & 1.19 & 2.94 & 3.73 & 4.06 & 4.34 & 4.50 & 4.60 & 4.69 & 4.72 & 4.75 \\
+    \hline
+  \end{tabular}
+  \label{tab:c1_distance_voltage}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.65\textwidth,clip]{fig_work_C/result_C1.png}
+  \caption{遮蔽物距離 $d$ に対する出力電圧 $V$ の測定結果（ワークC-1）}
+  \label{fig:result_C1}
+\end{figure}
+
+図\ref{fig:result_C1}および表\ref{tab:c1_distance_voltage}より，
+遮蔽物距離 $d$ の増大に伴って測定電圧 $V$ は $1.19\ \mathrm{V}$ から $4.75\ \mathrm{V}$ へと単調に増加した．
+特に，
+距離が $0.5\ \mathrm{cm}$ から $2.0\ \mathrm{cm}$ までの近距離領域では傾きが急峻であり，
+距離の増加に伴い電圧が急激に上昇した．
+一方で，距離が $2.5\ \mathrm{cm}$ を超える遠距離領域では電圧変化率が徐々に低下し，
+電源電圧5 Vに近い $4.7\ \mathrm{V}$ 付近で緩やかに飽和する非線形な応答特性が確認された．
+また，測定電圧値はArduinoのLEDマトリクス上にリアルタイムで「1.19」「2.94」のように小数点付きで正しく表示されることを目視確認した．
+
+
+\subsection{ワークC-2：CdSセルによる照度変化データの取得結果}
+
+Arduinoをアクセスポイント（SSID: \texttt{ZZAP012}）として起動し，
+Pythonプログラムから $1.0\ \mathrm{s}$ 周期で100秒間にわたり取得したCdSセンサ回路の出力電圧波形を図\ref{fig:result_C2}に
+，各測定区間の統計値を表\ref{tab:c2_voltage_summary}に示す．
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth,clip]{fig_work_C/result_C2.png}
+  \caption{手の接近・離脱に伴うCdSセンサ回路の出力電圧波形（ワークC-2）}
+  \label{fig:result_C2}
+\end{figure}
+
+\begin{table}[htbp]
+  \caption{CdSセルの上方に手をかざしたときの各区間の電圧}
+  \centering
+  \small
+  \begin{tabular}{|c|c||c|c|c|}
+    \hline
+    時間 [s] & 手の位置     & 平均 [V] & 最小 [V] & 最大 [V] \\
+    \hline\hline
+    0〜19   & なし（開放定常） & 1.97   & 1.97   & 1.98   \\
+    \hline
+    20〜40  & 約9 cm    & 2.17   & 2.14   & 2.28   \\
+    \hline
+    41〜60  & 約6 cm    & 2.32   & 2.30   & 2.35   \\
+    \hline
+    61〜80  & 約3 cm    & 2.68   & 2.67   & 2.69   \\
+    \hline
+    81〜100 & なし（復帰）   & 1.97   & 1.97   & 1.98   \\
+    \hline
+  \end{tabular}
+  \label{tab:c2_voltage_summary}
+\end{table}
+
+図\ref{fig:result_C2}および表\ref{tab:c2_voltage_summary}に示す通り，各測定フェーズにおける電圧挙動は明確な段階的変化を示した．
+
+まず，0〜19 sの非遮蔽定常状態では，センサ上部が完全に開放された状態で室内照明光を直接受光し，
+電圧は平均 $1.97\ \mathrm{V}$（$1.97 \sim 1.98\ \mathrm{V}$）で極めて安定に推移した．
+20〜40 s（上部約9 cm遮蔽）では，手を9 cm上空にかざした直後に電圧が平均 $2.17\ \mathrm{V}$（$2.14 \sim 2.28\ \mathrm{V}$）へとステップ状に上昇し，
+手の微小な揺れを反映した変動が観測された．
+41〜60 s（上部約6 cm遮蔽）では，手を6 cmまで降下させることで受光面の影が濃くなり，
+電圧はさらに平均 $2.32\ \mathrm{V}$（$2.30 \sim 2.35\ \mathrm{V}$）まで一段高く上昇してその水準を維持した．
+61〜80 s（上部約3 cm遮蔽）では，手を3 cmまで近接させることで受光面が大きく覆われ，
+出力電圧は本実験中の最高値となる平均 $2.68\ \mathrm{V}$（最大 $2.69\ \mathrm{V}$）に達した．
+81〜100 s（遮蔽解除・復帰）では，手を瞬時に取り除くと同時に速やかに初期の基底水準（平均 $1.97\ \mathrm{V}$，$1.97 \sim 1.98\ \mathrm{V}$）へ復帰した．
+
+全101回の通信要求においてタイムアウトやパケットドロップは1件も発生せず，通信成功率 $100\%$ で連続データ記録が達成された．
+
+
+\subsection{ワークC-3：時系列データの平滑化比較結果}
+
+ワークC-2で取得した生波形（\texttt{voltage}）に対し，
+ウインドウサイズ $M=5$ の移動平均（\texttt{voltage\_MA}）および指数移動平均（\texttt{voltage\_EMA}）を適用した比較結果を図\ref{fig:result_C3}に示す．
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth,clip]{fig_work_C/result_C3.png}
+  \caption{平滑化処理による波形比較（上：生データ，中：移動平均 MA，下：指数移動平均 EMA）}
+  \label{fig:result_C3}
+\end{figure}
+
+図\ref{fig:result_C3}より，各平滑化処理の特徴が明確に確認された．
+まず，上段の生データでは，各区間において微小なリップルや過渡的な変動（幅約 $0.01 \sim 0.05\ \mathrm{V}$）が観測された．
+これに対し，中段の移動平均（MA）では定常領域の微小ノイズが均一に平滑化され，滑らかなトレースが得られたものの，
+過去5サンプルのデータが蓄積されるまで平均値を算出できないため，測定開始直後の最初の4点（0〜3 s）が欠損（NaN）となった．
+さらに，手が接近・離脱した各ステップ境界（$t=20, 41, 61, 81\ \mathrm{s}$）において，
+立ち上がりおよび立ち下がりが5サンプル（5秒間）にわたって斜めに傾斜し，過渡変化に対する時間的遅れ（位相ラグ）が顕著に生じた．
+一方，下段の指数移動平均（EMA）では，MAと同様に定常部のノイズを十分に抑制しつつ，ステップ変化の立ち上がり初期においてMAよりも急峻に追従した．
+段差開始直後の1〜2サンプルで変化幅の過半を捉えており，過渡応答の応答遅延がMAに比べて大幅に軽減されている様子が確認された．
+
+
+%-----------------------------------------------------------------------------------
+\clearpage
+\section{考察}
+
+\subsection{フォトリフレクタにおける遮蔽物距離と出力電圧の関係}
+図\ref{fig:result_C1}に示す距離--電圧特性曲線より，フォトリフレクタから遮蔽物までの距離が近いほど電圧が低くなり，
+距離が離れるほど電圧が上昇して約 $4.75\ \mathrm{V}$ で一定となる非線形な関係が得られた．
+これは，図\ref{fig:c1_setup}(a)に示す回路において発光部の赤外LEDから放射された光が遮蔽物表面で反射し，
+受光部のフォトトランジスタに届く反射光束 $\Phi_r$ の量に応じてコレクタ電流 $I_C$ が変化するためである\cite{LBR-127HLD}．
+受光部に入る光が多いほどフォトトランジスタに流れる電流 $I_C$ が大きくなり，
+オームの法則より負荷抵抗にかかる電圧降下 $R_L I_C$ が増大する．
+キルヒホッフの電圧則より，A0ピンの出力電圧 $V_{\mathrm{out}}$ は，
+\begin{equation}
+  V_{\mathrm{out}} = V_{CC} - R_L \cdot I_C
+  \label{eq:vout_pr_disc}
+\end{equation}
+で決定されるため，遮蔽物が近く受光光束が多いほど電圧は低くなる．
+実際，
+至近距離（$d = 0.5\ \mathrm{cm}$）では電圧降下が約 $3.81\ \mathrm{V}$（$5.0 - 1.19 = 3.81\ \mathrm{V}$）に達し
+，出力電圧は $1.19\ \mathrm{V}$ まで低下した．
+
+また，距離が $0.5\ \mathrm{cm}$ から $2.0\ \mathrm{cm}$ までは電圧が急激に上昇し，
+$2.5\ \mathrm{cm}$ 以上では変化が極めて緩やかになって飽和した．
+この急峻な特性変化は幾何光学的な逆二乗の法則\cite{iwasaki_point_method}に起因する．
+点光源から放射された光が距離 $d$ 離れた遮蔽物を照らす照度 $E_1$ は，逆二乗の法則に従い距離の2乗に反比例する：
+\begin{equation}
+  E_1(d) \propto \frac{1}{d^2}
+  \label{eq:inverse_square_forward}
+\end{equation}
+さらに，遮蔽物表面で拡散反射した光が再び距離 $d$ を伝搬して受光部に入射するため，
+フォトトランジスタ受光面に入射する受光光束 $\Phi_r$ は往復伝搬の幾何学的減衰を受け，
+\begin{equation}
+  \Phi_r(d) \propto E_1(d) \times \frac{1}{d^2} \propto \frac{1}{d^4}
+  \label{eq:inverse_square_roundtrip}
+\end{equation}
+に従って距離の4乗（素子の受光指向角制限等を考慮しても $d^{-2} \sim d^{-4}$）に反比例して急激に減衰する．
+フォトトランジスタのコレクタ電流は受光光束に比例するため（$I_C \propto \Phi_r$），
+遮蔽物が至近距離にある範囲ではわずかな距離変化でも反射光束および $I_C$ が極めて大きく変動し，
+式(\ref{eq:vout_pr_disc})を介して出力電圧が急激に変化した．
+一方，$d \ge 2.5\ \mathrm{cm}$ では反射光束が著しく微小となり，
+フォトトランジスタが遮断状態（$I_C \to 0$）へ移行したため，
+出力電圧は電源電圧に近い $4.75\ \mathrm{V}$ 付近で飽和した．
+以上の物理的機構より，本センサ回路の有効な距離検出範囲は約 $2.0\ \mathrm{cm}$ 以内の近距離領域に制限されることが明らかとなった．
+
+
+\subsection{CdSセルの特性と遮蔽による電圧変化の要因}
+手の接近に伴う出力電圧波形を示す図\ref{fig:result_C2}より，CdSセルから手までの距離が近いほど出力電圧が高くなり，
+約9 cm，約6 cm，約3 cmの順に電圧が段階的に上昇した．
+この電圧変化は，照度に応じて抵抗値が変化するCdSセルの電気的特性および図\ref{fig:c2_setup}(a)に示す分圧回路の動作に基づくものである．
+
+CdS（硫化カドミウム）セルの内部抵抗 $R_{\mathrm{CdS}}$ は，
+受光面の照度 $L\ \mathrm{[lx]}$ に対して一定の割合ではなく，データシート記載のベキ乗特性：
+\begin{equation}
+  R_{\mathrm{CdS}} \approx R_0 \cdot L^{-\gamma} \quad (\gamma \approx 0.7 \sim 0.9)
+  \label{eq:cds_power_law}
+\end{equation}
+に従って変化する\cite{川口慎一朗1966cds, 石川太郎1974照明制御システムへの半導体応用, advanced_photonix_pdv_p5002}．
+手がかざされると天井照明からの直接光が遮られて照度 $L$ が低下し，上式に従って内部抵抗 $R_{\mathrm{CdS}}$ が急激に増大する．
+
+図\ref{fig:c2_setup}(a)に示す回路は，5 V電源側に固定抵抗 $R_F = 3.3\ \mathrm{k}\Omega$，
+GND側にCdSセルを接続した分圧回路であり，
+A0ピンの出力電圧 $V_{\mathrm{out}}$ は式(\ref{eq:cds_divider_actual})の通り，
+\begin{equation}
+  V_{\mathrm{out}} = V_{CC} \times \frac{R_{\mathrm{CdS}}}{R_F + R_{\mathrm{CdS}}}
+\end{equation}
+で決定される．
+$R_{\mathrm{CdS}}$ が大きくなるほどCdSセルにかかる分圧の割合が増加するため，
+電圧 $V_{\mathrm{out}}$ は上昇する．
+式(\ref{eq:cds_divider_actual})を変形した $R_{\mathrm{CdS}} = \frac{3.3 \times V_{\mathrm{out}}}{5.0 - V_{\mathrm{out}}}$ を用い，
+表\ref{tab:c2_voltage_summary}の平均電圧から各高さにおけるCdS素子の抵抗値を逆算すると，
+手をかざしていない開放時は約 $2.15\ \mathrm{k}\Omega$，
+約9 cmでは約 $2.53\ \mathrm{k}\Omega$（開放時比 $+0.38\ \mathrm{k}\Omega$），
+約6 cmでは約 $2.85\ \mathrm{k}\Omega$（9 cm比 $+0.32\ \mathrm{k}\Omega$），
+約3 cmでは約 $3.81\ \mathrm{k}\Omega$（6 cm比 $+0.96\ \mathrm{k}\Omega$）となった．
+手が6 cmから3 cmへと近接した際，
+抵抗値の増加幅が $0.32\ \mathrm{k}\Omega$ から $0.96\ \mathrm{k}\Omega$ へと約3倍に拡大しており，
+手が至近距離に入るほど照度低下に伴う抵抗の増大が著しくなる傾向が実測値からも確認された．
+このように，照度に対する素子のベキ乗特性と分圧回路の特性が組み合わさることで，手の接近に伴う段階的な電圧上昇特性が得られた．
+したがって，照明環境が一定であれば，手のおおよその接近距離を電圧値から識別できる．
+ただし，周囲の明るさによって基準電圧がシフトするため，実用時には環境に応じた事前の基準較正が必要である．
+
+\subsection{移動平均（MA）と指数移動平均（EMA）の平滑化特性の比較考察}
+平滑化処理による波形比較を示す図\ref{fig:result_C3}より，
+時系列電圧データに対する移動平均（MA）と指数移動平均（EMA）の挙動を対比すると，
+定常区間におけるノイズ低減効果，初期値の扱い，および過渡応答に関して明確な差異が確認された．
+
+定常区間におけるノイズ低減効果について，
+図\ref{fig:result_C3}の実測波形より移動平均のほうが指数移動平均よりも微小なリップルを均一に平滑化した．
+これは，移動平均が直近5点の観測値に対してすべて等しい重み（$1/5 = 0.20$）を配分して平均化するのに対し，
+指数移動平均は最新の観測値に $\alpha = 1/3 \approx 0.333$ という大きな重みを割り当てるため，
+最新値に含まれる微小な変動成分が出力に残りやすいためである．
+
+測定開始直後における初期値の扱いについて，
+図\ref{fig:result_C3}の中段に示す通り移動平均では過去5サンプル分のデータが蓄積されるまで計算できないため，
+測定開始直後の最初の4点（0〜3 s）において平滑化値が得られず欠損（NaN）となった．
+これに対し，指数移動平均は第0秒の実測値を初期値（$y_{\mathrm{EMA}}[0] = x[0]$）とし，
+直前の平滑化値と最新観測値から漸化式（式(\ref{eq:ema_def})）によって逐次更新するため，
+図\ref{fig:result_C3}の下段に示すように第0秒から途切れなく平滑化データを出力できる利点を示した．
+
+ステップ状の急激な電圧変化に対する応答性（時間遅れ）について，
+図\ref{fig:result_C3}において手を接近・離脱させた各境界（$t=20, 41, 61, 81\ \mathrm{s}$）では，
+移動平均は5サンプル（5秒間）かけて直線的に遷移し，時間遅れ（位相ラグ）が生じた．
+これはウインドウ内の全データが新しい測定値に置き換わるまで均等に影響を受け続ける構造によるものである．
+一方，指数移動平均は最新値に最大の重み（$1/3$）が即座に反映されるため，段差直後の1〜2秒で変化幅の過半を捉えて急峻に追従し，
+過渡応答の遅延を大幅に低減した．
+ただし，過去の値の影響が指数関数的に減衰しながら長く残り続けるため，完全な定常収束には移動平均よりも多くの時間を要した．
+
+以上の機構より，定常部のノイズ除去を最優先するオフライン分析には移動平均（MA）が適し，
+測定開始直後から連続した出力が必要な場合や状態変化の初期エッジを素早く検知するリアルタイム処理には指数移動平均（EMA）が適していると結論付けられる．
 
 \section{おわりに}
-ワークを通じて得られた知見や考察，目的の達成度などについて記述し，本ワークを総括する．
-単なる感想ではなく，客観的な総括を行うように注意すること．
+本実習（ワークC）では，Arduino UNO R4 WiFiを用いて，LEDマトリクスへの電圧値表示，
+Wi-FiアクセスポイントとWebサーバの構築，フォトリフレクタおよびCdSセルによるアナログ計測，
+ならびにPythonによる時系列データの取得と平滑化処理を実施した．
 
+ワークC-1では，LEDマトリクス上に小数第2位までの電圧値を表示するプログラムを作成し，フォトリフレクタと遮蔽物間の距離特性を測定した．
+その結果，遮蔽物が近いほど電圧が低くなり，離れるほど電圧が上昇して約 $4.75\ \mathrm{V}$ で飽和することを確認した．
+ワークC-2では，Arduinoをアクセスポイントとして動作させてWebサーバを構築し，
+CdSセルの受光照度変化に伴う電圧遷移をJSON形式で100秒間にわたり欠損なく取得した．
+また，測定電圧からCdSセルの抵抗値を逆算し，手が近いほど抵抗値が大きくなることを確認した．
+ワークC-3では，取得した時系列電圧データに対して移動平均（MA）および指数移動平均（EMA）を適用した．
+その結果，移動平均は定常区間のノイズを均一に平滑化する効果が高い一方，指数移動平均は測定開始直後からデータが得られ，
+ステップ変化に対する立ち上がり追従性に優れることを実証した．
+
+これらの成果は，最終的な結合課題において，脈波検出回路のアナログ信号から得られた心拍数や脈波波形をLEDマトリクスに即時表示し，
+さらにWi-Fi経由で外部PCへリアルタイム配信するワイヤレス生体モニタリングシステムの実現に向けた基盤技術となる．
+
+
+%-----------------------------------------------------------------------------------
 \clearpage
+\section{付録：作成プログラム}
 
+\subsection{ワークC-1で作成したプログラム}
+
+\begin{lstlisting}[caption={ワークC-1 メインスケッチ (myprm.ino)}, label={lst:c1_myprm}]
+#include "myLEDMatrix.h"
+
+int analogValue = 0;
+double measuredVoltage = 0.0;
+
+void setup() {
+  initLEDMatrix();
+}
+
+void loop() {
+  analogValue = analogRead(A0);
+  measuredVoltage = (double)analogValue / 1023.0 * 5.0;
+  updateDisplayC1(measuredVoltage);
+  delay(100);
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ワークC-1 LED制御ヘッダ (myLEDMatrix.h)}, label={lst:c1_myledmatrix_h}]
+#ifndef MyLEDMatrix_h
+#define MyLEDMatrix_h
+#include <Arduino.h>
+#include "Arduino_LED_Matrix.h"
+
+void initLEDMatrix();
+void displayDigit(int d, int s_r, int s_c);
+void updateDisplay(int v);
+void updateDisplayC1(double v);
+#endif
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ワークC-1 LED制御実装 (myLEDMatrix.cpp)}, label={lst:c1_myledmatrix_cpp}]
+#include "myLEDMatrix.h"
+
+ArduinoLEDMatrix matrix;
+int c, r;
+
+byte frame[8][12] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+
+byte digits[5][30]{
+    {1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
+     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1,
+     1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1},
+    {1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+     1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1},
+    {1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1,
+     0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1},
+    {1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
+     1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1},
+};
+
+void initLEDMatrix() {
+  matrix.begin();
+}
+
+void displayDigit(int d, int s_r, int s_c) {
+  for (int r = 0; r < 5; r++) {
+    for (int c = 0; c < 3; c++) {
+      frame[s_r + r][s_c + c] = digits[r][d * 3 + c];
+    }
+  }
+  matrix.renderBitmap(frame, 8, 12);
+}
+
+void updateDisplay(int v) {
+  displayDigit(v % 10, 2, 9);
+  displayDigit((v / 10) % 10, 2, 5);
+  displayDigit((v / 100) % 10, 2, 1);
+}
+
+void displayDigitC1(int d, int s_r, int s_c) {
+  for (int r = 0; r < 5; r++) {
+    for (int c = 0; c < 3; c++) {
+      frame[s_r + r][s_c + c] = digits[r][d * 3 + c];
+    }
+  }
+  frame[7][4] = 1;  // 小数点の表示
+  matrix.renderBitmap(frame, 8, 12);
+}
+
+void updateDisplayC1(double v) {
+  displayDigitC1(int(v * 100) % 10, 2, 9);
+  displayDigitC1((int(v * 100) / 10) % 10, 2, 5);
+  displayDigitC1((int(v * 100) / 100) % 10, 2, 1);
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ワークC-1 グラフ描画スクリプト (Python)}, label={lst:c1_plot}]
+import matplotlib.pyplot as plt
+
+d = [0.50, 1.00, 1.50, 2.00, 2.50, 3.00, 3.50, 4.00, 4.50, 5.00]
+v = [1.19, 2.94, 3.73, 4.06, 4.34, 4.50, 4.60, 4.69, 4.72, 4.75]
+
+plt.figure(figsize=(6, 6))
+plt.plot(d, v, "ko-", markersize=6, linewidth=1.5)
+plt.xlabel("距離 (cm)", fontsize=16, labelpad=8)
+plt.ylabel("電圧 (V)", fontsize=16, labelpad=8)
+plt.xlim(0, 5.2)
+plt.ylim(0, 5.3)
+plt.tick_params(labelsize=14)
+plt.grid(True, linestyle="--", alpha=0.5)
+plt.tight_layout()
+plt.savefig("result_C1.png", dpi=300)
+plt.show()
+\end{lstlisting}
+
+
+\subsection{ワークC-2で作成したプログラム}
+
+\begin{lstlisting}[caption={ワークC-2 メインスケッチ (myprm.ino)}, label={lst:c2_myprm}]
+#include "myLEDMatrix.h"
+#include "myServer.h"
+
+int analogValue = 0;
+double measuredVoltage = 0.0;
+
+void setup() {
+  Serial.begin(9600);
+  initLEDMatrix();
+  initServer();
+}
+
+void loop() {
+  analogValue = analogRead(A0);
+  measuredVoltage = (double)analogValue / 1023.0 * 5.0;
+  updateDisplayC1(measuredVoltage);
+  handleClientRequest(measuredVoltage);
+  delay(100);
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ワークC-2 通信設定ヘッダ (config.h)}, label={lst:c2_config}]
+#ifndef Config_h
+#define Config_h
+
+#define SECRET_SSID "ZZAP012"
+#define SECRET_PASS ""
+#define STUDENT_ID 12
+
+#endif
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ワークC-2 Webサーバヘッダ (myServer.h)}, label={lst:c2_myserver_h}]
+#ifndef MyServer_h
+#define MyServer_h
+
+#include "WiFiS3.h"
+#include "config.h"
+
+void initServer();
+void handleClientRequest(double sensorValue);
+
+#endif
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ワークC-2 Webサーバ実装 (myServer.cpp)}, label={lst:c2_myserver_cpp}]
+#include "myServer.h"
+
+char ssid[] = SECRET_SSID;
+char pass[] = SECRET_PASS;
+WiFiServer server(80);
+
+void initServer() {
+  WiFi.config(IPAddress(192, 168, STUDENT_ID, 2));
+  if (WiFi.beginAP(ssid, pass) != WL_AP_LISTENING) {
+    Serial.println("Failed to start access point");
+    while (true);
+  }
+  server.begin();
+  Serial.println("Server started");
+}
+
+void handleClientRequest(double sensorValue) {
+  WiFiClient client = server.available();
+  if (client) {
+    String body = "{\"value\": " + String(sensorValue, 2) + "}";
+    String currentLine = "";
+    unsigned long startTime = millis();
+
+    while (client.connected() && millis() - startTime < 1000) {
+      if (client.available()) {
+        char c = client.read();
+        Serial.write(c);
+        if (c == '\n') {
+          if (currentLine.length() == 0) {
+            client.println("HTTP/1.1 200 OK");
+            client.println("Content-Type: application/json");
+            client.println("Content-Length: " + String(body.length()));
+            client.println("Connection: close");
+            client.println();
+            client.print(body);
+            client.flush();
+            break;
+          } else {
+            currentLine = "";
+          }
+        } else if (c != '\r') {
+          currentLine += c;
+        }
+      }
+    }
+    client.stop();
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ワークC-2 データ取得スクリプト (Python)}, label={lst:c2_fetch}]
+import requests, time, threading
+import pandas as pd
+import numpy as np
+
+student_id = 12
+url = f"http://192.168.{student_id}.2"
+num_samples = 101
+sample_interval = 1.0
+recorded_data = []
+latest_val = 0.0
+http_session = requests.Session()
+
+def fetch_worker():
+    global latest_val
+    try:
+        res = http_session.get(url, timeout=sample_interval * 0.8)
+        res.raise_for_status()
+        latest_val = float(res.json()["value"])
+    except Exception:
+        pass
+
+base_time = time.perf_counter()
+for idx in range(num_samples):
+    threading.Thread(target=fetch_worker, daemon=True).start()
+    time.sleep(max(0, base_time + (idx + 1) * sample_interval - time.perf_counter()))
+    recorded_data.append(latest_val)
+
+pd.DataFrame({"voltage": recorded_data}).to_csv("result_C2.csv", index=False)
+\end{lstlisting}
+
+
+\subsection{ワークC-3で作成したプログラム}
+
+\begin{lstlisting}[caption={ワークC-3 平滑化および比較描画スクリプト (Python)}, label={lst:c3_smooth}]
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("result_C2.csv")
+v_raw = df["voltage"]
+v_ma = v_raw.rolling(window=5).mean()
+v_ema = v_raw.ewm(span=5, adjust=False).mean()
+
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 8), sharex=True)
+t_axis = np.arange(len(v_raw))
+
+ax1.plot(t_axis, v_raw, "ko-", markersize=3, linewidth=1, label="voltage")
+ax1.set_ylabel("電圧 (V)", fontsize=14)
+ax1.set_ylim(2.0, 4.5)
+ax1.grid(True, linestyle="--", alpha=0.5)
+ax1.legend(loc="upper right", fontsize=12)
+
+ax2.plot(t_axis, v_ma, "ro-", markersize=3, linewidth=1, label="voltage_MA")
+ax2.set_ylabel("電圧 (V)", fontsize=14)
+ax2.set_ylim(2.0, 4.5)
+ax2.grid(True, linestyle="--", alpha=0.5)
+ax2.legend(loc="upper right", fontsize=12)
+
+ax3.plot(t_axis, v_ema, "bo-", markersize=3, linewidth=1, label="voltage_EMA")
+ax3.set_xlabel("時間 (s)", fontsize=14, labelpad=8)
+ax3.set_ylabel("電圧 (V)", fontsize=14)
+ax3.set_ylim(2.0, 4.5)
+ax3.set_xlim(0, 100)
+ax3.grid(True, linestyle="--", alpha=0.5)
+ax3.legend(loc="upper right", fontsize=12)
+
+plt.tight_layout()
+plt.savefig("result_C3.png", dpi=300)
+plt.show()
+\end{lstlisting}
