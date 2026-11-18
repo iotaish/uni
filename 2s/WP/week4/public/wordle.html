@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle</title>
+    <script src="/public/wordle.js" defer></script>
+    <style>
+        :root {
+            --color-correct: #538d4e;
+            --color-present: #b59f3b;
+            --color-absent: #3a3a3c;
+            --color-tile-empty: #121213;
+            --color-tile-border: #3a3a3c;
+            --color-tile-active-border: #565758;
+            --color-key-bg: #818384;
+            --color-text: #ffffff;
+            --bg-page: #121213;
+            --tile-size: 58px;
+        }
+
+        body {
+            font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--color-text);
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0.5rem 0.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        header {
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px solid var(--color-tile-border);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: 0.15em;
+            font-weight: 800;
+        }
+
+        header p {
+            margin: 0.2rem 0 0;
+            font-size: 0.8rem;
+            color: #818384;
+        }
+
+        output.toast-message {
+            position: fixed;
+            top: 12%;
+            background-color: #ffffff;
+            color: #121213;
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            transform: translateY(-10px);
+            pointer-events: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        output.toast-message[data-visible="true"] {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin: auto 0;
+            width: 100%;
+        }
+
+        /* 6行×5列グリッド */
+        section.grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        ol.word-row {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 5px;
+        }
+
+        li.tile {
+            width: var(--tile-size);
+            height: var(--tile-size);
+            border: 2px solid var(--color-tile-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            box-sizing: border-box;
+            background-color: var(--color-tile-empty);
+            color: #fff;
+            transition: transform 0.1s ease;
+        }
+
+        li.tile[data-state="tbd"] {
+            border-color: var(--color-tile-active-border);
+            animation: pop 0.08s ease-in-out;
+        }
+
+        li.tile[data-state="correct"] {
+            background-color: var(--color-correct);
+            border-color: var(--color-correct);
+        }
+
+        li.tile[data-state="present"] {
+            background-color: var(--color-present);
+            border-color: var(--color-present);
+        }
+
+        li.tile[data-state="absent"] {
+            background-color: var(--color-absent);
+            border-color: var(--color-absent);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes flip-in {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(90deg); }
+        }
+
+        @keyframes flip-out {
+            0% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip-in {
+            animation: flip-in 0.2s ease-in forwards;
+        }
+        .flip-out {
+            animation: flip-out 0.2s ease-out forwards;
+        }
+
+        /* キーボード */
+        nav.keyboard {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+        }
+
+        menu.keyboard-row {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 5px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        button.key {
+            background-color: var(--color-key-bg);
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            height: 54px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            flex: 1;
+            max-width: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.15s ease, transform 0.05s ease;
+        }
+
+        button.key:active {
+            transform: scale(0.94);
+        }
+
+        button.key-wide {
+            flex: 1.5;
+            max-width: 68px;
+            font-size: 0.8rem;
+        }
+
+        button.key[data-state="correct"] {
+            background-color: var(--color-correct);
+        }
+
+        button.key[data-state="present"] {
+            background-color: var(--color-present);
+        }
+
+        button.key[data-state="absent"] {
+            background-color: var(--color-absent);
+        }
+
+        footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        button.restart-btn {
+            background-color: #2e7d32;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.65rem 1.6rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button.restart-btn:hover {
+            background-color: #1b5e20;
+        }
+
+        footer a {
+            color: #818384;
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WORDLE</h1>
+        <p>6回の試行で5文字の英単語を当てよう</p>
+    </header>
+
+    <output class="toast-message" data-role="toast" data-visible="false"></output>
+
+    <main>
+        <!-- 6行×5列グリッド -->
+        <section class="grid-container" data-role="grid"></section>
+
+        <!-- キーボード -->
+        <nav class="keyboard" data-role="keyboard" aria-label="キーボード">
+            <menu class="keyboard-row">
+                <button type="button" class="key" data-key="Q">Q</button>
+                <button type="button" class="key" data-key="W">W</button>
+                <button type="button" class="key" data-key="E">E</button>
+                <button type="button" class="key" data-key="R">R</button>
+                <button type="button" class="key" data-key="T">T</button>
+                <button type="button" class="key" data-key="Y">Y</button>
+                <button type="button" class="key" data-key="U">U</button>
+                <button type="button" class="key" data-key="I">I</button>
+                <button type="button" class="key" data-key="O">O</button>
+                <button type="button" class="key" data-key="P">P</button>
+            </menu>
+            <menu class="keyboard-row">
+                <button type="button" class="key" data-key="A">A</button>
+                <button type="button" class="key" data-key="S">S</button>
+                <button type="button" class="key" data-key="D">D</button>
+                <button type="button" class="key" data-key="F">F</button>
+                <button type="button" class="key" data-key="G">G</button>
+                <button type="button" class="key" data-key="H">H</button>
+                <button type="button" class="key" data-key="J">J</button>
+                <button type="button" class="key" data-key="K">K</button>
+                <button type="button" class="key" data-key="L">L</button>
+            </menu>
+            <menu class="keyboard-row">
+                <button type="button" class="key key-wide" data-key="ENTER">ENTER</button>
+                <button type="button" class="key" data-key="Z">Z</button>
+                <button type="button" class="key" data-key="X">X</button>
+                <button type="button" class="key" data-key="C">C</button>
+                <button type="button" class="key" data-key="V">V</button>
+                <button type="button" class="key" data-key="B">B</button>
+                <button type="button" class="key" data-key="N">N</button>
+                <button type="button" class="key" data-key="M">M</button>
+                <button type="button" class="key key-wide" data-key="BACKSPACE">⌫</button>
+            </menu>
+        </nav>
+    </main>
+
+    <footer>
+        <button type="button" class="restart-btn" data-action="restart">新しい単語で遊ぶ</button>
+        <a href="/public/index.html">← メニューへ戻る</a>
+    </footer>
+
+    <!-- グリッド行テンプレート -->
+    <template class="row-template">
+        <ol class="word-row">
+            <li class="tile" data-state="empty"></li>
+            <li class="tile" data-state="empty"></li>
+            <li class="tile" data-state="empty"></li>
+            <li class="tile" data-state="empty"></li>
+            <li class="tile" data-state="empty"></li>
+        </ol>
+    </template>
+</body>
+</html>

@@ -1,11 +1,23 @@
-const express = require("express");
-const path = require('path');
-const { getOmikuji, getComment } = require('./omikuji');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { getOmikuji, getComment } from './omikuji.js';
+import { startNewGame, drawCard, finishDealerTurn } from './blackjack.js';
+import { startWordleGame, evaluateGuess } from './wordle.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 
 app.set('view engine', 'ejs');
-app.use("/public", express.static(path.join(__dirname + "/public")));
+app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.sendFile("index.html", { root: path.join(__dirname, "public") });
+});
 
 app.get("/hello1", (req, res) => {
   const message1 = "Hello world";
@@ -47,6 +59,50 @@ app.get("/french", (req, res) => {
 
 app.get("/german", (req, res) => {
   res.render('greeting', { message: 'Guten Morgen\n' });
+});
+
+// Blackjack ルート
+app.get("/blackjack", (req, res) => {
+  res.sendFile("blackjack.html", { root: path.join(__dirname, "public") });
+});
+
+// Blackjack POST API（乱数・山札ドロー管理）
+app.post("/api/blackjack/start", (req, res) => {
+  res.json(startNewGame());
+});
+
+app.post("/api/blackjack/hit", (req, res) => {
+  const result = drawCard(req.body.gameId);
+  if (!result) {
+    return res.status(400).json({ error: "Game not found or deck empty" });
+  }
+  res.json(result);
+});
+
+app.post("/api/blackjack/stand", (req, res) => {
+  const result = finishDealerTurn(req.body.gameId);
+  if (!result) {
+    return res.status(400).json({ error: "Game not found" });
+  }
+  res.json(result);
+});
+
+// Wordle ルート
+app.get("/wordle", (req, res) => {
+  res.sendFile("wordle.html", { root: path.join(__dirname, "public") });
+});
+
+// Wordle POST API（乱数単語選定・辞書判定）
+app.post("/api/wordle/start", (req, res) => {
+  res.json(startWordleGame());
+});
+
+app.post("/api/wordle/guess", (req, res) => {
+  const result = evaluateGuess(req.body.gameId, req.body.guess);
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  res.json(result);
 });
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));

@@ -18,4 +18,4 @@ function getComment(luck) {
     return COMMENTS[luck] || '';
 }
 
-module.exports = { getOmikuji, getComment };
+export { getOmikuji, getComment };
