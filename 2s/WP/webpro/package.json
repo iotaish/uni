@@ -1,0 +1,16 @@
+{
+  "name": "node-http-server",
+  "version": "1.0.0",
+  "description": "Node.js example server starter project",
+  "main": "app5.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node app5.js",
+    "dr": "deno run --allow-net --allow-read --allow-write --allow-env app5.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  },
+  "keywords": []
+}
