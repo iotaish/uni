@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ワークA 全波形 アノテーション・コンタクトシート (SVG外部参照版)</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #58a6ff;
+      margin-bottom: 6px;
+    }
+
+    p.desc {
+      font-size: 13px;
+      color: #8b949e;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      padding: 10px 14px;
+      background: #21262d;
+      font-weight: bold;
+      font-size: 13px;
+      color: #f0f6fc;
+      border-left: 4px solid #58a6ff;
+    }
+
+    .card-body {
+      background: #000;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3820 / 2560;
+    }
+
+    .card-body object,
+    .card-body img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+    }
+
+    .card-footer {
+      padding: 8px 14px;
+      font-size: 11px;
+      color: #8b949e;
+      background: #161b22;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>ワークA：全11波形 SVGベクターアノテーション・コンタクトシート</h1>
+  <p class="desc">
+    各波形は <code>report/fig_work_A/svg/</code> 配下のSVGファイルを外部パスで読み込んでいます。<br>
+    ブラウザ上で拡大してもベクター寸法線・数値は一切ボケず、原画写真と1対1で整合しています。
+  </p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-header">01 | 緑.JPG [波形1: 低周波観測 / 200ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/緑.svg" type="image/svg+xml" title="01 | 緑.JPG [波形1: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/緑.svg (原画: raw/緑.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">02 | 赤.JPG (無印) [波形2: 低周波観測 / 200ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/赤.svg" type="image/svg+xml" title="02 | 赤.JPG (無印) [波形2: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/赤.svg (原画: raw/赤.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">03 | 赤高.JPG (高) [波形2: 高周波観測 / 40.0ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/赤高.svg" type="image/svg+xml" title="03 | 赤高.JPG (高) [波形2: 高周波観測 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/赤高.svg (原画: raw/赤高.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">04 | 赤位相差.JPG (位相差) [波形2: 過渡期観測 / 40.0ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/赤位相差.svg" type="image/svg+xml"
+          title="04 | 赤位相差.JPG (位相差) [波形2: 過渡期観測 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/赤位相差.svg (原画: raw/赤位相差.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">05 | 青.JPG (無印) [波形3: 低周波観測 / 200ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/青.svg" type="image/svg+xml" title="05 | 青.JPG (無印) [波形3: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青.svg (原画: raw/青.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">06 | 青高.JPG (高) [波形3: 高周波観測 / 100ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/青高.svg" type="image/svg+xml" title="06 | 青高.JPG (高) [波形3: 高周波観測 / 100ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青高.svg (原画: raw/青高.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">07 | 青高々.JPG</div>
+      <div class="card-body">
+        <object data="../svg/青高々.svg" type="image/svg+xml"
+          title="07 | 青高々.JPG (位相差) [波形3: 過渡期・位相差観測 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/青高々.svg (原画: raw/青高々.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">08 | 緑位相差.JPG (位相差) [波形1: 過渡期観測 / 400μs/div]</div>
+      <div class="card-body">
+        <object data="../svg/緑位相差.svg" type="image/svg+xml"
+          title="08 | 緑位相差.JPG (位相差) [波形1: 過渡期観測 / 400μs/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/緑位相差.svg (原画: raw/緑位相差.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">09 | 紫.JPG (無印) [波形4: 低周波観測 / 200ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/紫.svg" type="image/svg+xml" title="09 | 紫.JPG (無印) [波形4: 低周波観測 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/紫.svg (原画: raw/紫.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">10 | 紫高.JPG (高) [波形4: 高周波観測 / 40.0ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/紫高.svg" type="image/svg+xml" title="10 | 紫高.JPG (高) [波形4: 高周波観測 / 40.0ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/紫高.svg (原画: raw/紫高.JPG)</div>
+    </div>
+    <div class="card">
+      <div class="card-header">11 | 脈拍.JPG [ワークA-2: 指先脈波 / 200ms/div]</div>
+      <div class="card-body">
+        <object data="../svg/脈拍.svg" type="image/svg+xml" title="11 | 脈拍.JPG [ワークA-2: 指先脈波 / 200ms/div]"></object>
+      </div>
+      <div class="card-footer">SVGパス: fig_work_A/svg/脈拍.svg (原画: raw/脈拍.JPG)</div>
+    </div>
+    <div class="card card-summary">
+      <div class="card-header">12 | 測定諸元一覧 ＆ アノテーション凡例</div>
+      <div class="card-body card-summary-body"
+        style="padding: 16px 18px; font-family: monospace; font-size: 12px; line-height: 1.6; color: #c9d1d9; white-space: pre-wrap; background: #0d1117;">
+        【アノテーション表示規則】
+        ・数値表記: 目盛り読み取り値そのもの（div単位・単位省略）
+        ・赤紫線 (Magenta): 時間間隔・周期・遅延時間（水平寸法線）
+        ・緑線 (Lime Green): 電圧振幅（垂直寸法線）
+        ・白破線 (Dashed): 波形ピーク・谷底・過渡エッジを貫くカーソル線
+
+        【ワークA-1 目盛り読み取り諸元（表1.2）】
+        ・波形1 (1Hz正弦波): 周期 3.3, 時間差 0.15, 振幅 9.4 (200ms/div, 100mV/div)
+        ・波形2 (1Hz+100Hz): 周期 3.4, 時間差 0.44, 振幅 3.5, 2.0 (200ms/div, 500mV/div)
+        ・波形3 (1Hz+7Hz): 周期 3.5, 時間差 0.50, 振幅 5.4, 3.2 (200ms/div, 200mV/div)
+        ・波形4 (模擬脈波): 周期 4.4, 時間差 0.15, 振幅 4.3, 4.2 (200ms/div, 500mV/div)
+
+        【ワークA-2 指先脈波読み取り諸元（表1.4）】
+        ・最長周期 T1: 3.7, 振幅 2.9, 2.6, 時間差 0.2 (200ms/div, 500mV/div)
+        ・次長周期 T2: 3.5, 振幅 2.9, 2.6, 時間差 0.2 (200ms/div, 500mV/div)
+
+        ※下段スケール(CH1, CH2, TIME/DIV)および右下日時スタンプ完全保持</div>
+      <div class=card-footer>測定諸元・アノテーション凡例サマリー</div>
+    </div>
+  </div>
+</body>
+
+</html>

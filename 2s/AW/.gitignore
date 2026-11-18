@@ -1,0 +1,12 @@
+# Archives & OS
+/*.zip
+.DS_Store
+
+# Build artifacts (Arduino)
+/build/
+
+# Python / Marimo / Annotations
+**/__pycache__/
+**/__marimo__/
+*.py[cod]
+.akapen/
