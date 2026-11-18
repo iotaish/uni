@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1840" height="620" viewBox="0 0 1840 620" role="img" aria-labelledby="circuit_title circuit_desc">
+<title id="circuit_title">2段の交流結合オペアンプ回路</title>
+<desc id="circuit_desc">左側に5 VからR3を介して駆動する発光ダイオードと、R4でプルアップしたフォトトランジスタを配置。フォトトランジスタの出力をviへ接続。入力viからC3とR5を通して第1段の反転入力へ接続。第1段の帰還はR2とC2の並列。非反転入力は5 VからR10と接地側R9でバイアス。第1段出力からC4とR6を通して第2段の反転入力へ接続。帰還はR1とC1の並列。非反転入力は5 VからR8と接地側R7でバイアス。第2段出力はvo。</desc>
+<style>
+  .wire, .symbol { fill: none; stroke: #171717; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .node { fill: #171717; }
+  .label { fill: #171717; font-family: 'Times New Roman', serif; font-size: 38px; font-style: italic; text-anchor: middle; }
+  .sub { font-size: 24px; }
+  .sign { fill: #171717; font-family: serif; font-size: 36px; text-anchor: middle; }
+  .voltage { fill: #171717; font-size: 28px; text-anchor: middle; }
+  .voltage, .value { font-family: "Times New Roman", serif; font-style: normal; }
+  .value { fill: #171717; font-size: 22px; text-anchor: middle; }
+</style>
+<defs>
+  <g id="resistor_h" class="symbol"><path d="M0 0 L10 0 L18 -15 L32 15 L46 -15 L60 15 L74 -15 L88 15 L96 0 L106 0"/></g>
+  <g id="capacitor_h" class="symbol"><path d="M0 0 H24 M24 -18 V18 M38 -18 V18 M38 0 H62"/></g>
+  <g id="ground" class="symbol"><path d="M0 0 V18 M-22 18 H22 M-16 18 L-24 31 M0 18 L-8 31 M16 18 L8 31"/></g>
+</defs>
+<g id="sensor_stage">
+  <path class="wire" d="M115 125 V175 H285 V190 M115 175 V190 M115 296 V365 M285 296 V300 H455 M285 300 V357"/>
+  <path class="wire" d="M103 125 H127"/>
+  <text class="voltage" x="157" y="134">5 V</text>
+  <use href="#resistor_h" transform="translate(115 190) rotate(90)"/>
+  <use href="#resistor_h" transform="translate(285 190) rotate(90)"/>
+  <text class="label" x="62" y="252">R<tspan class="sub" dy="9">3</tspan></text>
+  <text class="value" x="62" y="280">330 Ω</text>
+  <text class="label" x="232" y="252">R<tspan class="sub" dy="9">4</tspan></text>
+  <text class="value" x="232" y="280">3.3 kΩ</text>
+  <circle class="node" cx="115" cy="175" r="5"/>
+  <circle class="node" cx="285" cy="300" r="5"/>
+  <path class="symbol" d="M95 365 H135 L115 405 Z M95 405 H135"/>
+  <path class="wire" d="M115 405 V465 H285 V413"/>
+  <use href="#ground" x="115" y="465"/>
+  <path class="symbol" d="M260 363 V405 M260 375 L285 357 M260 393 L285 413"/>
+  <path fill="#171717" d="M285 413 L272 410 L279 401 Z"/>
+  <path class="symbol" d="M155 367 L192 386 M155 389 L192 408"/>
+  <path fill="#171717" d="M192 386 L179 385 L184 375 Z M192 408 L179 407 L184 397 Z"/>
+</g>
+
+<g id="amplifier_stages" transform="translate(400 0)">
+<path class="wire" d="M55 300 H124 M186 300 H221 M327 300 H420"/>
+<use href="#capacitor_h" x="124" y="300"/>
+<use href="#resistor_h" x="221" y="300"/>
+<text class="label" x="35" y="277">v<tspan class="sub" dy="9">i</tspan></text>
+<text class="label" x="155" y="230">C<tspan class="sub" dy="9">3</tspan></text>
+<text class="value" x="155" y="258">10 µF</text>
+<text class="label" x="274" y="230">R<tspan class="sub" dy="9">5</tspan></text>
+<text class="value" x="274" y="258">33 kΩ</text>
+<path class="symbol" d="M420 265 L420 435 L590 350 Z"/>
+<text class="sign" x="443" y="311">−</text>
+<text class="sign" x="443" y="407">+</text>
+<path class="wire" d="M590 350 H690"/>
+<path class="wire" d="M365 300 V100 H469 M531 100 H640 V350 M365 200 H447 M553 200 H640"/>
+<use href="#capacitor_h" x="469" y="100"/>
+<use href="#resistor_h" x="447" y="200"/>
+<text class="label" x="500" y="47">C<tspan class="sub" dy="9">2</tspan></text>
+<text class="value" x="500" y="75">0.01 µF</text>
+<text class="label" x="500" y="149">R<tspan class="sub" dy="9">2</tspan></text>
+<text class="value" x="500" y="177">1 MΩ</text>
+<path class="wire" d="M200 368 V395 H221 M327 395 H420 M365 395 V410"/>
+<path class="wire" d="M188 368 H212"/>
+<text class="voltage" x="158" y="374">5 V</text>
+<use href="#resistor_h" x="221" y="395"/>
+<use href="#resistor_h" transform="translate(365 410) rotate(90)"/>
+<use href="#ground" x="365" y="516"/>
+<text class="label" x="274" y="343">R<tspan class="sub" dy="9">10</tspan></text>
+<text class="value" x="274" y="371">100 kΩ</text>
+<text class="label" x="307" y="469">R<tspan class="sub" dy="9">9</tspan></text>
+<text class="value" x="307" y="497">33 kΩ</text>
+<circle class="node" cx="365" cy="300" r="5"/>
+<circle class="node" cx="365" cy="395" r="5"/>
+<circle class="node" cx="640" cy="350" r="5"/>
+<path class="wire" d="M690 350 H734 M796 350 H836 M942 350 H1045"/>
+<use href="#capacitor_h" x="734" y="350"/>
+<use href="#resistor_h" x="836" y="350"/>
+<text class="label" x="765" y="284">C<tspan class="sub" dy="9">4</tspan></text>
+<text class="value" x="765" y="312">10 µF</text>
+<text class="label" x="889" y="284">R<tspan class="sub" dy="9">6</tspan></text>
+<text class="value" x="889" y="312">33 kΩ</text>
+<path class="symbol" d="M1045 315 L1045 485 L1215 400 Z"/>
+<text class="sign" x="1068" y="361">−</text>
+<text class="sign" x="1068" y="457">+</text>
+<path class="wire" d="M1215 400 H1375"/>
+<text class="label" x="1405" y="405">v<tspan class="sub" dy="9">o</tspan></text>
+<path class="wire" d="M990 350 V150 H1094 M1156 150 H1280 V400 M990 250 H1072 M1178 250 H1280"/>
+<use href="#capacitor_h" x="1094" y="150"/>
+<use href="#resistor_h" x="1072" y="250"/>
+<text class="label" x="1125" y="97">C<tspan class="sub" dy="9">1</tspan></text>
+<text class="value" x="1125" y="125">0.1 µF</text>
+<text class="label" x="1125" y="199">R<tspan class="sub" dy="9">1</tspan></text>
+<text class="value" x="1125" y="227">100 kΩ</text>
+<path class="wire" d="M815 418 V445 H836 M942 445 H1045 M990 445 V460"/>
+<path class="wire" d="M803 418 H827"/>
+<text class="voltage" x="773" y="424">5 V</text>
+<use href="#resistor_h" x="836" y="445"/>
+<use href="#resistor_h" transform="translate(990 460) rotate(90)"/>
+<use href="#ground" x="990" y="566"/>
+<text class="label" x="889" y="393">R<tspan class="sub" dy="9">8</tspan></text>
+<text class="value" x="889" y="421">100 kΩ</text>
+<text class="label" x="932" y="519">R<tspan class="sub" dy="9">7</tspan></text>
+<text class="value" x="932" y="547">33 kΩ</text>
+<circle class="node" cx="990" cy="350" r="5"/>
+<circle class="node" cx="990" cy="445" r="5"/>
+<circle class="node" cx="1280" cy="400" r="5"/>
+</g>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="80 120 3820 2560" width="100%" height="100%">
+  <defs>
+    <marker id="arrow-magenta" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13"
+      orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#E040FB" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13"
+      orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E676" />
+    </marker>
+    <marker id="arrow-magenta-sm" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#E040FB" />
+    </marker>
+    <marker id="arrow-green-sm" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E676" />
+    </marker>
+    <marker id="arrow-magenta-xs" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="3.5" markerHeight="3.5"
+      orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#E040FB" />
+    </marker>
+    <marker id="arrow-green-xs" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="3.5" markerHeight="3.5"
+      orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#00E676" />
+    </marker>
+  </defs>
+  <image href="../raw/青高.JPG" width="4000" height="3000" />
+  <g id="annotations">
+    <g id="meas-period" class="measurement" transform="translate(2220.0, 750.0)" data-half-span="105.0">
+      <line x1="0" y1="-200.0" x2="0" y2="200.0" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="24,16"
+        opacity="0.8" />
+      <line x1="210" y1="-200.0" x2="210" y2="200.0" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="24,16"
+        opacity="0.8" />
+      <line x1="0" y1="0" x2="210.0" y2="0" stroke="#E040FB" stroke-width="8" marker-start="url(#arrow-magenta-sm)"
+        marker-end="url(#arrow-magenta-sm)" />
+      <g transform="translate(-40.0, -175.0)">
+        <rect width="290" height="155" rx="22" ry="22" fill="#0A0D12" fill-opacity="0.88" stroke="#E040FB"
+          stroke-width="4" />
+        <text x="145.0" y="112.0" fill="#FFFFFF" font-family="sans-serif" font-size="125" font-weight="bold"
+          text-anchor="middle">0.8</text>
+      </g>
+    </g>
+    <g id="meas-amplitude-ch1" class="measurement" transform="translate(2500.0, 888.0)" data-half-span="168.5">
+      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="24,16"
+        opacity="0.8" />
+      <line x1="-100.0" y1="337" x2="100.0" y2="337" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="24,16"
+        opacity="0.8" />
+      <line x1="0" y1="0" x2="0" y2="337.0" stroke="#00E676" stroke-width="11" marker-start="url(#arrow-green)"
+        marker-end="url(#arrow-green)" />
+      <g transform="translate(40.0, 91.0)">
+        <rect width="290" height="155" rx="22" ry="22" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
+          stroke-width="4" />
+        <text x="145.0" y="112.0" fill="#FFFFFF" font-family="sans-serif" font-size="125" font-weight="bold"
+          text-anchor="middle">1.6</text>
+      </g>
+    </g>
+    <g id="meas-amplitude-ch2" class="measurement" transform="translate(3350.0, 1565.0)" data-half-span="506.5">
+      <line x1="-100.0" y1="0" x2="100.0" y2="0" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="24,16"
+        opacity="0.8" />
+      <line x1="-100.0" y1="170" x2="100.0" y2="170" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="24,16"
+        opacity="0.8" />
+      <line x1="0" y1="0" x2="0" y2="170.0" stroke="#00E676" stroke-width="8" marker-start="url(#arrow-green-sm)"
+        marker-end="url(#arrow-green-sm)" />
+      <g transform="translate(40.0, 7.5)">
+        <rect width="290" height="155" rx="22" ry="22" fill="#0A0D12" fill-opacity="0.88" stroke="#00E676"
+          stroke-width="4" />
+        <text x="145.0" y="112.0" fill="#FFFFFF" font-family="sans-serif" font-size="125" font-weight="bold"
+          text-anchor="middle">1.0</text>
+      </g>
+    </g>
+  </g>
+</svg>
