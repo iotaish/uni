@@ -37,7 +37,7 @@ def _():
     import pandas as pd
     import requests
 
-    return Path, datetime, deque, np, pd, plt, requests, threading, time
+    return Path, deque, np, pd, plt, requests, threading, time
 
 
 @app.cell(hide_code=True)
@@ -54,7 +54,7 @@ def _():
     student_id = "26G1012"
     student_id_num = 12  # 学籍番号の下3桁（8進数解釈を防ぐため先頭0を除く）
     server_url = f"http://192.168.{student_id_num}.2"
-    return server_url, student_id
+    return (server_url,)
 
 
 @app.cell(hide_code=True)
@@ -166,7 +166,7 @@ def _(deque, np, pd, requests, server_url, threading, time):
         print(f"収集完了: {len(recorded_data)} 点を result_C2.csv に保存しました")
 
 
-    print("実機計測時は collect_100s_data() を実行してください")
+    collect_100s_data()
     return
 
 
